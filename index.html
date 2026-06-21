@@ -1,0 +1,1971 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מצמיחים הון · דשבורד תכנים לסרטונים</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0c1c3a; --navy2:#11264d; --navy3:#16315f;
+  --gold:#c9a04e; --gold-soft:#e3c787; --gold-dim:#9c7c38;
+  --ink:#eef2fb; --ink-dim:#aeb9d4; --line:rgba(201,160,78,.22);
+  --green:#3fae6e; --green-bg:rgba(63,174,110,.13);
+  --blue:#5a8fd6; --blue-bg:rgba(90,143,214,.13);
+  --shadow:0 18px 50px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Heebo',sans-serif;
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(201,160,78,.10), transparent 60%),
+    radial-gradient(900px 500px at 0% 0%, rgba(90,143,214,.07), transparent 55%),
+    linear-gradient(180deg,#081326 0%, var(--navy) 40%, #0a172e 100%);
+  color:var(--ink); min-height:100vh; line-height:1.6; padding-bottom:80px;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+h1,h2,h3,.serif{font-family:'Frank Ruhl Libre',serif}
+
+/* ===== Header ===== */
+header{padding:46px 0 26px;text-align:center;position:relative}
+.kicker{letter-spacing:.32em;font-size:12px;color:var(--gold);font-weight:700;text-transform:uppercase}
+header h1{font-size:clamp(30px,5vw,52px);font-weight:900;margin:10px 0 6px;line-height:1.1}
+header h1 .au{color:var(--gold)}
+.sub{color:var(--ink-dim);font-size:17px;max-width:640px;margin:0 auto}
+.brandline{display:inline-flex;align-items:center;gap:10px;margin-top:18px;padding:7px 18px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.02);font-size:13px;color:var(--gold-soft)}
+.brandline b{color:var(--ink)}
+
+/* ===== Stat bar ===== */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:30px 0}
+.stat{background:linear-gradient(180deg,var(--navy2),var(--navy));border:1px solid var(--line);border-radius:16px;padding:18px 14px;text-align:center}
+.stat .n{font-family:'Frank Ruhl Libre',serif;font-size:32px;font-weight:900;color:var(--gold)}
+.stat .l{font-size:12px;color:var(--ink-dim);margin-top:2px}
+.stat#st-done .n{color:var(--green)}
+.stat#st-pub .n{color:var(--blue)}
+
+/* ===== Collapsible guide ===== */
+.panel{background:linear-gradient(180deg,var(--navy2),var(--navy));border:1px solid var(--line);border-radius:18px;margin:24px 0;overflow:hidden}
+.panel>summary{cursor:pointer;list-style:none;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;font-family:'Frank Ruhl Libre',serif;font-size:21px;font-weight:700}
+.panel>summary::-webkit-details-marker{display:none}
+.panel>summary .chev{color:var(--gold);transition:.25s;font-size:15px}
+.panel[open]>summary .chev{transform:rotate(180deg)}
+.panel .body{padding:4px 24px 26px;border-top:1px solid var(--line)}
+.gguide{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:18px}
+.gcard{background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:14px;padding:16px}
+.gcard h4{color:var(--gold);font-family:'Heebo';font-size:13px;letter-spacing:.04em;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.gcard h4 .dot{width:24px;height:24px;border-radius:8px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-weight:900;font-size:13px}
+.gcard ul{list-style:none;font-size:14px;color:var(--ink-dim)}
+.gcard li{padding:3px 0 3px 0;padding-right:16px;position:relative}
+.gcard li::before{content:"";position:absolute;right:0;top:13px;width:6px;height:6px;border-radius:50%;background:var(--gold-dim)}
+.gcard li b{color:var(--ink)}
+.hooktable{width:100%;border-collapse:collapse;margin-top:14px;font-size:13.5px}
+.hooktable td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top}
+.hooktable td:first-child{color:var(--gold);font-weight:700;white-space:nowrap;width:170px}
+.note{background:var(--blue-bg);border:1px solid rgba(90,143,214,.3);border-radius:12px;padding:12px 16px;font-size:14px;margin-top:16px;color:#cfe0fb}
+.note b{color:#fff}
+
+/* ===== Controls ===== */
+.controls{position:sticky;top:0;z-index:30;background:linear-gradient(180deg,#081326 70%,rgba(8,19,38,.6));padding:16px 0 12px;margin-bottom:8px;backdrop-filter:blur(6px)}
+.searchbox{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.searchbox input{flex:1;min-width:200px;background:var(--navy2);border:1px solid var(--line);color:var(--ink);padding:12px 16px;border-radius:12px;font-family:'Heebo';font-size:15px}
+.searchbox input::placeholder{color:var(--ink-dim)}
+.searchbox input:focus{outline:none;border-color:var(--gold)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.chip{cursor:pointer;border:1px solid var(--line);background:rgba(255,255,255,.02);color:var(--ink-dim);padding:7px 15px;border-radius:999px;font-size:13.5px;font-weight:500;transition:.18s;user-select:none}
+.chip:hover{border-color:var(--gold-dim);color:var(--ink)}
+.chip.active{background:var(--gold);border-color:var(--gold);color:var(--navy);font-weight:700}
+.chip .cnt{opacity:.6;font-size:12px;margin-right:3px}
+
+/* ===== Cards ===== */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px;margin-top:6px}
+.card{background:linear-gradient(180deg,var(--navy2),var(--navy));border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:.2s;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--gold-dim)}
+.card.s-done{border-color:rgba(63,174,110,.4)}
+.card.s-pub{border-color:rgba(90,143,214,.4)}
+.card .top{padding:16px 18px 12px}
+.card .meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.num{font-family:'Frank Ruhl Libre',serif;font-size:14px;font-weight:900;color:var(--navy);background:var(--gold);width:30px;height:30px;border-radius:9px;display:grid;place-items:center}
+.cat{font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;letter-spacing:.02em}
+.cat.A{background:rgba(201,160,78,.15);color:var(--gold-soft);border:1px solid var(--line)}
+.cat.B{background:rgba(63,174,110,.13);color:#79d6a3;border:1px solid rgba(63,174,110,.3)}
+.cat.C{background:rgba(165,130,220,.13);color:#c4a8ee;border:1px solid rgba(165,130,220,.3)}
+.cat.D{background:rgba(90,143,214,.13);color:#9cc0f3;border:1px solid rgba(90,143,214,.3)}
+.card h3{font-size:20px;font-weight:700;line-height:1.25;margin-bottom:8px}
+.hook{background:rgba(201,160,78,.07);border-right:3px solid var(--gold);border-radius:0 10px 10px 0;padding:10px 13px;font-size:15px;color:var(--gold-soft);font-style:italic}
+.hook .lbl{display:block;font-style:normal;font-size:10px;letter-spacing:.18em;color:var(--gold-dim);margin-bottom:3px;font-weight:700}
+.plats{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.plat{font-size:11px;color:var(--ink-dim);border:1px solid var(--line);padding:3px 9px;border-radius:7px}
+
+.expand{cursor:pointer;text-align:center;padding:11px;font-size:13px;font-weight:600;color:var(--gold);border-top:1px solid var(--line);background:rgba(0,0,0,.12);transition:.15s;user-select:none}
+.expand:hover{background:rgba(201,160,78,.08)}
+.detail{display:none;padding:0 18px 18px;animation:fade .3s}
+.card.open .detail{display:block}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.sec{margin-top:16px}
+.sec .h{font-size:11px;letter-spacing:.14em;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:7px}
+.sec .h .ico{font-size:14px}
+.script{background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:12px;padding:14px;font-size:15px;line-height:1.75;white-space:pre-line}
+.cta-box{background:var(--green-bg);border:1px solid rgba(63,174,110,.3);border-radius:12px;padding:12px 14px;font-size:14.5px;color:#bdebd1}
+.visual{font-size:14px;color:var(--ink-dim);line-height:1.7}
+.gold-box{background:rgba(201,160,78,.08);border:1px dashed var(--gold-dim);border-radius:12px;padding:11px 14px;font-size:14px;color:var(--gold-soft)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12px;color:#9cc0f3;background:rgba(90,143,214,.1);border:1px solid rgba(90,143,214,.25);padding:3px 9px;border-radius:7px}
+.disc{font-size:12px;color:var(--ink-dim);font-style:italic;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06)}
+
+/* status buttons */
+.status-row{display:flex;gap:8px;margin-top:16px}
+.sbtn{flex:1;cursor:pointer;border:1px solid var(--line);background:rgba(255,255,255,.02);color:var(--ink-dim);padding:9px;border-radius:10px;font-family:'Heebo';font-size:12.5px;font-weight:600;transition:.15s}
+.sbtn:hover{border-color:var(--gold-dim);color:var(--ink)}
+.sbtn.on-todo{background:rgba(201,160,78,.18);border-color:var(--gold);color:var(--gold-soft)}
+.sbtn.on-done{background:var(--green-bg);border-color:var(--green);color:#9fe7bf}
+.sbtn.on-pub{background:var(--blue-bg);border-color:var(--blue);color:#aacdf7}
+.badge-status{font-size:11px;font-weight:700;padding:4px 9px;border-radius:7px}
+.badge-status.done{background:var(--green-bg);color:#9fe7bf;border:1px solid var(--green)}
+.badge-status.pub{background:var(--blue-bg);color:#aacdf7;border:1px solid var(--blue)}
+
+/* copy buttons */
+.copy-row{display:flex;gap:8px;flex-wrap:wrap}
+.cbtn{cursor:pointer;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--ink-dim);padding:9px 12px;border-radius:10px;font-family:'Heebo';font-size:12.5px;font-weight:600;transition:.15s;flex:1;min-width:110px}
+.cbtn:hover{border-color:var(--gold);color:var(--ink)}
+.cbtn.cbtn-wa{flex:1.6;color:var(--gold-soft);border-color:var(--gold-dim);background:rgba(201,160,78,.08)}
+.cbtn.copied{background:var(--green-bg);border-color:var(--green);color:#9fe7bf}
+
+/* month bar */
+.monthbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+  background:linear-gradient(180deg,var(--navy3),var(--navy2));border:1px solid var(--gold-dim);border-radius:16px;padding:14px 20px;margin:24px 0 4px;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.monthbar.flash{animation:mbflash .9s ease}
+@keyframes mbflash{0%{box-shadow:0 0 0 0 rgba(201,160,78,.0);border-color:var(--gold-dim)}30%{box-shadow:0 0 0 4px rgba(201,160,78,.55);border-color:var(--gold)}100%{box-shadow:0 6px 20px rgba(0,0,0,.25);border-color:var(--gold-dim)}}
+.mb-left{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.mb-cal{font-family:'Frank Ruhl Libre',serif;font-weight:900;color:var(--gold);font-size:20px}
+.mb-name{color:var(--ink);font-size:15px;font-weight:600}
+.mb-tag{font-size:11px;font-weight:700;padding:4px 11px;border-radius:999px}
+.mb-tag.now{background:var(--green-bg);color:#9fe7bf;border:1px solid var(--green)}
+.mb-tag.prev{background:rgba(201,160,78,.12);color:var(--gold-soft);border:1px solid var(--line)}
+.mb-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.mb-right label{font-size:13px;color:var(--ink-dim)}
+.mb-right select{background:var(--navy);border:1px solid var(--line);color:var(--ink);padding:8px 12px;border-radius:10px;font-family:'Heebo';font-size:13.5px;cursor:pointer}
+.mb-right select:focus{outline:none;border-color:var(--gold)}
+.mb-back{cursor:pointer;background:var(--gold);border:none;color:var(--navy);font-weight:700;font-family:'Heebo';font-size:12.5px;padding:8px 14px;border-radius:10px}
+
+.empty{text-align:center;color:var(--ink-dim);padding:60px 20px;font-size:16px;display:none}
+footer{text-align:center;color:var(--ink-dim);font-size:13px;margin-top:50px;padding-top:24px;border-top:1px solid var(--line)}
+footer b{color:var(--gold)}
+.reset{cursor:pointer;color:var(--ink-dim);font-size:12px;text-decoration:underline;background:none;border:none;font-family:'Heebo';margin-top:10px}
+@media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">מצמיחים הון · ידע שמצמיח כסף</div>
+    <h1>דשבורד תכנים לסרטונים <span class="au">·</span> אלעזר</h1>
+    <p class="sub">30 רעיונות מוכנים לצילום עצמי — סרטונים ויראליים עד 45 שניות, חינוך פיננסי לציבור החרדי. כל כרטיס כולל וו פתיחה, תסריט מילה-במילה, קריאה לפעולה, הנחיות צילום והאשטגים.</p>
+    <div class="brandline">🎯 קהל: <b>הציבור החרדי</b> · ערוץ מרכזי: <b>וואטסאפ</b> · יעד: <b>קהילה · ספר · ליווי</b></div>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="n" id="st-total">30</div><div class="l">רעיונות במאגר</div></div>
+    <div class="stat"><div class="n" id="st-todo" style="color:var(--gold)">0</div><div class="l">מסומן לצילום</div></div>
+    <div class="stat" id="st-done"><div class="n">0</div><div class="l">צולמו</div></div>
+    <div class="stat" id="st-pub"><div class="n">0</div><div class="l">פורסמו</div></div>
+  </div>
+
+  <div class="monthbar" id="monthbar"></div>
+
+  <!-- ===== Filming guide ===== -->
+  <details class="panel" open>
+    <summary><span>📋 מדריך הצילום — קרא פעם אחת, יחסוך לך שעות</span><span class="chev">▼</span></summary>
+    <div class="body">
+      <div class="gguide">
+        <div class="gcard">
+          <h4><span class="dot">1</span> מבנה הסרטון (45 שניות)</h4>
+          <ul>
+            <li><b>0-3 שנ' · וו:</b> משפט אחד חזק לפני הכל</li>
+            <li><b>3-15 שנ' · ערך:</b> הרעיון המרכזי מיד, לא לחכות</li>
+            <li><b>15-40 שנ' · סיפור/שיא:</b> הדוגמה, המספר, "הפסדתי"</li>
+            <li><b>40-45 שנ' · קריאה:</b> בקשה רכה אחת בלבד</li>
+          </ul>
+        </div>
+        <div class="gcard">
+          <h4><span class="dot">2</span> כללי ברזל</h4>
+          <ul>
+            <li><b>רעיון אחד</b> לכל סרטון — לא שניים</li>
+            <li>שינוי תמונה/טקסט כל <b>8 שניות</b> (קאט/זום)</li>
+            <li><b>כתוביות שרופות</b> תמיד — צופים בלי קול</li>
+            <li>מספרים גדולים על המסך = הרגע שמשתפים</li>
+            <li>אנכי 9:16, טקסט במרכז (לא נחתך)</li>
+          </ul>
+        </div>
+        <div class="gcard">
+          <h4><span class="dot">3</span> הטון שלך = היתרון</h4>
+          <ul>
+            <li>אמת רגועה, לא "תתעשרו מהר"</li>
+            <li><b>"גם את ההפסדים אני מראה"</b> — בונה אמון</li>
+            <li>מדבר אל <b>האם/האברכית העובדת</b> (שר האוצר של הבית)</li>
+            <li>השתדלות <b>וגם</b> ביטחון — לא במקום</li>
+            <li>דיסקליימר על כל אמירה כספית</li>
+          </ul>
+        </div>
+        <div class="gcard">
+          <h4><span class="dot">4</span> קריאה לפעולה (CTA)</h4>
+          <ul>
+            <li><b>הכי חזק:</b> "שלח את זה למי שצריך לשמוע"</li>
+            <li>וואטסאפ: "הגב 'הון' ואשלח לך לינק"</li>
+            <li>ספר: אזכור רך, 1 מכל 5-7 סרטונים</li>
+            <li>ליווי: הכי רך — דרך הקהילה, בלי לחץ</li>
+          </ul>
+        </div>
+      </div>
+
+      <table class="hooktable">
+        <tr><td colspan="2" style="color:#fff;font-family:'Frank Ruhl Libre';font-size:16px;padding-bottom:6px;border:none">🪝 תבניות וו לפתיחה (להחלפה חופשית)</td></tr>
+        <tr><td>טעות שעולה כסף</td><td>"הטעות הזאת עולה לך ___ ש"ח בשנה — ואתה לא מרגיש אותה."</td></tr>
+        <tr><td>נגד הזרם</td><td>"כל מה שאמרו לך על ___ פשוט לא נכון."</td></tr>
+        <tr><td>סוד מקצועי</td><td>"מה שהיועצים לא יספרו לך על ___."</td></tr>
+        <tr><td>וידוי / הפסד</td><td>"הפסדתי ___ ש"ח בטעות אחת. שתלמד ממנה בחינם."</td></tr>
+        <tr><td>שאלה מחייבת</td><td>"אתה יודע כמה כסף נמס לך בבנק כל חודש בלי שתדע?"</td></tr>
+        <tr><td>מספר מזעזע</td><td>"₪100 בחודש = ___ ש"ח בעוד 20 שנה. תראה איך."</td></tr>
+        <tr><td>אמפתיה</td><td>"אם המשכורת נעלמת לך ביום ה-10 בחודש — זה לא רק אתה."</td></tr>
+        <tr><td>רשימה</td><td>"3 דברים על כסף שהלוואי שהיו מלמדים אותנו."</td></tr>
+      </table>
+
+      <div class="note">💡 <b>תובנת המחקר החשובה ביותר:</b> בקהל החרדי, <b>וואטסאפ הוא הערוץ המרכזי</b> — לא רק "סטטוס". אינסטגרם וטיקטוק מביאים אנשים חדשים, אבל הקהילה האמיתית נבנית בקבוצות וואטסאפ. לכן ה-CTA "שתף לחבר" הוא מנוע הצמיחה מספר 1 — כל צופה הופך לפורוורד בקבוצה.</div>
+    </div>
+  </details>
+
+  <!-- ===== Controls ===== -->
+  <div class="controls">
+    <div class="searchbox">
+      <input type="text" id="search" placeholder="🔍 חפש לפי נושא, מילה או מספר...">
+    </div>
+    <div class="filters" id="filters">
+      <span class="chip active" data-f="all">הכל <span class="cnt"></span></span>
+      <span class="chip" data-f="A">💸 טעויות שעולות כסף <span class="cnt"></span></span>
+      <span class="chip" data-f="B">👨‍👩‍👧‍👦 כלכלת משפחה <span class="cnt"></span></span>
+      <span class="chip" data-f="C">📜 כסף והלכה <span class="cnt"></span></span>
+      <span class="chip" data-f="D">📈 יסודות שוק ההון <span class="cnt"></span></span>
+      <span class="chip" data-f="todo">⭐ לצלם</span>
+      <span class="chip" data-f="done">✅ צולמו</span>
+      <span class="chip" data-f="pub">🚀 פורסמו</span>
+    </div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">לא נמצאו רעיונות שמתאימים לחיפוש.<br><button class="reset" onclick="resetAll()">איפוס סינון</button></div>
+
+  <footer>
+    מצמיחים הון · לצאת מהגלות הפיננסית &nbsp;·&nbsp; <b>התוכן מתחלף אוטומטית בכל 1 לחודש</b> (כל מאגר חוזר במחזור). הסטטוסים וההעתקות נשמרים במכשיר.<br>
+    המידע לימודי בלבד ואינו מהווה ייעוץ השקעות. <button class="reset" onclick="if(confirm('לאפס את כל הסימונים?')){localStorage.removeItem(LSK);location.reload()}">איפוס כל הסימונים</button>
+  </footer>
+
+</div>
+
+<script>
+const LSK='matzmichim_dashboard_v1';
+const CATS={A:'💸 טעויות שעולות כסף',B:'👨‍👩‍👧‍👦 כלכלת משפחה חרדית',C:'📜 כסף והלכה',D:'📈 יסודות שוק ההון'};
+
+const M1=[
+/* ============ A · טעויות שעולות כסף ============ */
+{id:1,cat:'A',title:'הכסף שלך נמס בשקט בעו"ש',plats:['Reels','TikTok','וואטסאפ'],
+ hook:`יש לך כסף בעובר ושב? אז הוא מפסיד לך כסף ברגע זה — ואתה לא מרגיש את זה.`,
+ script:`יש לך כסף בעובר ושב? אז הוא מפסיד לך כסף ברגע זה — ואתה לא מרגיש את זה.
+תשמע רגע. נגיד יש לך 50,000 שקל ששוכבים בבנק "ליום סגריר". אתה בטוח שהם בטוחים, נכון?
+אבל המחירים עולים בערך 3% בשנה. כלומר בעוד 10 שנים, אותם 50,000 שקל יקנו לך פחות — בערך כמו 37,000 שקל של היום.
+איבדת שליש מהכוח של הכסף. בלי גנב, בלי הפסד בבורסה. בשקט.
+זה לא אומר לרוץ ולהשקיע הכל מחר. זה אומר לדעת שכסף שעומד במקום — הולך אחורה.
+הצעד הראשון הוא פשוט לדעת את זה. רוב האנשים לא יודעים.`,
+ cta:`רוצה שאסביר בפשטות איפה כן שמים כסף שלא ייאכל? הגב "הון" ואני שולח לך מדריך קצר בוואטסאפ.`,
+ visual:`פתיחה: אתה מחזיק שטר ומראה אותו "מתכווץ" (זום אאוט). על המסך מספר ענק שיורד: 50,000 ← 37,000. קאט מהיר כל 6-7 שניות.`,
+ gold:`רוב הקהל לא מודע שאינפלציה = הפסד. זו "וואו-לחיצה" קלאסית.`,
+ tags:['#חינוך_פיננסי','#חיסכון','#כסף','#שוק_ההון']},
+
+{id:2,cat:'A',title:'הירושה ששוכבת 6 שנים בבנק',plats:['Reels','TikTok','וואטסאפ'],
+ hook:`סבא הוריש 50 אלף שקל. הם שוכבים בבנק 6 שנים. תשמע כמה זה "עלה" למשפחה.`,
+ script:`סבא הוריש 50 אלף שקל. הם שוכבים בבנק כבר 6 שנים, כי "לא רוצים לגעת בזה".
+מהמקום של כבוד — מבין לגמרי. אבל בוא נראה את המחיר.
+אם אותו כסף היה במסלול סולידי שעולה בממוצע נגיד 6% בשנה, אחרי 6 שנים הוא היה בערך 71 אלף שקל.
+ההפרש? בערך 21 אלף שקל. זו כמעט מנה וחצי בחתונה. שלא קרתה.
+אני לא אומר להמר. אני אומר שכסף ש"שומרים" בלי לחשוב — לפעמים דווקא נשחק.
+לתת לכסף לעבוד בשקט, לאט, באחריות — זה גם כבוד לסבא.`,
+ cta:`יש לך כסף שפשוט "שוכב"? אל תעשה כלום עדיין — רק כתוב לי "ירושה" ואשלח לך איך לחשוב על זה נכון.`,
+ visual:`לוח/דף נייר שאתה כותב עליו ביד: 50,000 → 71,000, ומקיף את ההפרש בזהב. תקריב על המספר.`,
+ gold:`ההמחשה ש"לא לגעת" יש לה מחיר — מנוגדת לאינטואיציה.`,
+ tags:['#ריבית_דריבית','#השקעות','#חיסכון','#חינוך_פיננסי']},
+
+{id:3,cat:'A',title:'לקחת הלוואה בלי לבדוק את הריבית',plats:['Reels','TikTok','וואטסאפ'],
+ hook:`רוב האנשים חותמים על הלוואה בלי לבדוק את הדבר היחיד שקובע כמה היא באמת תעלה.`,
+ script:`רוב האנשים לוקחים הלוואה ולא בודקים את הדבר הכי חשוב — את הריבית האמיתית.
+שואלים רק "כמה אני מחזיר בחודש?". וזו בדיוק המלכודת.
+תראה: הלוואה של 30 אלף שקל. החזר חודשי "נוח" של 600 שקל. נשמע סביר.
+אבל אם זה נפרס להמון זמן בריבית גבוהה — בסוף החזרת 42 אלף. שילמת 12 אלף שקל רק על ה"נוחות".
+לפני שאתה חותם, שאל שתי שאלות: מה הריבית? וכמה אני מחזיר בסך הכל, לא רק בחודש.
+לפעמים גמ"ח קצר עדיף פי כמה. ולפעמים פשוט עדיף לחכות חודש.`,
+ cta:`רוצה את שתי השאלות שחייבים לשאול לפני כל הלוואה, מסודר? כתוב "הלוואה" ואשלח בוואטסאפ.`,
+ visual:`להחזיק חוזה/נייר. מספרים על המסך: "600 ₪ לחודש" ואז נחשף "42,000 ₪ בסה"כ". סימן קריאה אדום על ההפרש.`,
+ gold:`רק 27% בודקים ריבית בלקיחת הלוואה — נתון מהמחקר; הרוב יזהו את עצמם.`,
+ tags:['#הלוואות','#כסף','#חינוך_פיננסי','#כלכלת_משפחה']},
+
+{id:4,cat:'A',title:'דמי הניהול שאוכלים לך את הפנסיה',plats:['Reels','TikTok','וואטסאפ'],
+ hook:`יש תשלום קטן שאתה משלם כל חודש על הפנסיה — ולא יודע. הוא יכול לעלות לך מאות אלפים.`,
+ script:`יש תשלום קטן שאתה משלם כל חודש על הפנסיה והחיסכון — ורובם לא יודעים שהוא קיים. קוראים לו דמי ניהול.
+זה נשמע זניח. חצי אחוז, אחוז. מה כבר קרה.
+אבל זה אחוז שנגבה כל שנה, על כל הסכום, במשך עשרות שנים.
+ההבדל בין דמי ניהול גבוהים לנמוכים, על פני חיים שלמים, יכול להיות מאות אלפי שקלים. תקרא שוב — מאות אלפים.
+הבשורה הטובה: דמי ניהול ניתנים למשא ומתן. שיחת טלפון אחת יכולה להוריד אותם.
+זה הכסף הכי קל שתרוויח השנה — בלי להרוויח שקל. רק להפסיק לבזבז.`,
+ cta:`רוצה את המשפט המדויק להגיד לחברת הביטוח כדי להוריד דמי ניהול? הגב "ניהול" ואשלח לך.`,
+ visual:`גרף עולה של חיסכון, ולידו "נגיסה" קטנה שחוזרת כל שנה והופכת לגדולה. מספר: "עד 200,000 ₪".`,
+ gold:`כמעט אף אחד לא יודע שדמי ניהול נתונים למו"מ. ערך מעשי מיידי.`,
+ tags:['#פנסיה','#קרן_השתלמות','#דמי_ניהול','#חיסכון']},
+
+{id:5,cat:'A',title:'מפרנס יחיד למשפחה גדולה — בלי ביטוח חיים',plats:['Reels','וואטסאפ'],
+ hook:`אם אתה המפרנס העיקרי של משפחה גדולה — יש שאלה אחת לא נעימה שחייבים לשאול.`,
+ script:`אם אתה המפרנס העיקרי של משפחה — בוא נדבר על משהו לא נעים, אבל חשוב מאוד.
+מה קורה למשפחה, חס וחלילה, אם משהו יקרה לך?
+לפי הנתונים, פחות מחצי מהמשפחות בציבור שלנו עם ביטוח חיים. משפחה גדולה, הכנסה אחת, ובלי רשת ביטחון.
+ביטוח חיים זה לא "מושך פורענות". זה בדיוק ההפך — זו אחריות. זו אהבה. זו דאגה שהילדים והאישה יהיו מסודרים.
+והעלות? לזוג צעיר ובריא זה לפעמים פחות ממה שמוציאים על קפה בחודש.
+זה לא נעים לחשוב על זה. אבל לדאוג למשפחה — זה מה שגבר עושה.`,
+ cta:`לא מוכר ביטוחים ולא מרוויח על זה כלום. רק רוצה שתבדוק. כתוב "ביטוח" ואשלח לך מה לבדוק.`,
+ visual:`טון רציני, תאורה רכה, דיבור ישיר ושקט למצלמה. בלי גימיקים — הנושא נושא את עצמו. כתובית: "41% בלבד עם ביטוח חיים".`,
+ gold:`נושא שמדחיקים. גישה מכבדת ("אחריות, לא פורענות") פותחת אותו.`,
+ tags:['#ביטוח','#כלכלת_משפחה','#אחריות','#חרדים']},
+
+{id:6,cat:'A',title:'אין לך כרית לחירום? אתה מהמר',plats:['Reels','TikTok','וואטסאפ'],
+ hook:`אם הולך לך לב כשהמקרר מתקלקל — חסר לך דבר אחד, וזה לא כסף.`,
+ script:`אם כל פעם שהמקרר מתקלקל או האוטו עושה רעש מוזר הולך לך הלב — תקשיב.
+מה שחסר לך זה לא עוד כסף. זה כרית ביטחון.
+כרית ביטחון זה סכום קטן שמונח בצד, נזיל, רק למקרי חירום. לא להשקעה, לא לחתונה — רק ל"אופס".
+לפי הנתונים, 4 מכל 10 משפחות לא יכולות להתמודד עם הוצאה פתאומית בלי לבקש עזרה. זה לחץ עצום.
+איך מתחילים? לא ב-20 אלף. מתחילים ב-200 שקל בחודש, בחשבון נפרד שלא נוגעים בו.
+תוך שנה יש לך אלפי שקלים, וראש שקט. וראש שקט — אי אפשר לקנות.`,
+ cta:`רוצה את "שיטת 200 השקל" להקמת כרית ביטחון בלי להרגיש? כתוב "כרית" בוואטסאפ.`,
+ visual:`להראות מעטפה/קופה שאתה שם בה כסף בצד. מספר עולה: 200 → 2,400 → "ראש שקט". קצב נעים.`,
+ gold:`רעיון ה"כרית" כשלב לפני השקעה — חדש ומעצים, לא מאיים.`,
+ tags:['#חיסכון','#כלכלת_משפחה','#כרית_ביטחון','#חינוך_פיננסי']},
+
+{id:7,cat:'A',title:'גמ"ח כדי להחזיר גמ"ח — ספירלת ההלוואות',plats:['Reels','וואטסאפ'],
+ hook:`יש רגע אחד שבו הגמ"ח הופך ממתנה למלכודת — ורובם לא רואים אותו מגיע.`,
+ script:`הגמ"ח הוא אחד הדברים הכי יפים שיש לנו. הלוואה ללא ריבית, מתוך אמון, בין יהודים. אין כמוהו לטווח קצר.
+אבל יש רגע אחד שבו הוא הופך ממתנה למלכודת: כשלוקחים גמ"ח חדש כדי להחזיר את הגמ"ח הקודם.
+זה נקרא "גלגול חובות". וזו ספירלה שמתחילה קטן ונגמרת בלחץ אדיר, בדרך כלל בדיוק בגיל של חתונות הילדים.
+איך יוצאים? קודם כל — לעצור ולמפות. כמה גמ"חים פתוחים, לכמה זמן, וכמה צריך להחזיר כל חודש.
+ברגע שרואים את התמונה המלאה על דף אחד — אפשר לבנות תוכנית. בלי לראות אותה, רק טובעים.
+הגמ"ח נועד לעזור לך. לא להחזיק אותך.`,
+ cta:`בניתי דף פשוט למיפוי כל הגמ"חים וההלוואות במקום אחד. רוצה? כתוב "מיפוי" בוואטסאפ.`,
+ visual:`לצייר על לוח עיגול שמסתובב ("גלגול") עם חצים. ואז דף מסודר עם שורות. ניגוד ויזואלי בין כאוס לסדר.`,
+ gold:`18% לוקחים הלוואת גמ"ח (מהמחקר). זיהוי הספירלה בשמה = הקלה.`,
+ tags:['#גמח','#הלוואות','#כלכלת_משפחה','#חרדים']},
+
+{id:8,cat:'A',title:'קרן השתלמות — הכסף שכמעט פטור ממס',plats:['Reels','TikTok','וואטסאפ'],
+ hook:`יש מכשיר חיסכון אחד בישראל שכמעט פטור ממס — ורוב האנשים לא מנצלים אותו.`,
+ script:`יש מכשיר חיסכון אחד שהמדינה כמעט "מתחננת" שתנצל — וקוראים לו קרן השתלמות.
+למה הוא כל כך מיוחד? כי הרווחים בו פטורים ממס רווחי הון. בכל השקעה אחרת המדינה לוקחת 25% מהרווח. כאן — אפס.
+זה כמעט כמו לקבל תוספת על הכסף שלך, חינם.
+אם את עובדת — מורה, גננת, בסמינר — ברוב המקרים את זכאית, והמעסיק אפילו מוסיף מצדו. זה כסף שמתגלגל על השולחן.
+אחרי 6 שנים הכסף נזיל לכל מטרה. בינתיים הוא גדל בלי שהמדינה תיגע בו.
+זו אחת ההטבות הכי גדולות שיש למשפחה עובדת — והכי מבוזבזת.`,
+ cta:`רוצה לבדוק אם מגיע לך, ואיך פותחים? כתוב "קרן" בוואטסאפ ואשלח לך מדריך פשוט.`,
+ visual:`לדבר אל האם העובדת. מספר ענק: "0% מס" מול "25% מס". להראות שתי ערימות מטבעות בגדלים שונים.`,
+ gold:`"הטבת המס הכי גדולה שמפספסים" — ישיר מ"מבחן הזהב" של המחקר.`,
+ tags:['#קרן_השתלמות','#חיסכון','#הטבת_מס','#כלכלת_משפחה']},
+
+{id:9,cat:'A',title:'אברך בלי פנסיה — אפשר לתקן את זה',plats:['Reels','וואטסאפ'],
+ hook:`אם אתה בכולל ואין לך פנסיה — אל תילחץ. יש פתרון שרובם לא מכירים.`,
+ script:`אם אתה אברך, או עובד בלי תלוש מסודר, וכשמדברים על פנסיה אתה אומר "זה לא אצלי" — תקשיב טוב.
+לפי הנתונים, רק כמחצית מהציבור שלנו עם חיסכון פנסיוני, והרבה אברכים בלי כלום. זה אומר שאיכשהו, בעוד 30-40 שנה, צריך להגיע לגיתח עם משהו ביד.
+הבשורה: אתה לא חייב מעסיק כדי לחסוך לפנסיה. אפשר לפתוח קרן פנסיה גם כעצמאי, גם בהפקדה קטנה.
+אפילו 300 שקל בחודש, שמתחילים מוקדם, בזכות הזמן — הופכים לסכום משמעותי בגיל הפרישה.
+המפתח הוא לא הסכום. המפתח הוא להתחיל. הזמן עושה את העבודה הקשה.`,
+ cta:`רוצה לדעת איך פותחים קרן פנסיה בלי מעסיק, צעד-צעד? כתוב "פנסיה" בוואטסאפ.`,
+ visual:`טון אישי, חם. דיבור ישיר. כתובית: "גם בלי מעסיק". מספר: "300 ₪ בחודש → ?". להשאיר סימן שאלה כלופ פתוח.`,
+ gold:`רבים לא יודעים שאפשר פנסיה בלי מעסיק. פותח דלת סגורה.`,
+ tags:['#פנסיה','#אברך','#חיסכון','#חרדים']},
+
+{id:10,cat:'A',title:'"אתחיל כשיהיה לי הרבה" — הטעות שעולה הכי יקר',plats:['Reels','TikTok','וואטסאפ'],
+ hook:`"אתחיל לחסוך כשיהיה לי יותר כסף." המשפט הזה עולה לך יותר מכל טעות אחרת.`,
+ script:`"אתחיל לחסוך כשיהיה לי יותר." המשפט הכי הגיוני בעולם — והכי יקר.
+כי בחיסכון, הדבר שעושה את העבודה הוא לא הסכום. זה הזמן.
+תראה: מי שמתחיל לחסוך 200 שקל בחודש בגיל 25, מגיע לגיל פרישה עם הרבה יותר ממי שחוסך 400 שקל בחודש — אבל מתחיל בגיל 40.
+חצי מהסכום, ובכל זאת יותר כסף. למה? כי לזמן יש כוח קסם — ריבית דריבית.
+המסקנה פשוטה: עדיף להתחיל קטן היום, מאשר גדול בעוד עשר שנים.
+אל תחכה ל"הרבה". תתחיל עם המעט שיש — וזה ה"הרבה" של מחר.`,
+ cta:`רוצה לראות בעיניים את הכוח של להתחיל מוקדם, על דף אחד? כתוב "להתחיל" בוואטסאפ.`,
+ visual:`שני גרפים זה לצד זה: "התחיל בגיל 25" מנצח את "התחיל בגיל 40" למרות חצי הסכום. הפער מודגש בזהב.`,
+ gold:`דחיינות כטעות יקרה + המחשת ה"זמן מנצח סכום" — מפתיע מאוד.`,
+ tags:['#ריבית_דריבית','#חיסכון','#השקעות','#חינוך_פיננסי']},
+
+/* ============ B · כלכלת משפחה חרדית ============ */
+{id:11,cat:'B',title:'מפל הסידור — לתכנן חתונה 15 שנה מראש',plats:['Reels','וואטסאפ'],
+ hook:`את החתונה של הילד שלך אתה כבר יודע היום — 15 שנה מראש. אז למה היא תמיד מפתיעה אותנו?`,
+ script:`יש לנו דבר מוזר. את ההוצאה הכי גדולה בחיים — חתונת הילדים — אנחנו יודעים עליה 15, 18 שנה מראש. ובכל זאת היא תמיד מפתיעה אותנו וגומרת בהלוואות.
+תחשוב על זה: ביום שהילד נולד, אתה כבר יודע שבעוד בערך 20 שנה תהיה חתונה. זה לא "אם". זה "מתי".
+אז למה אנחנו מתכננים את זה כאילו זו רעידת אדמה פתאומית?
+ההבדל בין משפחה ששוקעת בחתונות לבין משפחה שעוברת אותן בשלום — הוא לא כמה מרוויחים. זה האם התחילו לתכנן מוקדם.
+חתונה שמתוכננת 15 שנה מראש בסכומים קטנים — היא חתונה בלי לחץ. וזו מתנה לכל המשפחה.`,
+ cta:`רוצה את "לוח מפל הסידור" — מתי מתחילים לכל ילד? כתוב "סידור" בוואטסאפ ואשלח לך.`,
+ visual:`לצייר ציר זמן: לידה ← בר מצווה ← שידוך ← חתונה, עם נקודה ירוקה "כאן מתחילים לחסוך" בהתחלה. רגוע ובהיר.`,
+ gold:`המסגור "אתה כבר יודע 15 שנה מראש" — תובנה מהמחקר, משנה תפיסה.`,
+ tags:['#חתונה','#כלכלת_משפחה','#תכנון','#חרדים']},
+
+{id:12,cat:'B',title:'400 ש"ח בחודש = חתונה ממומנת',plats:['Reels','TikTok','וואטסאפ'],
+ hook:`400 שקל בחודש מהיום שהילדה נולדה — וכל החתונה ממומנת. בלי הלוואה אחת. תראה את המספר.`,
+ script:`400 שקל בחודש. זה הכל. מהיום שהילדה נולדה — וכל החתונה ממומנת, בלי הלוואה אחת.
+בוא נעשה את החשבון יחד, כי הוא מטורף.
+נגיד מפרישים 400 שקל בחודש למסלול סולידי שעולה בממוצע כמה אחוזים בשנה. במשך 18-20 שנה.
+מה שהפקדת בפועל זה בערך 90 אלף שקל. אבל בזכות ריבית דריבית — מה שיש בקופה זה הרבה יותר. מספיק לחתונה מכובדת.
+ההבדל בין מי שעשה את זה למי שלא — זה ההבדל בין לרקוד בחתונה בשמחה לבין לרקוד עם חרדה כמה זה עלה.
+המספר הקטן הזה, 400 שקל, ברגע שמתחילים מוקדם — משנה את כל התמונה.`,
+ cta:`רוצה את החישוב המדויק לפי גיל הילד שלך? כתוב "חתונה" בוואטסאפ ואבנה לך אותו.`,
+ visual:`מספר מרכזי ענק: "400 ₪ לחודש". להראות עלייה הדרגתית עד "חתונה ✓". קאט לכל שלב. אנרגיה אופטימית.`,
+ gold:`"ריבית דריבית = חתונה ממומנת" — מהמסרים משני-החיים במחקר.`,
+ tags:['#ריבית_דריבית','#חתונה','#חיסכון','#כלכלת_משפחה']},
+
+{id:13,cat:'B',title:'חתונה של 150 אלף — איפה חוסכים בלי בושה',plats:['Reels','וואטסאפ'],
+ hook:`חתונה ממוצעת אצלנו עולה 150 אלף שקל. יש 3 מקומות שחוסכים בהם הרבה — בלי שאף אחד ירגיש.`,
+ script:`חתונה ממוצעת אצלנו עולה בין 120 ל-180 אלף שקל. זה סכום ענק. אבל יש מקומות לחסוך בלי שזה ייראה "על חשבון הכבוד".
+ראשית — האולם והמנה. ההפרש בין יום ראשון לחמישי, או בין אולם מבוקש לפחות מבוקש, יכול להיות עשרות אלפים. אותה שמחה, אותם אנשים.
+שנית — הצילום. וידאו וסטילס יכולים לנוע בין 10 ל-18 אלף. תחקיר קצר חוסך אלפים.
+שלישית — להקה מול די.ג'יי. ההפרש עצום, והשמחה לא נמדדת בזה.
+הכבוד של החתונה הוא לא בכמה הוצאת. הוא באנשים, בשמחה, בברכה. את זה אי אפשר לקנות — וגם לא צריך.`,
+ cta:`עשיתי רשימת "איפה חוסכים בלי בושה בחתונה". רוצה? כתוב "חיסכון בחתונה" בוואטסאפ.`,
+ visual:`להראות 3 כרטיסיות שמתהפכות: אולם / צילום / מוזיקה, עם טווחי מחיר. כתוביות ברורות. טון מכבד ומעשי.`,
+ gold:`מספרי החתונה האמיתיים (מהמחקר) + "בלי בושה" — מדבר לכאב אמיתי.`,
+ tags:['#חתונה','#כלכלת_משפחה','#חיסכון','#חרדים']},
+
+{id:14,cat:'B',title:'האם העובדת היא שר האוצר של הבית',plats:['Reels','וואטסאפ'],
+ hook:`בוא נגיד את האמת: בבית שלנו האישה מנהלת את הכסף. אז למה היא האחרונה שמלמדים עליו?`,
+ script:`בוא נגיד את האמת בקול. ברוב הבתים שלנו, מי שמנהל בפועל את הכסף — את התקציב, את החשבונות, את סוף החודש — זו האישה.
+80% מהנשים בציבור שלנו עובדות. היא שר האוצר של הבית. ובכל זאת, היא הכי פחות נחשפת לידע על השקעות וחיסכון.
+זה לא הגיוני. מי שמחזיקה את ההגה — צריכה את המפה הכי טובה.
+אז אם את מקשיבה עכשיו: הידע הזה הוא בשבילך. לא "עולם של גברים", לא מסובך מדי. זה בדיוק התחום שלך — לנהל את משאבי המשפחה בחוכמה.
+וגבר שמכבד את אשתו — נותן לה גם את הכלים, לא רק את האחריות.`,
+ cta:`בניתי סדרת הסברים פשוטה במיוחד לאמהות עובדות. רוצה? כתבי "שר האוצר" בוואטסאפ.`,
+ visual:`טון מכבד ומעצים. אפשר לפנות ישירות "אם את מקשיבה...". כתובית: "80% מהנשים בציבור עובדות". בלי דמות אישה במסך — טקסט ואתה.`,
+ gold:`מיקוד באם העובדת כקהל מרכזי — תובנה אסטרטגית מהמחקר.`,
+ tags:['#כלכלת_משפחה','#נשים','#חינוך_פיננסי','#חרדים']},
+
+{id:15,cat:'B',title:'תקציב משפחתי כשיש הכנסה אחת',plats:['Reels','TikTok','וואטסאפ'],
+ hook:`איך מנהלים משפחה גדולה על משכורת אחת בלי להגיע למינוס כל חודש? יש שיטה אחת פשוטה.`,
+ script:`איך מנהלים משפחה גדולה על הכנסה אחת בלי להיכנס למינוס כל חודש? יש כלל אחד פשוט ששובר את המשחק.
+זה לא לרשום כל שקל באקסל — אף אחד לא מתמיד בזה.
+הכלל: ברגע שנכנסת המשכורת, מוציאים קודם כל את החיסכון. אפילו 5%. שמים בצד לפני שמתחילים להוציא.
+למה זה עובד? כי אנחנו מוציאים בדיוק כמה שיש. אם משאירים את החיסכון לסוף החודש — אף פעם לא נשאר.
+"שלם לעצמך קודם". המשכורת נכנסה? 5% הולכים הצידה מיד. את השאר מחלקים על החיים.
+זה לא קסם. זה רק לשנות את הסדר. וזה משנה הכל.`,
+ cta:`רוצה את "שיטת 5% קודם" עם דוגמה למשפחה? כתוב "תקציב" בוואטסאפ.`,
+ visual:`להראות משכורת שנכנסת, ויד שמושכת ממנה חלק קטן הצידה לפני הכל. חץ: "קודם חיסכון". פשוט וברור.`,
+ gold:`"שלם לעצמך קודם" מתורגם למשפחה חד-הכנסתית — מעשי ומיידי.`,
+ tags:['#תקציב','#כלכלת_משפחה','#חיסכון','#חרדים']},
+
+{id:16,cat:'B',title:'לתמוך בילד הנשוי בלי לשקוע',plats:['Reels','וואטסאפ'],
+ hook:`חיתנת את הילד — וגילית שהתמיכה רק מתחילה. איך עוזרים להם בלי לטבוע בעצמך?`,
+ script:`חיתנת את הילד בשמחה גדולה, ואז גילית את האמת: התמיכה רק מתחילה. מלגת כולל לא מספיקה למשפחה, והם פונים אליך.
+זה מקום של אהבה. אבל הרבה הורים בגיל 45-55 מוצאים את עצמם מממנים כמה זוגות במקביל — ושוקעים בעצמם.
+אז שלושה כללים מתוך אהבה ואחריות:
+ראשית — תמיכה צריכה להיות סכום קבוע ומתוכנן, לא "כמה שצריך". אחרת אין לזה תחתית.
+שנית — אסור שתמיכה בילדים תבוא על חשבון הפנסיה שלך. אם תשקע, בעוד 15 שנה תהיה אתה נטל עליהם.
+שלישית — הכי גדול: ללמד אותם לדוג, לא רק לתת דג. לתת להם כלים פיננסיים זו התמיכה הכי שווה.`,
+ cta:`רוצה את "3 הכללים לתמיכה בריאה בילדים נשואים"? כתוב "תמיכה" בוואטסאפ.`,
+ visual:`טון חם ובוגר. דיבור ישיר. כתוביות לשלושת הכללים כמספרים. בלי גימיקים — חוכמת חיים.`,
+ gold:`"אל תשקע בעצמך כדי לתמוך" — שובר טאבו, מציל הורים.`,
+ tags:['#כלכלת_משפחה','#תמיכה','#פנסיה','#חרדים']},
+
+{id:17,cat:'B',title:'מלגת כולל לא מספיקה — מה באמת עושים',plats:['Reels','וואטסאפ'],
+ hook:`מלגת הכולל היא 1,800 שקל. המשפחה צריכה הרבה יותר. אז מאיפה מגיע השאר — ואיך עושים את זה נכון?`,
+ script:`מלגת כולל ממוצעת היא בערך 1,500 עד 2,500 שקל. משפחה צריכה הרבה יותר. אז השאלה האמיתית היא: מאיפה מגיע השאר, ואיך עושים את זה בלי לחץ מתמיד?
+בדרך כלל זה שילוב: עבודה של האישה, תמיכת הורים, ולפעמים עבודה חלקית של האברך. זה לגיטימי ויפה.
+אבל הנה הנקודה שרבים מפספסים: גם בהכנסה צנועה — אפשר וחייבים לחסוך משהו קטן. אפילו 100 שקל.
+למה? כי המשפחות שיוצאות מהמעגל הן לא אלה שהרוויחו יותר. הן אלה ששמרו קצת, באופן קבוע, ונתנו לזה לגדול.
+פרנסה בכבוד זה לא רק כמה נכנס. זה גם מה עושים עם מה שיש.`,
+ cta:`רוצה לראות איך אפילו 100 שקל בחודש משנים תמונה לאורך זמן? כתוב "מלגה" בוואטסאפ.`,
+ visual:`להראות "פאזל הכנסה": כמה מקורות קטנים שמתחברים. ואז חתיכה קטנה שהולכת לחיסכון. תרחיש מהמחקר.`,
+ gold:`גם בהכנסה נמוכה אפשר לחסוך — מסר מעצים, נוגד ייאוש.`,
+ tags:['#אברך','#כולל','#כלכלת_משפחה','#חיסכון']},
+
+{id:18,cat:'B',title:'נדוניה ו"חצי דירה" — לתכנן את ההר',plats:['Reels','וואטסאפ'],
+ hook:`"חצי דירה מכל צד." ההתחייבות הכי גדולה בחיים — ולרוב נכנסים אליה בלי תוכנית. בוא נשנה את זה.`,
+ script:`"חצי דירה מכל צד." זו אולי ההתחייבות הכספית הכי גדולה בחיים שלנו. מאות אלפי שקלים. ולרוב — נכנסים אליה בלי תוכנית, רק בהלוואות ובלחץ.
+המנהג בא ממקום קדוש — לאפשר לחתן להמשיך ללמוד. הכוונה יפה. אבל הביצוע הכספי שובר משפחות.
+אז שתי מחשבות, בלי לשפוט אף אחד:
+ראשית — מה שצפוי, אפשר לתכנן. אם יש לך ילד בן 10, יש לך בערך 10-12 שנה. סכום קבוע חודשי לאורך השנים האלה הופך הר לגבעה.
+שנית — לדבר על זה גלוי במשפחה ובשידוך, מוקדם. ציפיות לא מדוברות הן הדבר הכי יקר שיש.
+התחייבות גדולה לא חייבת להיות גזירה. היא יכולה להיות פרויקט מתוכנן.`,
+ cta:`רוצה את "מחשבון ההתחייבות" לפי גיל הילד? כתוב "דירה" בוואטסאפ.`,
+ visual:`להראות "הר" שהופך ל"גבעה" כשפורסים אותו על ציר זמן. טון רגיש, לא שיפוטי. כתובית: "מה שצפוי — אפשר לתכנן".`,
+ gold:`נדוניה/חצי דירה כפרויקט מתוכנן ולא גזירה — מהמחקר, רגיש ומדויק.`,
+ tags:['#נדוניה','#דירה','#כלכלת_משפחה','#חרדים']},
+
+{id:19,cat:'B',title:'כמה באמת עולה ילד — והבשורה הטובה',plats:['Reels','TikTok','וואטסאפ'],
+ hook:`כמה עולה לגדל ילד? המספר מפחיד. אבל יש בו בשורה טובה שאף אחד לא מספר.`,
+ script:`כמה עולה לגדל ילד עד החתונה? אם נחבר חינוך, ביגוד, אוכל, חוגים וחתונה — המספר מפחיד. ובמשפחה גדולה זה כפול הרבה.
+אבל הנה הבשורה הטובה שאף אחד לא עוצר לומר: ההוצאות האלה פרוסות על פני 20 שנה. הן לא נופלות עליך ביום אחד.
+וזה בדיוק הסוד. בגלל שזה פרוס על שנים, סכומים קטנים וקבועים מסתדרים עם זה — אם מתחילים מוקדם.
+מה שמלחיץ הורים זה לא העלות. זה ההפתעה. ההוצאה שלא חיכינו לה.
+ילד זו ברכה ענקית. ועם קצת תכנון, הברכה הזו לא צריכה לבוא עם חרדה כלכלית.`,
+ cta:`רוצה "לוח הוצאות הילד" שמראה מה צפוי ומתי? כתוב "ילד" בוואטסאפ.`,
+ visual:`מספר גדול ומפחיד בהתחלה, ואז הוא "נפרס" לאורך ציר זמן והופך לקטן ומנוהל. מהפך ויזואלי.`,
+ gold:`"זה פרוס על 20 שנה" הופך פחד לתוכנית — מהמחקר.`,
+ tags:['#כלכלת_משפחה','#חינוך','#תכנון','#חרדים']},
+
+{id:20,cat:'B',title:'ללמד את הילדים כסף מגיל צעיר',plats:['Reels','TikTok','וואטסאפ'],
+ hook:`הדבר הכי יקר שתוריש לילדים שלך הוא לא כסף. תראה מה כן — וזה בחינם.`,
+ script:`הדבר הכי יקר שתוכל לתת לילדים שלך הוא לא כסף. זה משהו אחר לגמרי, והוא בחינם.
+זו היכולת לנהל כסף. כי כסף בלי ידע — נגמר. ידע — נשאר לכל החיים.
+אנחנו מלמדים אותם חומש, גמרא, מידות טובות. וזה הכי חשוב. אבל איכשהו את הכסף הם אמורים "לקלוט לבד". והם לא קולטים.
+ילד שלומד מגיל צעיר מה זה לחסוך, לחכות, להבדיל בין רצון לצורך — נכנס לחיים עם יתרון ענק.
+איך מתחילים? פשוט. דמי כיס עם כלל קטן: חלק לחיסכון, חלק לצדקה, חלק להוצאה. שלושת הכדים.
+זה לא שיעור. זה הרגל. וההרגל הזה שווה יותר מכל ירושה.`,
+ cta:`רוצה את "שיטת שלושת הכדים" ללמד ילדים כסף? כתוב "ילדים" בוואטסאפ.`,
+ visual:`להראות 3 כדים/קופות: חיסכון, צדקה, הוצאה, ולשים מטבע בכל אחד. צבעוני, חמים, מתאים גם לשיתוף הורים.`,
+ gold:`חינוך פיננסי לילדים כ"ירושה האמיתית" — ערכי, משתף בקלות.`,
+ tags:['#חינוך_פיננסי','#ילדים','#כלכלת_משפחה','#חרדים']},
+
+/* ============ C · כסף והלכה ============ */
+{id:21,cat:'C',title:'הבנק שלך כבר עובד בהיתר עסקא',plats:['Reels','וואטסאפ'],
+ hook:`נמנעת כל החיים מהשקעות בגלל איסור ריבית? יש משהו על הבנק שלך שכנראה לא ידעת.`,
+ script:`הרבה אנשים נמנעים מהשקעות, מפיקדונות, מכל דבר עם ריבית — בגלל החשש מאיסור ריבית. וזה חשש קדוש ומכובד.
+אבל יש דבר אחד שרבים פשוט לא יודעים: הבנק שלך כבר עובד בהיתר עסקא.
+מה זה היתר עסקא? במקום שזה ייחשב הלוואה בריבית — ההלכה מגדירה את זה כשותפות. אתה והבנק שותפים בעסק. הרווח הוא חלק מהרווחים, לא "ריבית" אסורה. ולכן זה מותר.
+זה לא טריק. זה פתרון הלכתי מבוסס שגדולי הפוסקים אישרו, ופועלים לפיו כל הבנקים בישראל.
+אני לא פוסק, ותמיד תשאל את הרב שלך. אבל חשוב שתדע שהדלת הזו — קיימת ופתוחה.`,
+ cta:`רוצה הסבר פשוט מה זה היתר עסקא, להראות לרב שלך? כתוב "היתר" בוואטסאפ.`,
+ visual:`טון מכובד, רגוע. להראות שני אנשים/שתי ידיים כ"שותפים" ולא מלווה-לווה. כתובית: "שותפות, לא ריבית".`,
+ gold:`"הבנק שלך כבר עובד בהיתר עסקא" — מסיר חסם הלכתי משתק (מהמחקר).`,
+ tags:['#היתר_עסקא','#הלכה','#כסף_והלכה','#חרדים']},
+
+{id:22,cat:'C',title:'מסלול השקעה כשר — קיים בכל גוף גדול',plats:['Reels','וואטסאפ'],
+ hook:`"אסור לי להשקיע, זה פשוט לא כשר." המשפט הזה עולה למשפחות הון — והוא לא נכון.`,
+ script:`הרבה אומרים לי: "הייתי משקיע, אבל זה לא כשר, זה לא בשבילנו". וזו אחת הטעויות הכי נפוצות.
+האמת? מסלול השקעה כשר קיים היום כמעט בכל גוף פיננסי גדול בישראל.
+מה זה אומר "כשר"? שוועדה רבנית מפקחת. מוציאים חברות שמחללות שבת, מסדירים את עניין הריבית דרך היתר עסקא, ומשקיעים רק במה שמותר.
+בערך 80% מהחברות בבורסה עומדות בסטנדרט הזה — אז גם אחרי הסינון, יש מספיק לפיזור בריא.
+זה אומר שאתה לא צריך לבחור בין להיות שומר תורה ומצוות לבין לדאוג לעתיד הכלכלי של המשפחה. אפשר את שניהם.
+תמיד לבדוק מול הרב ומול גורם מקצועי — אבל הדרך קיימת.`,
+ cta:`רוצה רשימה של גופים עם מסלול כשר ומה לשאול? כתוב "כשר" בוואטסאפ.`,
+ visual:`להראות "חותמת כשרות" על תיק השקעות. כתובית: "מפוקח רבנית". טון בשורה חיובית — "אפשר את שניהם".`,
+ gold:`רבים בטוחים שאי אפשר להשקיע בכשרות — גילוי הזמינות פותח דלת (מהמחקר).`,
+ tags:['#השקעה_כשרה','#הלכה','#שוק_ההון','#חרדים']},
+
+{id:23,cat:'C',title:'ביטחון והשתדלות — להשקיע זה לא חוסר אמונה',plats:['Reels','וואטסאפ'],
+ hook:`"אם אני בוטח בה', למה לי בכלל לתכנן כסף?" השאלה הזו מבלבלת אלפי אנשים — בוא נסדר.`,
+ script:`יש שאלה ששומעים הרבה, והיא באה ממקום אמיתי וטהור: "אם אני בוטח בה' שיפרנס אותי — למה לי לתכנן, לחסוך, להשקיע? זה לא חוסר ביטחון?"
+שאלה נפלאה. והתשובה היא יסוד גדול: ביטחון והשתדלות הולכים ביחד, לא במקום זה את זה.
+התורה אומרת "וברכך ה' אלוקיך בכל אשר תעשה" — בכל אשר תעשה. צריך לעשות כלי שבו תשרה הברכה. החקלאי בוטח בה', אבל הוא חורש וזורע.
+תכנון כלכלי הוא בדיוק זה — החריש והזריעה. ההשתדלות. ועליה אנחנו מבקשים שתבוא הברכה.
+אז לא רק שמותר לתכנן ולהשקיע באחריות — זו דרך התורה. עושים את ההשתדלות, וסומכים על הקב"ה לתוצאה.`,
+ cta:`הנושא הזה הוא לב הספר "לצאת מהגלות הפיננסית". הסרטון הזה לבד כבר נותן לך את העיקר.`,
+ visual:`טון של דברי תורה רגועים. אפשר ספר פתוח ביד. כתובית: "השתדלות וגם ביטחון". זה סרטון "עומק" — פחות קאטים, יותר נוכחות.`,
+ gold:`הגשר ההשקפתי שכל תוכן פיננסי חרדי חייב לחצות (מהמחקר). CTA לספר מתאים.`,
+ tags:['#ביטחון','#השתדלות','#הלכה','#חרדים']},
+
+{id:24,cat:'C',title:'מעשר כספים — גם אותו אפשר לתכנן',plats:['Reels','וואטסאפ'],
+ hook:`ידעת שגם מעשר כספים אפשר לתכנן — ובמקרים מסוימים אפילו לתמוך בו בילד נשוי?`,
+ script:`מעשר כספים — הפרשת עשירית מהרווחים לצדקה — הוא מהדברים היפים שיש. אבל גם בו יש ידע מעשי שרבים לא מכירים.
+ראשית, מעשר הוא על הרווח. אם השקעה הניבה רווח — המעשר הוא על הרווח, לא על כל הקרן. חשוב לדעת איך לחשב נכון.
+שנית, ויש בזה מחלוקת אז חובה לשאול רב: יש פוסקים שמתירים, בתנאים מסוימים, לתמוך בילד נשוי שלומד תורה מכספי מעשר.
+שלישית, אפשר לנהל "קופת מעשר" מסודרת — לדעת כמה הפרשת וכמה נתת — וזה דווקא מגדיל את הנתינה, כי רואים את התמונה.
+מעשר זה לא רק מצווה. זה גם תחום שאפשר וכדאי לנהל בחוכמה. תמיד מול פוסק.`,
+ cta:`רוצה "דף ניהול מעשר" פשוט? כתוב "מעשר" בוואטסאפ. ולגבי ההלכות — לשאול רב.`,
+ visual:`להראות "קופת מעשר" עם רישום מסודר. כתובית: "מעשר על הרווח". טון מכבד, מדגיש "תמיד מול רב".`,
+ gold:`"גם מעשר אפשר לתכנן" + תמיכה בילד ממעשר — חידוש מעשי (מהמחקר).`,
+ tags:['#מעשר','#צדקה','#הלכה','#חרדים']},
+
+{id:25,cat:'C',title:'ריבית דריבית — בהיתר עסקא, עובד לטובתך',plats:['Reels','TikTok','וואטסאפ'],
+ hook:`כל החיים פחדנו מ"ריבית". אבל יש ריבית אחת, בהיתר, שעובדת בשבילך — לא נגדך.`,
+ script:`כל החיים למדנו לפחד מהמילה "ריבית", ובצדק — ריבית של הלוואות אוכלת אותנו, וגם יש בה איסור.
+אבל יש סוג אחד של "ריבית", בהיתר עסקא, שדווקא עובד לטובתך — וזה ריבית דריבית על חיסכון.
+מה זה? נגיד חסכת והרווחת קצת. בשנה הבאה אתה מרוויח לא רק על הקרן — אלא גם על הרווח של אשתקד. הרווח מתחיל להרוויח בעצמו.
+איינשטיין כביכול קרא לזה "הפלא השמיני". ככל שהזמן עובר, זה רץ מהר יותר ויותר.
+אז יש כאן היפוך יפה: אותו כוח שכשלווים — עובד נגדך, כשחוסכים בהיתר — עובד בשבילך.
+זו בדיוק הסיבה שכדאי להתחיל מוקדם. תן לזמן ולהיתר לעבוד.`,
+ cta:`רוצה לראות את כוח ריבית דריבית על דף אחד פשוט? כתוב "ריבית" בוואטסאפ.`,
+ visual:`גרף שמתחיל לאט ואז "מתפוצץ" כלפי מעלה (אקספוננציאלי). כתובית: "בהיתר עסקא — לטובתך". מספרים גדלים.`,
+ gold:`הופך מושג "מאיים" (ריבית) למסר חיובי — מהמחקר, גשר הלכתי.`,
+ tags:['#ריבית_דריבית','#היתר_עסקא','#חיסכון','#הלכה']},
+
+/* ============ D · יסודות שוק ההון ============ */
+{id:26,cat:'D',title:'קרן מחקה מדד ≠ הימור',plats:['Reels','TikTok','וואטסאפ'],
+ hook:`כולם חושבים שהבורסה זה הימור. תן לי 30 שניות לשנות לך את התפיסה לתמיד.`,
+ script:`כולם חושבים שהבורסה זה קזינו — הימור, גזל, "לא בשבילנו". תן לי 30 שניות לשנות את זה.
+יש הבדל ענק בין שני דברים. הימור זה לשים על מניה אחת ולקוות. זה באמת מסוכן.
+אבל קרן מחקה מדד זה משהו אחר לגמרי. במקום לקנות חברה אחת — אתה קונה חתיכה קטנטנה מ-500 החברות הכי גדולות בעולם, ביחד.
+זו לא הימור על מזל. זו שותפות בכלכלה האמיתית — בחברות שמייצרות, מוכרות, עובדות כל יום.
+חברה אחת יכולה ליפול. אבל 500 החברות הגדולות בעולם נופלות ביחד? היסטורית, לאורך זמן, זה תמיד עלה בחזרה.
+זה ההבדל בין הימור לבין השקעה סולידית ומפוזרת.`,
+ cta:`רוצה הסבר פשוט מה זה קרן מחקה מדד, ב-2 דקות? כתוב "מדד" בוואטסאפ.`,
+ visual:`להראות מניה אחת בודדת רועדת מול "סל" של 500 חברות יציב. כתובית: "שותפות, לא הימור". קאט חד בין השניים.`,
+ gold:`מדד ≠ הימור — שובר את החסם התרבותי המרכזי מהבורסה (מהמחקר).`,
+ tags:['#שוק_ההון','#מדד','#השקעות','#חינוך_פיננסי']},
+
+{id:27,cat:'D',title:'מה זה S&P 500 בשפה של בן אדם',plats:['Reels','TikTok','וואטסאפ'],
+ hook:`"אס אנד פי 500" נשמע כמו שפה של רואי חשבון. בעוד 30 שניות תסביר את זה לילד שלך.`,
+ script:`שומעים "אס אנד פי 500" וזה נשמע כמו שפה של אסטרונאוטים. בפועל? זה הדבר הכי פשוט שיש. בוא נפרק.
+תאר לך רשימה של 500 החברות הכי גדולות וחזקות באמריקה. החברות שכולנו מכירים ומשתמשים בהן כל יום — אלה שמייצרות טלפונים, מחשבים, אוכל, תרופות.
+ה-S&P 500 זה פשוט מדד שעוקב אחרי כל ה-500 ביחד. כשרובן מצליחות — המדד עולה.
+כשאתה "משקיע ב-S&P 500", אתה לא מהמר על אחת. אתה קונה פיסה קטנה מכולן ביחד.
+ולמה אנשים אוהבים את זה? כי לאורך עשרות שנים, למרות נפילות באמצע, הקבוצה הזו של 500 הענקיות — צמחה.
+זה הכל. לא מסובך. שותפות בענקיות הכלכלה.`,
+ cta:`רוצה את "המדריך ל-S&P 500 בעברית פשוטה"? כתוב "אס אנד פי" בוואטסאפ.`,
+ visual:`להראות לוגואים מוכרים (כללי) מתאחדים למספר אחד "500". כתובית גדולה: "500 חברות = מדד אחד". בהיר וידידותי.`,
+ gold:`הנגשה של מושג מאיים בשפה יומיומית — "לא ידעתי שזה כזה פשוט".`,
+ tags:['#sp500','#מדד','#שוק_ההון','#חינוך_פיננסי']},
+
+{id:28,cat:'D',title:'פיזור אמיתי מול כפילויות',plats:['Reels','וואטסאפ'],
+ hook:`חושב שאתה מפוזר כי יש לך כמה השקעות? אולי קנית את אותו דבר 3 פעמים.`,
+ script:`"יש לי כמה השקעות שונות, אני מפוזר ובטוח" — אולי. ואולי קנית את אותו הדבר שלוש פעמים בלי לדעת.
+פיזור אמיתי זה לא כמה מוצרים. זה כמה דברים שונים באמת אתה מחזיק.
+תראה: אם יש לך שלוש קרנות, ושלושתן עוקבות אחרי אותו מדד אמריקאי — אתה לא מפוזר. יש לך את אותה ביצה בשלושה סלים שנראים שונים. אבל זו אותה ביצה.
+פיזור נכון זה דברים שלא עולים ויורדים ביחד. קצת כאן, קצת שם, אזורים שונים בעולם.
+למה זה חשוב? כי אם הכל אותו דבר, ביום שזה ייפול — הכל ייפול יחד.
+תבדוק מה באמת יש לך מתחת למכסה. לפעמים "מפוזר" הוא אשליה.`,
+ cta:`רוצה לדעת איך בודקים אם אתה באמת מפוזר? כתוב "פיזור" בוואטסאפ.`,
+ visual:`להראות 3 סלים שנראים שונים אבל בכל אחד אותה "ביצה". ואז סלים עם תכולה שונה באמת. המחשה ברורה.`,
+ gold:`"כפילויות שמחופשות לפיזור" — תובנה מתקדמת, נשמעת חכמה ומעמיקה.`,
+ tags:['#פיזור','#השקעות','#שוק_ההון','#חינוך_פיננסי']},
+
+{id:29,cat:'D',title:'ריבית דריבית — הקסם של הזמן',plats:['Reels','TikTok','וואטסאפ'],
+ hook:`100 שקל בשבוע. תנחש כמה זה בעוד 30 שנה. התשובה תפיל אותך.`,
+ script:`100 שקל בשבוע. נגיד פחות ממה שמוציאים על קניות קטנות. תנחש כמה זה הופך בעוד 30 שנה.
+רוב האנשים יגידו: 100 כפול 52 שבועות כפול 30 שנה — בערך 156 אלף שקל. הגיוני, נכון?
+אבל זו לא התשובה. כי הכסף לא רק יושב — הוא גם מרוויח. ואז הרווח מרוויח. וזה רץ.
+במסלול סולידי לאורך 30 שנה, אותם 100 שקל בשבוע יכולים להפוך לפי כמה — הרבה מעבר למה שהפקדת.
+זה הקסם של ריבית דריבית. לא הסכום עשה את העבודה — הזמן עשה.
+וזה בדיוק למה הדבר הכי חכם שתעשה זה לא לחכות. כל שנה שמתחילים מוקדם יותר — שווה הון.`,
+ cta:`רוצה את המחשבון הפשוט לראות בעצמך? כתוב "קסם" בוואטסאפ.`,
+ visual:`מספר קטן "100 ₪/שבוע" שהופך לגרף מתפוצץ. להשהות על "תנחש כמה?" כלופ פתוח לפני שחושפים. שיא בסוף.`,
+ gold:`"מספר מזעזע" + לופ פתוח — מנוסחת הוויראליות החזקה ביותר.`,
+ tags:['#ריבית_דריבית','#חיסכון','#השקעות','#חינוך_פיננסי']},
+
+{id:30,cat:'D',title:'הבורסה לטווח קצר מפחידה — לטווח ארוך משעממת (וזה טוב)',plats:['Reels','TikTok','וואטסאפ'],
+ hook:`אתה פוחד מהבורסה כי אתה מסתכל עליה לא נכון. החלף משקפיים — והפחד נעלם.`,
+ script:`אתה פוחד מהבורסה? כנראה שאתה מסתכל עליה דרך המשקפיים הלא נכונים. בוא נחליף.
+אם תסתכל על הבורסה יום-יום — תשתגע. היא עולה, יורדת, קופצת, נופלת. זה מפחיד וזה מסוכן לנפש.
+אבל אם תסתכל עליה לאורך 20-30 שנה — התמונה הפוכה לגמרי. כל הקפיצות הקטנות מתיישרות לקו אחד שעולה לאט.
+זה הסוד שאף אחד לא ירוויח אם יספר לך: השקעה לטווח ארוך אמורה להיות משעממת. בלי דרמה, בלי לבדוק כל יום.
+מי שמרוויח לאורך זמן זה לא מי שהכי חכם — זה מי שהכי סבלן. ששם, שוכח, ונותן לזמן לעבוד.
+אז אל תפחד מהבורסה. פשוט תפסיק להסתכל עליה כל יום.`,
+ cta:`זה בדיוק הרעיון של השקעה אחראית. רוצה להעמיק? כתוב "סבלנות" בוואטסאפ — ויש על זה גם בספר.`,
+ visual:`להראות גרף "רועד" מקרוב, ואז זום אאוט לקו עולה וחלק. כתובית: "החלף משקפיים". סיום רגוע ובטוח.`,
+ gold:`"השקעה צריכה להיות משעממת" — אנטי-הייפ, בונה אמון מול קהל חשדן (מהמחקר).`,
+ tags:['#שוק_ההון','#השקעה_ארוכת_טווח','#סבלנות','#חינוך_פיננסי']}
+];
+
+/* === מאגרים נוספים (מתחלפים אוטומטית כל 1 לחודש) === */
+const M2=[
+{id:1,cat:'A',title:`עמלות בנק שאוכלות בשקט`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`העמלה הזאת יורדת לך כל חודש ואתה אפילו לא רואה אותה`,
+ script:`כל חודש הבנק לוקח לך עמלת "פעולה בערוץ ישיר", עמלת ניהול, עמלת כרטיס.
+לבד זה נראה קטן — שלושה, ארבעה שקלים. אבל זה כפול שניים-עשר, כפול שנים.
+פתחתי את הדף שלי לפני שנתיים וגיליתי שאני משלם כמעט 600 ש"ח בשנה על אוויר.
+תתקשרו לבנק. תבקשו "מסלול עמלות מוזל". זה קיים, הם פשוט לא מציעים לבד.
+זה לא קמצנות — זה כבוד לכסף שה' נתן לך.`,
+ cta:`הגב "עמלות" ואשלח לך בוואטסאפ את 4 השאלות לשאול את הבנק`,
+ visual:`טוקינג-הד מול המצלמה, קלוז-אפ. קאט לצילום מסך של דף עמלות עם הדגשה אדומה על שורות חוזרות. מספר 600 ש"ח קופץ גדול על המסך`,
+ gold:`רוב האברכים לא יודעים שיש "מסלול עמלות" קבוע וזול שאפשר לבקש — הבנק מרוויח דווקא מאלה שלא שואלים`,
+ tags:[`#עמלות_בנק`,`#מצמיחים_הון`,`#כסף_חרדי`]},
+{id:2,cat:'A',title:`ריבית על מינוס — ההלוואה הכי יקרה`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`המינוס בעו"ש זו ההלוואה הכי יקרה שלקחת בחיים — ולא חתמת עליה`,
+ script:`כשאתה במינוס, הבנק גובה ריבית של עשרה, שנים-עשר אחוז בשנה. לפעמים יותר.
+לשם השוואה: הלוואה רגילה מהגמ"ח? אפס. הלוואה מהבנק? חצי מזה.
+אז למה אנחנו גוררים מינוס קבוע ומשלמים עליו את הריבית הכי גבוהה שיש?
+אברך אחד סיפר לי שהוא היה במינוס 8,000 קבוע. שילם על זה כמעט 900 ש"ח ריבית בשנה. כסף שנעלם.
+הצעד הראשון: לקחת הלוואה זולה ולסגור את המינוס. גם גמ"ח. הריבית שתחסוך — שווה זהב.`,
+ cta:`שתף את זה לחבר שגורר מינוס שנים — אולי תחסוך לו אלף שקל`,
+ visual:`קאט מהיר בין שתי כותרות על מסך: "מינוס: 11%" באדום מול "גמ"ח: 0%" בירוק. מחווה ידיים. בסוף מספר 900 ש"ח נמחק`,
+ gold:`אנשים תופסים מינוס כ"מצב" ולא כ"הלוואה" — ברגע שמבינים שזו ההלוואה היקרה ביותר, ההתנהגות משתנה`,
+ tags:[`#מינוס`,`#אוברדרפט`,`#גמח`]},
+{id:3,cat:'A',title:`ההוצאות הקטנות שמצטברות`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`עשרה שקלים ביום זה לא כלום — עד שאני מראה לך כמה זה בשנה`,
+ script:`קפה בדרך לכולל, שתייה, חטיף לילדים בקיוסק. עשרה, חמישה-עשר שקל ביום.
+"זה קטן", אנחנו אומרים. אבל קטן כפול שלושים יום זה כבר 450 בחודש.
+כפול שנים-עשר חודש — מעל 5,000 ש"ח בשנה. על קטנות שלא זכרת בכלל.
+אני לא אומר לוותר על הכל. אני אומר: תדע. רק לדעת לאן הכסף הולך זה כבר חצי מהדרך.
+תרשום שבוע אחד כל הוצאה קטנה. תיבהל. ואז תחליט בעצמך.`,
+ cta:`הגב "שבוע" ואשלח לך טבלה פשוטה לרישום הוצאות קטנות`,
+ visual:`B-roll של קפה, חטיף, שתייה. כל פריט עם מחיר שמצטבר על המסך כמו מונה עד 5,000 ש"ח. טוקינג-הד בסוף`,
+ gold:`הקהל מזלזל ב"קטן" כי אף פעם לא רואה את הסכום השנתי המצרפי — ההלם של המספר השנתי הוא מה שמניע שינוי`,
+ tags:[`#הוצאות_קטנות`,`#תקציב`,`#מצמיחים_הון`]},
+{id:4,cat:'A',title:`למה אשראי כואב פחות — ומסוכן`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`המוח שלך מרגיש כאב כשמשלם — והכרטיס נועד למחוק לך את הכאב`,
+ script:`מחקרים הראו: כשמשלמים במזומן, אזור הכאב במוח נדלק. כשמעבירים כרטיס — כמעט כלום.
+זה לא במקרה. ככה הם בנו את זה. בלי הכאב, אנחנו מוציאים בערך עשרים אחוז יותר.
+פלוס בכרטיס יש את "התשלומים" — שמפזרים ומסתירים כמה באמת הוצאת.
+אני לא נגד אשראי. אני בעד מודעות. לקנייה גדולה — תעצור, תחשב, אל תיתן לכרטיס לחשוב במקומך.
+ניסוי קטן: חודש אחד שלם רק במזומן על אוכל וקניות. תראה כמה פחות יוצא.`,
+ cta:`שתף למי ש"הכרטיס שולט בו" — ותתגרו ביחד בחודש מזומן`,
+ visual:`אנימציית מוח עם אזור שנדלק במזומן וכבוי בכרטיס. קאט לטוקינג-הד. גרפיקה "+20%" קופצת`,
+ gold:`רוב האנשים לא יודעים שזה מנגנון מוחי מתועד — שהכרטיס מתוכנן בכוונה להפחית את כאב התשלום`,
+ tags:[`#כרטיס_אשראי`,`#פסיכולוגיה_של_כסף`,`#מזומן`]},
+{id:5,cat:'A',title:`הוראת קבע לחיסכון — שלם לעצמך קודם`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`כל החיים חיכית "שיישאר בסוף החודש" — וזאת בדיוק הטעות`,
+ script:`כולם מחכים שיישאר כסף בסוף החודש כדי לחסוך. ואתם יודעים מה? אף פעם לא נשאר.
+ההיפך הוא הנכון: ביום שהמשכורת או המלגה נכנסת — הוראת קבע אוטומטית מעבירה לחיסכון. קודם.
+מה שנשאר — ממנו חיים. המוח מסתגל. לא תרגיש בחסר, אני מבטיח.
+התחל קטן. מאתיים שקל בחודש. אפילו מאה. העיקר אוטומטי, שלא תצטרך להחליט כל חודש מחדש.
+"שלם לעצמך קודם" — זה לא סיסמה. זה ההבדל בין מי שחוסך למי שתמיד אומר "בחודש הבא".`,
+ cta:`הגב "קבע" ואסביר לך בוואטסאפ איך מקימים את זה בחמש דקות`,
+ visual:`גרפיקה: משכורת נכנסת → חץ אוטומטי קופץ מיד לכספת "חיסכון" → השאר ל"הוצאות". טוקינג-הד נלהב אך רגוע`,
+ gold:`היפוך הסדר — חיסכון לפני הוצאה במקום אחרי — הוא טריק התנהגותי שמנצח את כוח הרצון, וכמעט אף אחד לא עושה אוטומטית`,
+ tags:[`#שלם_לעצמך_קודם`,`#חיסכון`,`#הוראת_קבע`]},
+{id:6,cat:'B',title:`החזרי מס ונקודות זיכוי שמפספסים`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`יש לך כסף שמחכה לך במס הכנסה — ורוב הנשים העובדות לא לקחו אותו`,
+ script:`לאישה עובדת עם ילדים מגיעות נקודות זיכוי — על כל ילד, על לידה, על תואר, על מגורים בפריפריה.
+המעסיק לא תמיד מזכה את הכל אוטומטית. וכשלא — את משלמת מס מיותר כל חודש.
+שר האוצר של הבית — זאת את. ופה מחכה לך החזר שיכול להגיע לאלפי שקלים.
+אפשר לבדוק שש שנים אחורה. כן, אחורה. כסף שכבר שילמת ומגיע לך בחזרה.
+זה לא "טריק". זה כסף שלך לפי חוק, שפשוט שכב.`,
+ cta:`הגב "מס" ואשלח לך רשימת נקודות הזיכוי לבדוק עוד היום`,
+ visual:`טוקינג-הד פונה ישירות "לשר האוצר של הבית". קאט לרשימת נקודות זיכוי על מסך עם וי ירוק ליד כל אחת. מספר "אלפי ש"ח" מודגש`,
+ gold:`הרבה נשים לא יודעות שמגיע החזר רטרואקטיבי של 6 שנים ושנקודות זיכוי לא תמיד מנוצלות אוטומטית`,
+ tags:[`#נקודות_זיכוי`,`#החזר_מס`,`#אישה_עובדת`]},
+{id:7,cat:'A',title:`הר הביטוח וכספים אבודים`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`יש סיכוי אמיתי שמחכה לך כסף אבוד על שמך — ואתה לא יודע`,
+ script:`עבדת פעם בקיץ? בבין הזמנים? הפרישו לך פנסיה לחודשיים ושכחת?
+יש מיליארדים בקרנות ובחשבונות "רדומים" בישראל. כסף של אנשים אמיתיים, על שמם, ששכב שנים.
+יש אתר ממשלתי אחד — "הר הביטוח" ועוד מאגר לאיתור חשבונות לא פעילים — שבו מחפשים בחינם, בחמש דקות, עם תעודת זהות.
+אברך אחד שלי מצא ככה כמעט 4,000 ש"ח מעבודה זמנית לפני עשר שנים.
+זה לא חלום. זה כסף שלך שמחכה שתבוא לקחת.`,
+ cta:`הגב "אבוד" ואשלח לך בדיוק את הקישורים לחיפוש הכסף שלך`,
+ visual:`טוקינג-הד עם הבעת הפתעה. קאט לסימולציית מסך חיפוש שמכניסים ת"ז ומופיע סכום. מספר 4,000 ש"ח קופץ`,
+ gold:`רבים לא יודעים שעבודות זמניות וקיץ צברו פנסיה ושקיימים מאגרים ממשלתיים חינמיים לאיתור הכסף`,
+ tags:[`#הר_הביטוח`,`#כסף_אבוד`,`#פנסיה`]},
+{id:8,cat:'A',title:`ביטוחים כפולים`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`יש סיכוי שאתה משלם פעמיים על אותו ביטוח — ולא תקבל כפול`,
+ script:`הרבה משפחות מבוטחות על אותו דבר פעמיים בלי לדעת: גם בקופת חולים, גם בביטוח פרטי, גם דרך מקום העבודה.
+והקאץ' הכואב: על חלק מהכיסויים, גם אם תשלם כפול — לא תקבל כפול. אסור לפי החוק.
+כלומר: זרקת כסף כל חודש על כיסוי שכבר היה לך.
+שב פעם אחת עם כל הפוליסות על השולחן. סמן חפיפות. תופתע כמה יש.
+זה לא ביטול ביטוח — זה לעצור תשלום כפול על אותו דבר.`,
+ cta:`שתף לאישה שמנהלת את הביטוחים בבית — שווה לה חצי שעה`,
+ visual:`גרפיקה: שתי פוליסות חופפות עם אזור משותף מודגש "אתה משלם פעמיים". טוקינג-הד מסביר. וי על השורות הכפולות`,
+ gold:`עיקרון "השיפוי" — שאי אפשר לקבל פיצוי כפול על אותו נזק — לא ידוע לרוב, אז משלמים על כיסוי חסר תועלת`,
+ tags:[`#ביטוח_כפול`,`#חיסכון`,`#כלכלת_משפחה`]},
+{id:9,cat:'B',title:`השוואת מחירים לפני קנייה גדולה`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`חמש דקות לפני קנייה גדולה יכולות לחסוך לך מאות שקלים`,
+ script:`לפני שקונים מקרר, מכונת כביסה, ריהוט לחתונה — רוב האנשים הולכים לחנות אחת ובוחרים.
+אותו דגם בדיוק יכול לעלות מאות שקלים פחות בחנות אחרת או באתר השוואת מחירים.
+אני לא מדבר על שעות. חמש דקות בטלפון, להקליד את שם הדגם, לראות טווח מחירים.
+לפני קניית תנור לקראת חתונה גיליתי הפרש של כמעט 600 ש"ח על אותו מוצר מדויק.
+זה לא קמצנות. זה כבוד לכסף ולמאמץ שהשקעת בו.`,
+ cta:`הגב "השוואה" ואשלח לך את אתרי ההשוואה שאני משתמש בהם`,
+ visual:`טוקינג-הד מחזיק טלפון. קאט למסך עם אותו דגם בשני מחירים שונים, הפרש מודגש באדום. 600 ש"ח קופץ`,
+ gold:`אנשים מניחים שמחיר בחנות אחת מייצג את השוק — לא מודעים שעל מוצר זהה יש פערים של מאות שקלים`,
+ tags:[`#השוואת_מחירים`,`#קנייה_חכמה`,`#נדוניה`]},
+{id:10,cat:'A',title:`חוב טוב מול חוב רע`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`לא כל חוב הוא רע — אבל החוב הזה אוכל אותך מבפנים`,
+ script:`יש חוב שמקדם אותך וחוב שטובע אותך. ההבדל פשוט: מה הריבית, ועל מה לקחת אותו.
+חוב "טוב": ריבית נמוכה, על נכס שמשרת אותך — דירה, השכלה, כלי עבודה.
+חוב "רע": ריבית גבוהה על דברים שנגמרים — מינוס, אשראי בתשלומים על מותרות, הלוואה לחופשה.
+הכלל שלי: לפני שלוקחים חוב, שואלים — זה יביא לי יותר ממה שיעלה לי? אם לא, זה חוב רע.
+חוב רע זה לא בושה. אבל חובה לזהות אותו ולסגור אותו ראשון.`,
+ cta:`שתף את זה למי שמתלבט אם לקחת הלוואה — שיבדוק קודם`,
+ visual:`מסך מחולק לשניים: ירוק "חוב טוב" (דירה, השכלה) מול אדום "חוב רע" (מינוס, מותרות). טוקינג-הד באמצע`,
+ gold:`המסגור של חוב כ"טוב/רע" לפי ריבית ותועלת נותן כלי החלטה מהיר במקום פחד כללי מכל חוב`,
+ tags:[`#חוב_טוב_חוב_רע`,`#הלוואות`,`#מצמיחים_הון`]},
+{id:11,cat:'A',title:`ערבות להלוואה — הסכנה הנסתרת`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`חתמת ערבות לחבר? אתה לא "מסייע" — אתה לוֹוֶה במקומו`,
+ script:`מגיע חבר, קרוב, בן משפחה. "תחתום לי ערבות, זה רק פורמלי, לא יקרה כלום".
+אבל מבחינת החוק והבנק — אם הוא לא משלם, אתה משלם. הכל. הקרן והריבית.
+ראיתי משפחות שנכנסו לחובות עמוקים בגלל ערבות "פורמלית" שהתממשה.
+זה לא אומר לעולם לא לעזור. זה אומר: דע בדיוק כמה אתה עלול לשלם, וודא שתוכל לעמוד בזה אם הגרוע יקרה.
+לעזור זו מצווה. אבל לערוב בלי להבין — זה לסכן את משפחתך שלך.`,
+ cta:`שתף למי שעומד לחתום ערבות — שיעצור רגע לפני`,
+ visual:`טוקינג-הד רציני, טון נמוך. קאט לקלוז-אפ של חתימה על מסמך עם הדגשה "אתה משלם הכל". בלי דרמטיות מוגזמת`,
+ gold:`רבים תופסים ערבות כ"טובה פורמלית" ולא מבינים שמשפטית הם לווים מלאים — ההבחנה הזו מצילה משפחות`,
+ tags:[`#ערבות`,`#הלוואות`,`#זהירות_כספית`]},
+{id:12,cat:'C',title:`הלוואה מקרן הפנסיה — מלכודת מתוקה`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`הלוואה מהפנסיה נשמעת זול — וזו בדיוק המלכודת המתוקה`,
+ script:`"הלוואה לכל מטרה" מקרן הפנסיה או הגמל — ריבית נמוכה, מפתה. אבל יש פה שני דברים שלא מספרים.
+אחד: זה הכסף של הזקנה שלך. אתה לווה מעצמך, ובזמן הזה הוא לא צומח כמו שצריך.
+שתיים: אם לא תחזיר כמו שצריך, זה יכול לפגוע בקצבה לעתיד.
+ובעניין ההלכתי — ריבית, היתר עסקא, האם בכלל כדאי — תתייעץ עם רב שמבין בזה. אל תסתמך עליי לבד.
+לפעמים זה כלי לגיטימי. אבל "זול" זה לא תמיד "כדאי".`,
+ cta:`הגב "פנסיה" ואשלח לך את 3 השאלות לשאול לפני שלוקחים`,
+ visual:`גרפיקה: כספת "פנסיה לעתיד" שכספים יוצאים ממנה והגרף העתידי יורד. טוקינג-הד מאזן בין יד ל"זול" ויד ל"מחיר אמיתי"`,
+ gold:`אנשים רואים רק את הריבית הנמוכה ולא את עלות ההזדמנות של פגיעה בצמיחת הפנסיה — והממד ההלכתי שדורש רב`,
+ tags:[`#הלוואה_מהפנסיה`,`#עלות_הזדמנות`,`#היתר_עסקא`]},
+{id:13,cat:'B',title:`יעד פיננסי כתוב`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`ההבדל בין מי שחוסך למי שלא — דף נייר אחד. תאמין לי`,
+ script:`כולנו אומרים "אני רוצה לחסוך", "אני רוצה לצאת מהמינוס". אבל מטרה במחשבה היא רק משאלה.
+מי שכותב מטרה — כמה, עד מתי, בשביל מה — מגיע אליה הרבה יותר. זה לא קסם, זה התחייבות.
+"חצי דירה מכל צד לשידוך של הבן" — זה לא "נראה איך יסתדר". זה מספר ותאריך.
+כתוב על דף, תלה במקום שתראה. החיסכון הופך מערפל לתוכנית.
+ההשתדלות שלנו זה לכתוב ולפעול. הברכה — היא של הקב"ה. שניהם ביחד.`,
+ cta:`הגב "יעד" ואשלח לך דף יעד פשוט למלא היום עם האישה`,
+ visual:`טוקינג-הד כותב על דף אמיתי "יעד: ___ עד תאריך: ___". קאט לדף תלוי על מקרר. רגוע, ביתי`,
+ gold:`מחקרים על כתיבת מטרות + המסגור החרדי של השתדלות וביטחון יחד — הופך עיקרון מוכר למעשי וערכי`,
+ tags:[`#יעד_פיננסי`,`#השתדלות_וביטחון`,`#שידוך`]},
+{id:14,cat:'B',title:`חיסכון לכל ילד — לנצל נכון`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`המדינה חוסכת לכל ילד שלך כסף — ורובם מפסידים חצי ממנו`,
+ script:`"חיסכון לכל ילד" — המדינה מפקידה סכום חודשי לכל ילד עד גיל 18. זה קיים, זה אוטומטי.
+אבל יש שתי בחירות שרובם לא נגעו בהן ומפסידים בגדול.
+אחת: איפה הכסף יושב — בקופת גמל או בבנק. ההפרש לאורך 18 שנה יכול להיות אלפי שקלים.
+שתיים: אפשר להכפיל את ההפקדה מקצבת הילדים — והמדינה מוסיפה. כסף כמעט בחינם.
+תיכנס פעם אחת, תבדוק את ההגדרות לכל ילד. עשרים דקות ששוות הרבה לעתיד שלהם.`,
+ cta:`הגב "ילד" ואסביר לך בוואטסאפ איך לבדוק ולשנות את ההגדרות`,
+ visual:`גרפיקה: מד שמראה שני מסלולים מגיל 0 עד 18, אחד גבוה משמעותית. טוקינג-הד פונה להורים. מספר אלפי ש"ח`,
+ gold:`רוב ההורים לא יודעים שיש בחירת מסלול והכפלה, ושברירת המחדל עולה להם אלפי שקלים על פני 18 שנה`,
+ tags:[`#חיסכון_לכל_ילד`,`#קופת_גמל`,`#עתיד_הילדים`]},
+{id:15,cat:'A',title:`קרן חירום מדורגת`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`אין לך קרן חירום? אז כל תקלה קטנה זורקת אותך למינוס`,
+ script:`מקרר שמתקלקל, רכב שצריך טיפול, שיניים. זה לא "אם" — זה "מתי".
+בלי כרית ביטחון, כל הפתעה כזו דוחפת אותך להלוואה או למינוס. ואז שילמת גם על ההפתעה וגם על הריבית.
+אני ממליץ על קרן חירום מדורגת. שלב ראשון: חודש הוצאות אחד. זה בלבד כבר משנה הכל.
+שלב שני: שלושה חודשים. שלב שלישי, רגוע: שישה חודשים. צעד אחרי צעד, לא הכל בבת אחת.
+זה לא כסף ש"מבזבזים" — זה כסף שקונה לך שקט נפש. וזה שווה הרבה.`,
+ cta:`הגב "חירום" ואשלח לך את 3 השלבים וכמה לשים בכל אחד`,
+ visual:`גרפיקה: סולם 3 מדרגות — חודש, 3 חודשים, 6 חודשים — מתמלא בהדרגה. טוקינג-הד רגוע ומרגיע`,
+ gold:`המסגור "המדורג" מסיר את ההרתעה מ"6 חודשים זה הרבה" — מתחילים מחודש אחד וזה כבר מספיק לעצור את מעגל המינוס`,
+ tags:[`#קרן_חירום`,`#כרית_ביטחון`,`#יציבות_פיננסית`]},
+{id:16,cat:'B',title:`הוצאות בין הזמנים — לתכנן מראש`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`בין הזמנים מגיע כל שנה באותו תאריך — אז למה הוא תמיד מפתיע את הכיס?`,
+ script:`טיולים, אטרקציות, אוכל בחוץ, הילדים בבית. בין הזמנים עולה כסף — וזה בסדר, זה חלק מהחיים.
+הבעיה היא לא ההוצאה. הבעיה שהיא "מפתיעה" אותנו, למרות שהיא באה בדיוק באותו זמן כל שנה.
+הפתרון: קופת בין הזמנים. מחלקים את הסכום הצפוי לעשרה-אחד-עשר חודשים ושמים בצד מעט בכל חודש.
+כשמגיע בין הזמנים — הכסף מחכה. בלי מינוס, בלי לחץ, בלי לריב על כל ארטיק.
+זו לא קמצנות על שמחת הילדים. זו דרך ליהנות בלי לשלם על זה ריבית אחר כך.`,
+ cta:`הגב "בין הזמנים" ואשלח לך מחשבון פשוט לחלק את הסכום`,
+ visual:`לוח שנה עם בין הזמנים מסומן. קאט לצנצנת שמתמלאת מעט בכל חודש. טוקינג-הד משפחתי וחם`,
+ gold:`התובנה ש"הוצאה צפויה" מטופלת אחרת מ"הוצאת פתע" — פריסה חודשית מראש מנטרלת את ההלם התקציבי`,
+ tags:[`#בין_הזמנים`,`#קופת_חגים`,`#תכנון_משפחתי`]},
+{id:17,cat:'B',title:`פסח בלי להיכנס למינוס`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`פסח לא צריך להתחיל בשמחה ולהיגמר במינוס של אלפי שקלים`,
+ script:`כולנו מכירים את זה: אחרי פסח, הדף בנק נראה כמו אחרי מלחמה. מצרכים, בגדים, אירוח, מתנות.
+פסח עולה הרבה, וזה לגיטימי. אבל מינוס בגלל פסח — זה לא גזרה משמים, זה היעדר תכנון.
+הסוד אותו סוד: קופת חגים. מתחילים אחרי סוכות לשים סכום קטן בצד כל חודש לקראת פסח.
+ככה מגיעים לחג עם כסף מוכן. קונים מה שצריך בלב שקט, בלי ריבית של מינוס שתרדוף אתכם עד הקיץ.
+לשמוח בחג זו מצווה. להיכנס בגללו לחובות — זה כאב שאפשר למנוע.`,
+ cta:`שתף לאישה שמנהלת את תקציב פסח — שתתחיל קופה מהחודש`,
+ visual:`קאט בין שולחן סדר חגיגי לבין דף בנק אדום. ואז גרפיקת צנצנת "קופת פסח" שמתמלאת לאורך השנה. טון חם`,
+ gold:`חיבור ספציפי של מתח כלכלי מוכר (פסח) לפתרון הקופה — ההקשר הדתי-רגשי גורם למסר להיתפס כרלוונטי אישית`,
+ tags:[`#פסח`,`#קופת_חגים`,`#בלי_מינוס`]},
+{id:18,cat:'D',title:`עלות הזדמנות — מה הכסף הזול עלה באמת`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`כל שקל שאתה מוציא היום משלם גם במחיר שאתה לא רואה`,
+ script:`יש מושג אחד בכלכלה שאם תבין אותו — תסתכל אחרת על כל החלטה כספית. קוראים לו "עלות הזדמנות".
+המשמעות: כל שקל שהוצאת על דבר אחד — זה שקל שלא יכול היה לעבוד בשבילך במקום אחר.
+אלף שקל על מותרות עכשיו זה לא רק אלף שקל. זה גם מה שהאלף הזה היה יכול לצמוח אליו בעוד עשרים שנה.
+זה לא אומר לא ליהנות אף פעם. זה אומר: תחליט במודע. תדע מה אתה מוותר עליו.
+זה ההבדל בין מי שהכסף עובד בשבילו למי שהוא עובד בשביל הכסף.`,
+ cta:`הגב "הזדמנות" ואשלח לך דוגמה מספרית שתשנה לך את המבט`,
+ visual:`גרפיקה: שקל אחד מתפצל לשני מסלולים — "מותרות עכשיו" מול "צמיחה ל-20 שנה". טוקינג-הד מהורהר. מספרים`,
+ gold:`"עלות הזדמנות" הוא מושג יסוד שרובם לא שמעו עליו במונחים אלה — ברגע שמפנימים, כל החלטת הוצאה נראית אחרת`,
+ tags:[`#עלות_הזדמנות`,`#חשיבה_כלכלית`,`#יסודות`]},
+{id:19,cat:'D',title:`טיפ חם על מניה — למה לברוח`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`"יש לי טיפ על מניה חמה" — המשפט הזה עלה לאנשים את כל החיסכון`,
+ script:`זה מגיע מחבר טוב, בכוונה טובה: "שמעתי על מניה שעומדת להמריא, תיכנס מהר".
+אני אומר לך מהניסיון, וגם מהכיס שלי: כשהטיפ הגיע אליך — מי שצריך כבר הרוויח, ואתה הקונה האחרון.
+ניסיתי את זה בעצמי בהתחלה. נכנסתי ל"מניה חמה" של מישהו. הפסדתי כמעט הכל. שיעור יקר.
+השקעה רצינית זה לא טיפים וריגושים. זה משעמם, מפוזר, לאורך זמן. ה"משעמם" הוא שעובד.
+אם מישהו מבטיח לך רווח מהיר על מניה — זה הסימן הכי בטוח לברוח.`,
+ cta:`שתף את זה לפני שמישהו במשפחה ייכנס ל"מניה חמה"`,
+ visual:`טוקינג-הד כן וישיר, ידיים פתוחות. גרפיקה: גרף שעולה מהר ואז קורס. כיתוב "הקונה האחרון". בלי תיאטרליות`,
+ gold:`הווידוי על הפסד אישי + ההסבר ש"כשהטיפ הגיע אליך אתה האחרון" — חושף את מנגנון הפתיון שרובם לא מבינים`,
+ tags:[`#מניה_חמה`,`#הפסדתי`,`#השקעה_אחראית`]},
+{id:20,cat:'B',title:`מותרות מול צרכים — שאלת 3 השניות`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`שאלה אחת של שלוש שניות לפני קנייה תחסוך לך אלפי שקלים בשנה`,
+ script:`לפני כל קנייה לא מתוכננת, יש שאלה אחת פשוטה ששינתה לי את ההתנהלות: "זה צורך או מותרות?"
+לא כדי להתייסר. כדי להתעורר. רוב הקניות האימפולסיביות נופלות בשנייה שלא עצרנו לשאול.
+הטריק: ש-ל-וש שניות. עוצרים, נושמים, שואלים. אם זה מותרות — לא אומר "לא". אומר "לא עכשיו, אחשוב על זה".
+הרבה פעמים הרצון פשוט נעלם תוך יום. ומה שנשאר זה הכסף, אצלך, במקום אצל החנות.
+זה לא חיים בצמצום. זה חיים מתוך בחירה במקום מתוך דחף.`,
+ cta:`הגב "3 שניות" ואשלח לך תזכורת קטנה להדביק על הארנק`,
+ visual:`טוקינג-הד מרים יד "עצור". גרפיקה: שלוש נקודות ספירה 3-2-1 ואז "צורך / מותרות?". בסוף ארנק עם מדבקה`,
+ gold:`הפיכת מודעות מופשטת לכלי קונקרטי בן 3 שניות — מנגנון השהיה פשוט שעוצר קנייה אימפולסיבית בזמן אמת`,
+ tags:[`#מותרות_מול_צרכים`,`#קנייה_מודעת`,`#תקציב`]},
+{id:21,cat:'C',title:`גמ"ח חכם לטווח קצר`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`הגמ"ח הוא מתנה — אבל גם ממנו אפשר ליפול אם לא נזהרים`,
+ script:`גמ"ח זה דבר נפלא: הלוואה ללא ריבית, חסד אמיתי, יסוד בקהילה שלנו. ברוך ה' שיש לנו את זה.
+אבל הוא כלי לטווח קצר ולמטרה מוגדרת — לגשר על פער זמני, לא לממן אורח חיים.
+הסכנה: לקחת מגמ"ח כדי להחזיר לגמ"ח אחר. גלגול חובות. זה מתחיל קטן ונסגר עליך.
+הכלל שלי: לפני שלוקחים — שואלים "מאיפה בדיוק יבוא הכסף להחזיר, ומתי?" אם אין תשובה ברורה — זה דגל אדום.
+ובכל שאלה הלכתית סביב הלוואות וגמ"ח — שאלו רב. החסד צריך להישאר חסד, גם בשבילך וגם בשביל הקופה.`,
+ cta:`שתף למי שמגלגל הלוואות גמ"ח — שיעצור ויתכנן`,
+ visual:`טוקינג-הד מכבד וחם. גרפיקה: גמ"ח אחד מחזיר לשני בלולאה אינסופית מסומנת באדום. בלי לבזות, רק להזהיר`,
+ gold:`הוקרה כנה של הגמ"ח לצד אזהרה מ"גלגול" — הבחנה שמכבדת את הערך הקהילתי ובו-זמנית מצילה מלכודת נפוצה`,
+ tags:[`#גמח`,`#הלוואה_ללא_ריבית`,`#כסף_והלכה`]},
+{id:22,cat:'D',title:`קופת גמל להשקעה — הכלי הגמיש`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`יש כלי חיסכון גמיש שכמעט אף אברך לא מכיר — וחבל`,
+ script:`כשאומרים "השקעה" אנשים נבהלים. אבל יש כלי פשוט וגמיש בשם "קופת גמל להשקעה".
+מה מיוחד בו? אין נעילה. אתה יכול למשוך את הכסף מתי שתרצה, בניגוד לפנסיה.
+שמים בו סכום חודשי קטן או חד-פעמי, והוא מנוהל ומושקע — בלי שאתה צריך להיות מומחה.
+ויש בו טריק נחמד: אם מושכים אותו כקצבה בגיל פרישה — יש הטבת מס משמעותית. אבל גם בלי זה, הוא גמיש ונוח.
+זה לא "בורסה מסוכנת". זה כלי סולידי שכל משפחה צריכה להכיר. תבדקו לפני שפוסלים.`,
+ cta:`הגב "גמל" ואשלח לך הסבר פשוט מה זה ואיך מתחילים בקטן`,
+ visual:`גרפיקה: כספת פתוחה עם כיתוב "ניתן למשיכה בכל עת". מול כספת נעולה "פנסיה". טוקינג-הד מסביר ברוגע`,
+ gold:`רוב הקהל מזהה רק פנסיה/חיסכון בנק ולא מכיר את הגמישות של קופת גמל להשקעה — פתיחת אופציה שלא ידעו שקיימת`,
+ tags:[`#קופת_גמל_להשקעה`,`#חיסכון_גמיש`,`#יסודות`]},
+{id:23,cat:'A',title:`איחוד קרנות פנסיה ישנות`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`עבדת בכמה מקומות בחיים? כנראה יש לך כסף שדולף בשקט — ואתה לא יודע`,
+ script:`עבדת בכמה מקומות לאורך השנים? סביר שיש לך כמה קרנות פנסיה או גמל ישנות, מפוזרות.
+הבעיה: על כל קרן כזו אתה משלם דמי ניהול בנפרד. ובקרנות ישנות הם לרוב גבוהים.
+פלוס — קרן קטנה ו"רדומה" יכולה לאכול את עצמה בעמלות עד שלא יישאר ממנה כלום.
+הפתרון: לאחד את הכל לקרן אחת, טובה, עם דמי ניהול נמוכים. תהליך פשוט יחסית.
+זה כסף שלך, שעובד מפוזר וחלש. אחד אותו — ותן לו לעבוד חזק במקום אחד.`,
+ cta:`הגב "איחוד" ואשלח לך איך בודקים כמה קרנות יש לך ואיך מאחדים`,
+ visual:`גרפיקה: כמה כספות קטנות עם "דמי ניהול" מתנקזות לכספת אחת גדולה וחזקה. טוקינג-הד. מספרי דמי ניהול`,
+ gold:`רבים לא יודעים שצברו כמה קרנות ושמשלמים דמי ניהול כפולים — האיחוד חוסף עלויות ומחזק את החיסכון`,
+ tags:[`#איחוד_פנסיה`,`#דמי_ניהול`,`#חיסכון`]},
+{id:24,cat:'A',title:`ביטוח בריאות בסיסי למשפחה גדולה`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`על מה חובה לבטח במשפחה גדולה — ועל מה סתם משלמים?`,
+ script:`למשפחה גדולה כל שקל חשוב, וגם ראש שקט. אז על מה באמת חשוב להיות מבוטח?
+שני דברים הם בעיניי הליבה: ביטוח שמכסה ניתוחים ותרופות שאין בסל, וביטוח למחלות קשות. אלה ההוצאות שיכולות לשבור משפחה.
+מה לא תמיד חובה? כל מיני "תוספות" קטנות שהסוכן מצרף ושכבר מכוסות לך במקום אחר.
+המטרה היא לא הכי הרבה ביטוח — אלא הביטוח הנכון, בלי כפילויות, במחיר הוגן.
+ובדיוק כי זה מורכב — שווה לשבת פעם אחת ולעבור על הכל בעין ביקורתית.`,
+ cta:`הגב "בריאות" ואשלח לך צ'קליסט מה לבדוק בביטוחי המשפחה`,
+ visual:`גרפיקה: מגן עם שתי שורות מודגשות "ניתוחים ותרופות" ו"מחלות קשות". טוקינג-הד אחראי ורגוע. וי ליד הליבה`,
+ gold:`הבחנה ברורה בין כיסויי ליבה הכרחיים לבין תוספות מיותרות — נותן קריטריון החלטה במקום הצפה של מונחי ביטוח`,
+ tags:[`#ביטוח_בריאות`,`#משפחה_גדולה`,`#כיסוי_נכון`]},
+{id:25,cat:'B',title:`החזר מס לאישה עובדת — 6 שנים אחורה`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`אם החלפת עבודה או יצאת לחופשת לידה — מגיע לך החזר מס. באמת`,
+ script:`לשר האוצר של הבית: יש מצבים שבהם כמעט בטוח מגיע לך החזר מס, ואת לא יודעת.
+החלפת מקום עבודה באמצע שנה? יצאת לחופשת לידה? עבדת חלק מהשנה? במצבים האלה לרוב שילמת מס עודף.
+והכי חשוב: אפשר לבדוק ולבקש את ההחזר שש שנים אחורה. כל שנה בנפרד. הכסף לא נעלם, הוא מחכה.
+זה לא תהליך מפחיד. אוספים טפסי 106, ממלאים בקשה, ולפעמים מקבלים אלפי שקלים בחזרה.
+זה הכסף שלך, ששילמת ביושר. מגיע לך לקבל אותו בחזרה.`,
+ cta:`הגב "החזר" ואשלח לך רשימת המצבים שבהם כמעט בטוח מגיע החזר`,
+ visual:`טוקינג-הד פונה ישירות לאישה. גרפיקה: ציר 6 שנים אחורה עם וי על שנים שמגיע בהן החזר. מספר אלפי ש"ח`,
+ gold:`חיבור מצבי חיים ספציפיים (לידה, החלפת עבודה) להחזר ודאי + זכות הבדיקה הרטרואקטיבית של 6 שנים שלא מוכרת`,
+ tags:[`#החזר_מס`,`#אישה_עובדת`,`#חופשת_לידה`]},
+{id:26,cat:'B',title:`לשלם במזומן כואב יותר — לרתום זאת`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`רוצה להוציא פחות בלי דיאטה כספית? תרתום את הכאב לטובתך`,
+ script:`דיברנו על זה שמזומן "כואב" יותר מכרטיס. עכשיו בוא נהפוך את זה לכלי שעובד בשבילך.
+הרעיון פשוט: על הקטגוריות שבהן אתה נוטה לבזבז — אוכל בחוץ, קניות אימפולסיביות — עבור למזומן בלבד.
+מושכים סכום שבועי מוגדר למעטפה. כשהמעטפה נגמרת — נגמר. אין "עוד העברה קטנה".
+הכאב של לראות את השטרות יוצאים מהיד עושה את העבודה בשבילך. תוציא פחות בלי להילחם בעצמך.
+זה לא לחזור לתקופת האבן. זה להשתמש בפסיכולוגיה של עצמנו במקום להילחם בה.`,
+ cta:`הגב "מעטפה" ואסביר לך את שיטת המעטפות בוואטסאפ`,
+ visual:`B-roll: מעטפה עם שטרות שמתרוקנת. גרפיקה "נגמר = נגמר". טוקינג-הד עם חיוך קטן, ביתי`,
+ gold:`הפיכת תובנה פסיכולוגית (כאב המזומן) לשיטה מעשית (מעטפות) — רותם נטייה אנושית לטובת המשתמש במקום נגדו`,
+ tags:[`#שיטת_המעטפות`,`#מזומן`,`#פסיכולוגיה_של_כסף`]},
+{id:27,cat:'B',title:`רשימת קניות מול קנייה אימפולסיבית`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`כל כניסה לסופר בלי רשימה עולה לך עשרות שקלים מיותרים`,
+ script:`הסופר מתוכנן בכוונה כדי שתקנה יותר ממה שתכננת. המבצעים, הסידור, הריח — הכל מחושב.
+ההגנה הכי פשוטה והכי חזקה? רשימה כתובה. ולקנות רק מה שעליה.
+מי שנכנס עם רשימה מוציא הרבה פחות ממי שנכנס "לראות מה צריך". זה מוכח, וזה הכיס שלך.
+טיפ נוסף: לא להיכנס רעב. כשרעבים — כל דבר נראה הכרחי, והעגלה מתמלאת לבד.
+זו לא קמצנות. זו פשוט לא לתת לחנות להחליט בשבילך מה המשפחה שלך צריכה.`,
+ cta:`שתף לאישה לפני הקנייה הגדולה לשבת — חמש דקות של רשימה`,
+ visual:`B-roll עגלת סופר. קאט בין עגלה מלאה "בלי רשימה" לעגלה ממוקדת "עם רשימה". טוקינג-הד עם פתק יד`,
+ gold:`חשיפת התכנון המכוון של הסופר + הכלי הפשוט (רשימה, לא רעב) — מעביר את השליטה מהחנות בחזרה לקונה`,
+ tags:[`#רשימת_קניות`,`#קנייה_אימפולסיבית`,`#חיסכון_בסופר`]},
+{id:28,cat:'D',title:`דמי ניהול בקרן נאמנות — ההבדל הסמוי`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`אחוז אחד בדמי ניהול נשמע אפסי — עד שתראה כמה זה ב-20 שנה`,
+ script:`כשבוחרים קרן נאמנות או מסלול השקעה, רובם מסתכלים על התשואה ומתעלמים מדבר אחד קריטי: דמי הניהול.
+"אחוז אחד" נשמע כלום. אבל דמי ניהול נגבים כל שנה, גם בשנים של הפסד, ועל כל הסכום.
+לאורך עשרים שנה, ההבדל בין אחוז לחצי אחוז יכול להיות עשרות אלפי שקלים מהכיס שלך לכיס של מנהל הקרן.
+הכלל: בהשקעות סולידיות, דמי ניהול נמוכים זה אחד הדברים הבודדים שבאמת בשליטתך.
+לא רודפים אחרי "תשואת עבר". בודקים קודם כל — כמה זה עולה לי לנהל את זה.`,
+ cta:`הגב "ניהול" ואשלח לך דוגמה כמה אחוז אחד "אוכל" ב-20 שנה`,
+ visual:`גרפיקה: שני גרפים זהים, אחד עם דמי ניהול גבוהים שמסיים נמוך משמעותית. הפרש מודגש. טוקינג-הד`,
+ gold:`רוב המשקיעים מתמקדים בתשואה ומזניחים דמי ניהול — חשיפת האפקט המצטבר על 20 שנה הופך "אחוז קטן" למשמעותי`,
+ tags:[`#דמי_ניהול`,`#קרן_נאמנות`,`#יסודות_השקעה`]},
+{id:29,cat:'B',title:`חיסכון אחוז קבוע מכל מתנה ובונוס`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`כל כסף "לא צפוי" שנכנס — נעלם תוך שבוע. יש דרך לעצור את זה`,
+ script:`מתנה לחתונה, בונוס, החזר מס, דמי נדוניה, מתנת בר מצווה. כסף שנכנס "מחוץ לתקציב".
+מה קורה לו בדרך כלל? נבלע. תוך שבועיים אי אפשר להגיד לאן הלך. נעלם בקטן.
+הכלל הפשוט שמשנה הכל: מכל סכום לא צפוי שנכנס — אחוז קבוע הולך ישר לחיסכון. לפני שנוגעים.
+נניח עשרים אחוז. קיבלת אלף שקל מתנה? מאתיים נכנסים מיד לחיסכון, השאר חופשי.
+ככה כל אירוע משמח בחיים — גם בונה לך את העתיד, בלי שתרגיש בחסר.`,
+ cta:`הגב "אחוז" ואשלח לך איך לקבוע את האחוז שמתאים למשפחה שלך`,
+ visual:`גרפיקה: מעטפת מתנה נכנסת → מתפצלת לאחוז "חיסכון" ולשאר "חופשי". טוקינג-הד שמח אך ענייני`,
+ gold:`כלל אוטומטי לכסף לא צפוי — שרובם מבזבזים כי הוא "מחוץ לתקציב" — הופך כל אירוע משמח לאבן בניין לעתיד`,
+ tags:[`#חיסכון_אוטומטי`,`#בונוס`,`#נדוניה`]},
+{id:30,cat:'A',title:`מצב חירום פיננסי — 3 צעדים`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`נכנסת למינוס עמוק ומרגיש שטובע? קודם כל — תנשום. יש דרך`,
+ script:`אם אתה במינוס עמוק והבטן מתהפכת — אתה לא לבד, וזה לא סוף הדרך. בוא בשלושה צעדים.
+צעד ראשון: עוצרים את הדימום. מקפיאים כל הוצאה לא הכרחית, היום. רק הבסיס.
+צעד שני: ממפים. רושמים על דף כל חוב, כמה הריבית עליו, וסוגרים קודם את היקר ביותר — בדרך כלל המינוס והאשראי.
+צעד שלישי: מדברים. עם הבנק, עם גמ"ח, עם מי שצריך. הרבה פעמים אפשר לפרוס ולהוזיל. לא מתביישים — מטפלים.
+ובמקביל לכל ההשתדלות הזו — מתפללים ובוטחים. עושים את שלנו, וסומכים על הקב"ה. שניהם יחד.`,
+ cta:`הגב "חירום עמוק" ואשלח לך את 3 הצעדים מסודרים לפעולה`,
+ visual:`טוקינג-הד רגוע ומכיל, טון חם. גרפיקה: 3 צעדים ממוספרים שמופיעים אחד-אחד — עצור / מפה / דבר. בלי דרמה`,
+ gold:`נותן תוכנית פעולה ברורה ולא שיפוטית למצב מבעית + מסגור אמוני של השתדלות וביטחון — מסיר בושה ומניע לפעולה`,
+ tags:[`#חירום_פיננסי`,`#יציאה_מהמינוס`,`#השתדלות_וביטחון`]}
+];
+const M3=[
+{id:1,cat:'D',title:`תיק 3 קרנות לעצלן`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`שלוש קרנות. זה הכל. אז למה יש לך תיק עם ארבעים דברים?`,
+ script:`רוב האברכים שמראים לי את התיק שלהם — בלאגן.
+שבע קרנות חופפות, כל אחת אוכלת דמי ניהול.
+תיק העצלן הוא שלושה דברים בלבד:
+מדד מניות עולמי, מדד ישראלי, ורכיב סולידי לביטחון.
+זהו. אתה לא צריך להיות מומחה כדי לנהל את זה.
+דווקא הפשטות מנצחת — פחות החלטות, פחות טעויות, פחות עמלות.
+תזכרו: השתדלות נכונה היא לא לסבך, אלא לעשות את הדבר הנכון ולתת לזמן לעבוד.
+הכל כמובן במסלול כשר עם היתר עסקא.`,
+ cta:`רוצים את המבנה המדויק של שלוש הקרנות? הגיבו "תיק" ואשלח בוואטסאפ.`,
+ visual:`טוקינג-הד, על השולחן 3 כרטיסיות פיזיות. ביד מורידים ערימת ניירות מבולגנת ושמים 3 כרטיסים מסודרים. כתוביות מודגשות על כל קרן`,
+ gold:`שהפשטות היא יתרון ולא חיסרון — תיק של 3 קרנות בדרך כלל מנצח תיק "מתוחכם" עם עשרות אחזקות`,
+ tags:[`#מצמיחים_הון`,`#תיק_השקעות`,`#מסלול_כשר`]},
+{id:2,cat:'D',title:`גמל להשקעה מול קרן השתלמות`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`יש לך קרן השתלמות? אולי אתה משלם מס מיותר על הצד השני.`,
+ script:`שני כלים, שני עולמות, וכולם מתבלבלים.
+קרן השתלמות — ההטבה הכי שווה במדינה: בתנאים מסוימים פטורה ממס רווחי הון.
+אבל יש תקרה, ולא לכולם פתוחה דרך מעסיק.
+קופת גמל להשקעה — גמישה, כל אחד יכול, מושכים מתי שרוצים, אבל משלמים 25% מס על הרווח.
+הכלל הפשוט: קודם ממקסמים השתלמות עד התקרה, ורק אז מוסיפים גמל להשקעה.
+אברך בכולל? יש דרכים — בואו נבדוק יחד.
+הכל במסלול כשר.`,
+ cta:`לא בטוחים מה פתוח עבורכם? הגיבו "השתלמות" ואשלח בדיקה פשוטה בוואטסאפ.`,
+ visual:`טוקינג-הד, מסך מפוצל: ימין "השתלמות" צבע אחד, שמאל "גמל להשקעה" צבע אחר. אנימציית מס 0% מול 25%`,
+ gold:`שקרן השתלמות עדיפה כי הרווח בה פטור ממס — רובם לא ממצים אותה לפני שפותחים כלי ממוסה`,
+ tags:[`#קרן_השתלמות`,`#גמל_להשקעה`,`#מצמיחים_הון`]},
+{id:3,cat:'D',title:`פנסיה מקיפה מול משלימה`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`מילה אחת בפנסיה שלך קובעת אם תהיה מבוטח — ורובם לא יודעים אותה.`,
+ script:`פנסיה מקיפה ומשלימה — נשמע אותו דבר, אבל ההבדל ענק.
+מקיפה כוללת ביטוח: נכות, שאירים, אלמנה ויתומים חלילה.
+משלימה — בעיקר חיסכון, בלי כל הכיסוי הביטוחי הזה.
+לאברך עם משפחה גדולה ובלי הון מאחורי הגב — הכיסוי הזה הוא לא מותרות, הוא ביטחון לבית.
+הרבה משפחות מגלות מאוחר מדי שהן בכלל לא מכוסות.
+תבדקו בדף הפנסיה מה כתוב — ואם לא ברור, תשאלו.
+זו השתדלות בסיסית לשמור על המשפחה.`,
+ cta:`רוצים לדעת איפה בדיוק לבדוק את זה בדף הפנסיה? הגיבו "פנסיה" בוואטסאפ.`,
+ visual:`טוקינג-הד, זום על מסמך פנסיה אמיתי עם הדגשה צהובה על המילה "מקיפה/משלימה". כתובית: "תבדקו עכשיו"`,
+ gold:`שפנסיה "משלימה" לא כוללת ביטוח שאירים ונכות — משפחות חושבות שהן מכוסות והן לא`,
+ tags:[`#פנסיה`,`#כלכלת_משפחה`,`#מצמיחים_הון`]},
+{id:4,cat:'D',title:`לא למכור בשיא ירידה`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`הטעות שהורסת תיקים לא קורית בעלייה. היא קורית בדיוק בתחתית.`,
+ script:`השוק יורד 20%. הבטן מתהפכת. כולם מוכרים.
+וזה בדיוק הרגע שבו נולדת ההפסד האמיתי.
+כל עוד לא מכרת — זה רק מספר על המסך, "הפסד על הנייר".
+ברגע שמכרת בפחד — הפכת אותו להפסד אמיתי, וגם פספסת את ההתאוששות שתמיד מגיעה.
+אני מראה לכם גם את הירידות שלי, גם את הרגעים שרציתי לברוח.
+מה שהציל אותי זה לא חוכמה — זה ביטחון, ולא לגעת.
+היד על הדופק, אבל לא על כפתור המכירה.`,
+ cta:`עוברים תקופה קשה בתיק? הגיבו "ירידה" ואשלח את מה שעוזר לי להישאר רגוע.`,
+ visual:`גרף ירידה דרמטי ואז התאוששות. מסמנים בעיגול אדום את נקודת "כולם מכרו כאן". טוקינג-הד רגוע`,
+ gold:`שהפסד הופך אמיתי רק כשמוכרים — מכירה בפאניקה היא ההחלטה היחידה שהופכת ירידה זמנית להפסד קבוע`,
+ tags:[`#טעויות_משקיעים`,`#פסיכולוגיה`,`#מצמיחים_הון`]},
+{id:5,cat:'D',title:`חשיפת מט"ח דולר שקל`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`כשהדולר קופץ, השקעה שלך באמריקה אולי לא הרוויחה מה שחשבת.`,
+ script:`משקיעים ב-S&P 500 ושמחים שעלה 15%.
+אבל אם הדולר נחלש מול השקל באותה תקופה — חלק מהרווח נמחק כשמתרגמים לשקלים.
+זה נקרא חשיפת מט"ח, וזה עובד לשני הכיוונים.
+האם צריך לפחד? לא. אבל כדאי להבין.
+יש קרנות "מנוטרלות מט"ח" שמורידות את התנודה הזו — ויש כאלה שלא.
+לטווח ארוך זה מתאזן, אבל אם זה מלחיץ אתכם — יש פתרון.
+העיקר: שתדעו מה אתם מחזיקים, לא תופתעו.`,
+ cta:`רוצים לדעת אם הקרן שלכם חשופה למט"ח? הגיבו "דולר" ואסביר איך בודקים.`,
+ visual:`אנימציה: מטבע דולר ושקל על מאזניים. גרף שמראה רווח דולרי מול רווח שקלי שונה. כתוביות`,
+ gold:`שרווח דולרי לא שווה רווח שקלי — שינוי בשער החליפין יכול למחוק חלק מהתשואה בלי שתשימו לב`,
+ tags:[`#מטח`,`#יסודות_השקעה`,`#מצמיחים_הון`]},
+{id:6,cat:'D',title:`זהב כהשקעה`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`זהב נחשב "השקעה בטוחה". אז למה מאה שנה הוא הפסיד למדד?`,
+ script:`כולם אוהבים זהב. נוצץ, מוחשי, מרגיש בטוח.
+אבל בואו נסתכל על המספרים בלי רגש.
+זהב לא מייצר כלום — לא דיבידנד, לא רבית, לא צמיחה. רק שומר ערך.
+לאורך עשרות שנים, מדד מניות רחב היכה את הזהב בגדול.
+אז למה בכל זאת מחזיקים קצת זהב? כעוגן בזמני משבר, לא כמנוע צמיחה.
+זה ביטוח, לא השקעה.
+אני מראה לכם את ההשוואה האמיתית — בלי שיווק, רק עובדות.`,
+ cta:`רוצים לראות את ההשוואה זהב מול מדד ל-30 שנה? הגיבו "זהב" בוואטסאפ.`,
+ visual:`גרף ארוך-טווח: קו זהב מול קו מדד, המדד הרבה מעל. טוקינג-הד מחזיק מטבע זהב מול גרף`,
+ gold:`שזהב לא מייצר תשואה אלא רק שומר ערך — לאורך זמן הוא בדרך כלל מפגר משמעותית אחרי מדד מניות`,
+ tags:[`#זהב`,`#מיתוסים`,`#מצמיחים_הון`]},
+{id:7,cat:'D',title:`נדל"ן מול מדד`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`"נדל"ן זה הכי בטוח" — שמעת את זה אלף פעם. בוא נספור באמת.`,
+ script:`בציבור שלנו דירה זה חלום, וזה לגיטימי.
+אבל בואו נשווה ביושר: דירה להשקעה מול מדד מניות.
+דירה: צריך הון עצמי גדול, משכנתא, מס רכישה, תיקונים, ארנונה, ושוכרים שלא תמיד משלמים.
+מדד: מתחילים מ-500 שקל, נזיל, בלי כאב ראש של תחזוקה.
+דירה לפעמים מנצחת, מדד לפעמים מנצח — אבל הסיפור ש"נדל"ן תמיד עדיף" פשוט לא נכון.
+תלוי במחיר הכניסה, במינוף ובכאב הראש.
+תחשבו על הכל, לא רק על מחיר הדירה.`,
+ cta:`שוקלים דירה להשקעה? הגיבו "נדלן" ואשלח טבלת השוואה אמיתית בוואטסאפ.`,
+ visual:`מסך מפוצל: צד אחד בית עם רשימת הוצאות נסתרות (ארנונה, תיקונים, מס), צד שני מסך מדד נקי`,
+ gold:`את כל העלויות הנסתרות של נדל"ן (מס, תחזוקה, חודשים בלי שוכר) שהופכות את התשואה האמיתית לנמוכה ממה שנראה`,
+ tags:[`#נדלן`,`#השקעות`,`#מצמיחים_הון`]},
+{id:8,cat:'D',title:`דיבידנד הוא לא כסף חינם`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`קיבלת דיבידנד ושמחת? תסתכל שניה — המניה ירדה בדיוק באותו סכום.`,
+ script:`דיבידנד נשמע כמו מתנה: החברה משלמת לך כסף סתם ככה.
+אבל זה לא כסף חינם.
+ביום שמשלמים דיבידנד, מחיר המניה יורד בדיוק בסכום הזה.
+זה כמו להוציא כסף מכיס ימין ולשים בכיס שמאל — והמדינה לוקחת מס בדרך.
+לא אומר שדיבידנד רע, אבל אל תרדפו אחריו כאילו זה הרווח האמיתי.
+מה שחשוב זו התשואה הכוללת — עליית הערך פלוס הדיבידנד יחד.
+אל תתנו למילה יפה לבלבל אתכם.`,
+ cta:`רוצים להבין תשואה כוללת בפשטות? הגיבו "דיבידנד" ואסביר בוואטסאפ.`,
+ visual:`אנימציה: מניה שווה 100, משלמת 5 דיבידנד, מיד יורדת ל-95. ידיים מעבירות מטבע מכיס לכיס`,
+ gold:`שדיבידנד יורד ממחיר המניה באותו יום — זו לא תוספת ערך אלא העברת כסף, וחייבת במס`,
+ tags:[`#דיבידנד`,`#יסודות`,`#מצמיחים_הון`]},
+{id:9,cat:'D',title:`אג"ח מול מניות`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`מה ההבדל בין להלוות כסף לבין להיות שותף? זה כל ההשקעה שלך.`,
+ script:`שתי מילים ששומעים כל הזמן, ומעטים יודעים מה הן.
+מניה זה להיות שותף בעסק — אם החברה מצליחה, אתה עולה איתה; אם נופלת, אתה יורד.
+אג"ח זה להלוות כסף — מקבל רבית קבועה, פחות תנודתי, פחות סיכון, וגם פחות סיכוי לתשואה גבוהה.
+משפחה צעירה לרוב צריכה יותר מניות, כי יש זמן.
+מבוגר יותר — יותר אג"ח, ליציבות.
+התמהיל הזה הוא הלב של כל תיק.
+ובכשרות — יש אג"ח עם היתר עסקא, נדבר על זה בנפרד.`,
+ cta:`רוצים את התמהיל המומלץ לפי גיל? הגיבו "תמהיל" ואשלח בוואטסאפ.`,
+ visual:`שני אייקונים: יד לוחצת יד שותפות (מניה) מול שטר הלוואה עם רבית (אג"ח). כתוביות פשוטות`,
+ gold:`שמניה = בעלות בעסק ואג"ח = הלוואה בריבית — ההבדל הזה קובע את כל רמת הסיכון של התיק`,
+ tags:[`#אגח`,`#מניות`,`#מצמיחים_הון`]},
+{id:10,cat:'D',title:`סיכון מול תשואה`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`מישהו הבטיח לך תשואה גבוהה בלי סיכון? תברח. זה לא קיים.`,
+ script:`זה החוק הכי בסיסי בכסף, וגם הכי נשכח.
+אין תשואה גבוהה בלי סיכון. נקודה.
+מי שמבטיח לך 20% בשנה "בטוח" — או שלא מבין, או שמרמה.
+הקשר הזה הוא ברזל: רוצה יותר סיכוי לרווח? תיקח יותר תנודתיות בדרך.
+רוצה שקט מוחלט? תקבל תשואה נמוכה.
+המטרה היא לא לברוח מסיכון, אלא לקחת בדיוק כמה שמתאים לך — לישון בלילה בשקט.
+מי שמבין את זה, לא נופל לפירמידות ולהבטחות.`,
+ cta:`קיבלתם הצעה שנשמעת טוב מדי? הגיבו "סיכון" לפני שאתם נכנסים.`,
+ visual:`מאזניים: צד "תשואה" וצד "סיכון" תמיד מחוברים. אזהרה אדומה על "תשואה גבוהה בלי סיכון"`,
+ gold:`שאין תשואה גבוהה בלי סיכון — כל הבטחה לרווח גבוה "בטוח" היא סימן מובהק להונאה`,
+ tags:[`#סיכון`,`#הונאות`,`#מצמיחים_הון`]},
+{id:11,cat:'D',title:`תזמון השוק`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`לחכות ל"זמן הנכון" להיכנס? המתנה הזו עלתה למשקיעים הון.`,
+ script:`כולם רוצים לקנות בתחתית ולמכור בשיא.
+האמת? אף אחד בעולם לא יודע לתזמן את השוק בעקביות. אף אחד.
+מחקרים מראים: מי שפספס רק את עשרת הימים הכי טובים בשוק — חצי מהרווח נעלם.
+והימים הכי טובים מגיעים דווקא אחרי הירידות, כשכולם מפחדים.
+אז במקום לנחש מתי להיכנס — פשוט תהיו בפנים, באופן עקבי.
+"זמן בשוק" מנצח את "תזמון השוק" כל פעם מחדש.
+זו לא חוכמה, זו משמעת.`,
+ cta:`רוצים לראות את הנתון על עשרת הימים? הגיבו "תזמון" ואשלח בוואטסאפ.`,
+ visual:`גרף שוק עולה עם הדגשת "10 הימים הכי טובים" שמגיעים אחרי ירידות. כתובית: "מי שלא היה בפנים — הפסיד"`,
+ gold:`שהימים הכי רווחיים מגיעים מיד אחרי הירידות — מי שיוצא ומחכה "לזמן הנכון" מפספס אותם תמיד`,
+ tags:[`#תזמון_שוק`,`#טעויות`,`#מצמיחים_הון`]},
+{id:12,cat:'D',title:`דמי ניהול נאמנות מול מחקה`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`אחוז אחד דמי ניהול נשמע אפס. תוך 30 שנה זה רבע מהכסף שלך.`,
+ script:`דמי ניהול זה הרוצח השקט של התיק.
+קרן נאמנות מנוהלת לוקחת לפעמים 1% עד 2% בשנה.
+קרן מחקה — לפעמים 0.1%. ההפרש נראה זניח.
+אבל בואו נחשב: על השקעה לטווח ארוך, הפרש של 1% יכול לאכול עשרות ומאות אלפי שקלים בגלל אפקט הריבית דריבית.
+זה כסף שיוצא מהכיס שלכם כל שנה, בלי שתרגישו, גם אם הקרן הפסידה.
+אז לפני שבוחרים קרן — תסתכלו קודם על דמי הניהול.
+זה אחד הדברים הבודדים שבאמת בשליטה שלכם.`,
+ cta:`רוצים לדעת את דמי הניהול האמיתיים שלכם? הגיבו "עמלות" ואסביר איפה בודקים.`,
+ visual:`אנימציה: שני תיקים זהים, אחד עם 0.1% ואחד עם 1.5%, אחרי 30 שנה פער עצום. כתוביות מספרים`,
+ gold:`שהפרש של 1% בדמי ניהול שווה עשרות אחוזים מהתיק לאורך זמן — בגלל ריבית דריבית על העמלה`,
+ tags:[`#דמי_ניהול`,`#קרן_מחקה`,`#מצמיחים_הון`]},
+{id:13,cat:'D',title:`מסלול מנייתי מול כללי`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`בחרת "מסלול כללי" כי זה נשמע סולידי? אולי הפסדת בלי לדעת.`,
+ script:`בכל קופת גמל ופנסיה יש מסלולים, ורובם בוחרים ברירת מחדל בלי לחשוב.
+מסלול כללי — מעורב, מניות ואג"ח ביחד, תנודתיות בינונית.
+מסלול מנייתי — כמעט הכל מניות, תנודתי יותר, אבל לרוב תשואה גבוהה יותר לטווח ארוך.
+אברך צעיר עם 30 שנה עד הפנסיה? הזמן עובד לטובתו — מנייתי לרוב מתאים יותר.
+מי שקרוב לפרישה? כללי או סולידי יותר.
+הטעות הנפוצה: בן 25 שיושב במסלול סולידי "ליתר ביטחון" — ומפסיד שנים של צמיחה.
+תתאימו את המסלול לגיל, לא לפחד.`,
+ cta:`רוצים לדעת איזה מסלול אתם בו עכשיו? הגיבו "מסלול" ואסביר איך לבדוק ולשנות.`,
+ visual:`שני גרפים לטווח ארוך: מנייתי תנודתי אך גבוה, כללי חלק אך נמוך. אייקון גיל ליד כל אחד`,
+ gold:`שצעיר במסלול "כללי" סולידי מפסיד שנים של צמיחה — הזמן הוא נכס שמצדיק יותר מניות`,
+ tags:[`#מסלול_השקעה`,`#פנסיה`,`#מצמיחים_הון`]},
+{id:14,cat:'D',title:`כמה סיכון לפי שלב בחיים`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`כמה סיכון מתאים לך? התשובה משתנה לגמרי בין חתונה לבר מצווה.`,
+ script:`אין רמת סיכון אחת שמתאימה לכולם — היא משתנה לאורך החיים.
+זוג צעיר אחרי החתונה, בלי ילדים בגיל יקר עדיין? יש זמן, אפשר יותר סיכון.
+משפחה עם הוצאות שיא — חתונות, נדוניה, שידוכים בדלת? צריך נזילות וביטחון, פחות סיכון על הכסף שתצטרכו בקרוב.
+לפני פרישה? שומרים על מה שצברתם.
+הכלל: כסף שתצטרכו בקרוב — סולידי. כסף לטווח ארוך — יכול לעבוד קשה יותר.
+תתאימו את הסיכון לא רק לגיל, אלא לאן אתם בחיים.`,
+ cta:`רוצים מפה פשוטה של סיכון לפי שלב? הגיבו "שלב" ואשלח בוואטסאפ.`,
+ visual:`ציר חיים: חתונה ← ילדים ← חתונות הילדים ← פרישה, עם מד-סיכון שמשתנה בכל תחנה`,
+ gold:`שרמת הסיכון צריכה להתאים לא רק לגיל אלא להוצאות הצפויות — כסף לשידוך קרוב לא יושב במניות`,
+ tags:[`#ניהול_סיכון`,`#כלכלת_משפחה`,`#מצמיחים_הון`]},
+{id:15,cat:'D',title:`S&P 500 מול ת"א 35`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`כל הכסף שלך באמריקה? או הכל בישראל? שניהם טעות.`,
+ script:`הרבה מתלבטים: להשקיע ב-S&P 500 האמריקאי או בת"א 35 הישראלי?
+האמת? זו שאלה לא נכונה. התשובה היא לפזר בין שניהם.
+S&P 500 — חשיפה ל-500 חברות ענק עולמיות, דולרי, מנוע צמיחה.
+ת"א 35 — הכלכלה הישראלית, בשקלים, פחות תלוי במטבע זר.
+מי ששם הכל בצד אחד — מהמר על מדינה אחת.
+שילוב של שניהם נותן פיזור גם גאוגרפי וגם מטבעי.
+לא צריך לבחור צד — צריך לאזן.
+והכל, כמובן, במסלול כשר.`,
+ cta:`רוצים יחס פיזור פשוט בין השניים? הגיבו "פיזור" ואשלח בוואטסאפ.`,
+ visual:`מפת עולם עם דגל ארה"ב ודגל ישראל, חצים שמתחלקים. עוגת פיזור עם שני צבעים`,
+ gold:`ששם הכל במדד אחד = הימור על מדינה אחת — שילוב S&P ות"א נותן פיזור גאוגרפי ומטבעי כאחד`,
+ tags:[`#SP500`,`#תא35`,`#מצמיחים_הון`]},
+{id:16,cat:'D',title:`קרן מחקה מול מנוהלת`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`מנהל מקצועי או מחשב טיפש? תנחשו מי מנצח לאורך 20 שנה.`,
+ script:`קרן מנוהלת — מנהל מומחה בוחר מניות, מבטיח "להכות את השוק".
+קרן מחקה — פשוט עוקבת אחרי המדד, בלי גאונות, בלי הבטחות.
+ועכשיו ההפתעה: מחקרים שוב ושוב מראים שרוב המנהלים המקצועיים מפסידים למדד הפשוט לאורך זמן.
+למה? כי הם לוקחים דמי ניהול גבוהים, וקשה מאוד לנצח את השוק בעקביות.
+לא אומר שאין יוצאי דופן — אבל אתם לא יודעים מראש מי הם.
+הכלל המשעמם והנכון: קרן מחקה, דמי ניהול נמוכים, וסבלנות.
+האמת המשעממת מנצחת את ההבטחה הנוצצת.`,
+ cta:`רוצים לראות את המחקר? הגיבו "מחקה" ואשלח את הנתונים בוואטסאפ.`,
+ visual:`מירוץ: "מנהל מומחה" עם חליפה מול "מחקה" משעמם. המחקה מנצח בקו הסיום. כתובית אחוזים`,
+ gold:`שרוב הקרנות המנוהלות מפסידות למדד לאורך זמן — בעיקר בגלל דמי הניהול הגבוהים`,
+ tags:[`#קרן_מחקה`,`#מנוהלת`,`#מצמיחים_הון`]},
+{id:17,cat:'C',title:`מס רווחי הון 25%`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`הרווחת בבורסה? המדינה שותפה שלך ב-25%. ככה לא נופלים על זה.`,
+ script:`כל רווח ריאלי בבורסה — המדינה לוקחת ממנו 25% מס.
+אבל יש דברים שחשוב לדעת כדי לתכנן נכון, בלי הפתעות.
+ראשית — משלמים מס רק כשמוכרים ויש רווח, לא על רווח "על הנייר".
+שנית — אם הפסדת באחזקה אחת, אפשר לקזז מול רווח באחרת ולשלם פחות מס.
+שלישית — כלים פטורים כמו קרן השתלמות חוסכים את המס לגמרי.
+זה לא טריקים, זו פשוט ידיעה של הכללים.
+ובכל שאלה הלכתית על מעשר מהרווח — תתייעצו עם רב.`,
+ cta:`רוצים מדריך פשוט לתכנון המס? הגיבו "מס" ואשלח בוואטסאפ.`,
+ visual:`אנימציה: עוגת רווח שנחתך ממנה 25%. ואז קיזוז הפסד שמקטין את החיתוך. כתוביות`,
+ gold:`שאפשר לקזז הפסדים מול רווחים ולהפחית את המס — ושמשלמים מס רק במכירה, לא על רווח על הנייר`,
+ tags:[`#מס_רווחי_הון`,`#כסף_והלכה`,`#מצמיחים_הון`]},
+{id:18,cat:'D',title:`מתי באמת מושכים את הכסף`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`מתי מוציאים את הכסף מההשקעה? התשובה תפתיע אותך — כמעט אף פעם.`,
+ script:`הרבה שואלים אותי: מתי כבר מושכים את הרווח?
+האמת? עצם השאלה הזו היא חלק מהבעיה.
+ההון נבנה דווקא כשלא נוגעים — נותנים לריבית דריבית לעבוד שנים על שנים.
+מושכים כסף כשמגיע היעד שלשמו חסכתם: דירה, חתונה, פרישה — לא כי "התחשק" או כי השוק קפץ.
+מי שמושך כל פעם שיש רווח קוטע את הצמיחה הכי חזקה, שמגיעה בשנים המאוחרות.
+תגדירו מראש למה אתם חוסכים ומתי תצטרכו — וזה יגיד לכם מתי למשוך.
+הסבלנות היא המנוע.`,
+ cta:`רוצים גיליון פשוט להגדיר יעדים ומועדי משיכה? הגיבו "יעד" בוואטסאפ.`,
+ visual:`גרף ריבית דריבית שמתעקל למעלה בשנים האחרונות, עם הדגשה: "כאן הכי חבל למשוך"`,
+ gold:`שהצמיחה הכי גדולה מגיעה בשנים האחרונות של ההשקעה — משיכה מוקדמת קוטעת בדיוק את החלק החזק`,
+ tags:[`#משיכת_כסף`,`#יעדים`,`#מצמיחים_הון`]},
+{id:19,cat:'D',title:`איזון תיק פעם בשנה`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`התיק שלך השתנה לבד — ועכשיו אתה לוקח יותר סיכון ממה שחשבת.`,
+ script:`בניתם תיק מאוזן: נגיד 70% מניות, 30% אג"ח.
+עברה שנה, המניות עלו יפה — ופתאום אתם ב-85% מניות בלי שעשיתם כלום.
+זה אומר שאתם חשופים ליותר סיכון ממה שתכננתם.
+ריבאלאנס זה פשוט להחזיר את היחס למקום: למכור קצת ממה שעלה, להוסיף למה שנשאר אחורה.
+פעם בשנה זה מספיק. לא צריך לבדוק כל יום.
+זה כמו לסדר את הבית פעם בשנה — לא צריך לנקות כל שעה.
+פעולה קטנה ששומרת אתכם ברמת הסיכון הנכונה.`,
+ cta:`רוצים נוהל פשוט לאיזון שנתי? הגיבו "איזון" ואשלח צ'קליסט בוואטסאפ.`,
+ visual:`שתי עוגות פיזור: "תכננת" מול "מה קרה אחרי שנה", וחץ שמחזיר לאיזון. פעם בשנה בלוח שנה`,
+ gold:`שתיק "סוטה" לבד עם הזמן ומגדיל סיכון בלי ידיעתכם — ריבאלאנס שנתי פשוט מחזיר אותו למקום`,
+ tags:[`#ריבאלאנס`,`#ניהול_תיק`,`#מצמיחים_הון`]},
+{id:20,cat:'D',title:`להתחיל עם 500 שקל`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`"אין לי מספיק כסף להשקיע" — 500 שקל סותר את כל המשפט הזה.`,
+ script:`התירוץ הכי נפוץ ששומעים: "כשיהיה לי הון, אז אתחיל".
+אבל האמת ההפוכה — מתחילים קטן, וההון נבנה תוך כדי.
+היום אפשר להתחיל להשקיע ב-500 שקל בחודש, לפעמים פחות.
+לא הסכום הראשוני קובע — הזמן והעקביות קובעים.
+500 שקל בחודש, באופן עקבי, לאורך שנים, עם ריבית דריבית — הופך לסכום שיפתיע אתכם.
+לאברך, לאשת חיל שמנהלת את הבית — זה בהישג יד.
+אל תחכו ל"מתי שיהיה". תתחילו עם מה שיש.
+ההתחלה הקטנה היא הניצחון הגדול.`,
+ cta:`רוצים לראות לאן מגיעים 500 שקל בחודש? הגיבו "500" ואשלח חישוב בוואטסאפ.`,
+ visual:`שטר 500 שקל שהופך לאורך שנים לערימה. גרף צמיחה איטית שמתפוצצת בסוף. כתוביות`,
+ gold:`שלא הסכום ההתחלתי קובע אלא העקביות והזמן — 500 שקל בחודש בונים הון אמיתי לאורך שנים`,
+ tags:[`#להתחיל_להשקיע`,`#נגישות`,`#מצמיחים_הון`]},
+{id:21,cat:'D',title:`השקעה חודשית אוטומטית`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`איך מנצחים את הפחד מהשוק? מפסיקים להחליט מתי לקנות.`,
+ script:`הדבר הכי קשה בהשקעה זה הרגש — מתי לקנות, מה אם ירד.
+יש פתרון פשוט שמוחק את כל הלחץ הזה: השקעה חודשית קבועה ואוטומטית.
+אותו סכום, אותו יום בחודש, בלי לחשוב, בלי לנחש.
+כשהשוק גבוה — קונים קצת פחות יחידות. כשהוא נמוך — קונים יותר. זה נקרא "ממוצע עלות".
+אתם בעצם קונים יותר בזול ופחות ביוקר — אוטומטית.
+זה מסיר את הרגש מהמשוואה, וזה בדיוק מה שמגן עליכם מטעויות.
+תגדירו הוראת קבע — ותשכחו מזה.`,
+ cta:`רוצים לדעת איך מקימים הוראת קבע להשקעה? הגיבו "אוטומטי" בוואטסאפ.`,
+ visual:`לוח שנה עם אותו תאריך מסומן כל חודש. גרף שוק תנודתי עם קניות קבועות בכל נקודה`,
+ gold:`שקנייה קבועה אוטומטית קונה יותר יחידות בזול ופחות ביוקר — וממסה את הרגש מההחלטה`,
+ tags:[`#ממוצע_עלות`,`#הוראת_קבע`,`#מצמיחים_הון`]},
+{id:22,cat:'C',title:`מסלול כשר — מה בודקים`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`"מסלול כשר" — שם יפה, אבל מה באמת בודקים מאחורי הכשרות?`,
+ script:`הרבה שומעים "מסלול כשר" ומרגישים רגועים — אבל מה זה אומר בפועל?
+מסלול כשר עובר פיקוח הלכתי שבודק כמה דברים:
+שההשקעה לא בחברות שעיסוקן מנוגד להלכה.
+שיש היתר עסקא כדי לפתור את איסור ריבית.
+שהאחזקות עוברות סינון של גוף הלכתי מוכר.
+זה לא רק תווית — זה תהליך אמיתי עם רב מפקח.
+אבל חשוב: לא כל "כשר" שווה, ולא כל גוף מפקח באותה רמה.
+תבדקו מי נותן את ההכשר, ובכל ספק — תתייעצו עם הרב שלכם.`,
+ cta:`רוצים רשימת בדיקה למסלול כשר? הגיבו "כשר" ואשלח בוואטסאפ.`,
+ visual:`תעודת כשרות סמלית להשקעה, עם וי על כל סעיף: סינון חברות, היתר עסקא, גוף מפקח`,
+ gold:`שמאחורי "מסלול כשר" יש תהליך פיקוח אמיתי — ושלא כל הכשר שווה, צריך לבדוק מי הגוף המפקח`,
+ tags:[`#מסלול_כשר`,`#כסף_והלכה`,`#מצמיחים_הון`]},
+{id:23,cat:'C',title:`היתר עסקא בהשקעות`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`איך מותר בכלל להרוויח ריבית אם התורה אסרה אותה? התשובה מפתיעה.`,
+ script:`התורה אוסרת ריבית בין יהודים — אז איך משקיעים באג"ח ובפיקדונות?
+הפתרון ההלכתי נקרא היתר עסקא.
+הרעיון בפשטות: במקום "הלוואה ברבית" שאסורה, הופכים את העסקה ל"שותפות עסקית".
+הכסף שלכם נחשב כהשקעה בעסק, והרווח הוא חלק מהרווחים — לא רבית אסורה.
+זה פתרון הלכתי ותיק ומקובל, שעליו נשען כמעט כל הבנקאות הכשרה.
+חשוב שההיתר ייעשה כראוי, על ידי גוף עם פיקוח הלכתי.
+בכל שאלה פרטנית — זה ענין לרב, לא לי.
+אני מסביר את העיקרון, הפסיקה אצל הפוסקים.`,
+ cta:`רוצים הסבר מורחב על היתר עסקא? הגיבו "היתר" ואשלח בוואטסאפ.`,
+ visual:`אנימציה: "הלוואה ברבית" עם X אדום, הופך ל"שותפות עסקית" עם וי ירוק. ספר הלכה ברקע`,
+ gold:`שהיתר עסקא הופך הלוואה-בריבית האסורה לשותפות עסקית מותרת — וזה הבסיס לכל הבנקאות הכשרה`,
+ tags:[`#היתר_עסקא`,`#כסף_והלכה`,`#מצמיחים_הון`]},
+{id:24,cat:'C',title:`אג"ח ממשלתי כשר מול קונצרני`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`אתה מלווה כסף למדינה או לחברה פרטית? בכשרות זה לא אותו דבר.`,
+ script:`אג"ח זה הלוואה — והשאלה למי אתם מלווים.
+אג"ח ממשלתי — מלווים למדינה. נחשב הבטוח ביותר, כי המדינה כמעט תמיד מחזירה.
+אג"ח קונצרני — מלווים לחברה פרטית. תשואה גבוהה יותר, אבל גם סיכון גבוה יותר שהחברה תיקלע לקשיים.
+ומבחינת כשרות — בשני המקרים צריך היתר עסקא כדי שהרבית תהיה מותרת, ובקונצרני גם לוודא שעיסוק החברה תקין הלכתית.
+לתיק משפחתי סולידי — לרוב מתחילים מהממשלתי הכשר.
+ובכל הכרעה הלכתית — שאלת רב.`,
+ cta:`רוצים להבין מה כשר בתוך תיק האג"ח? הגיבו "אגח" ואסביר בוואטסאפ.`,
+ visual:`שני שטרי הלוואה: אחד עם בנין ממשלה, שני עם לוגו חברה. תווית "היתר עסקא" על שניהם`,
+ gold:`ששני סוגי האג"ח דורשים היתר עסקא, ושבקונצרני צריך גם לבדוק שעיסוק החברה תקין הלכתית`,
+ tags:[`#אגח_כשר`,`#כסף_והלכה`,`#מצמיחים_הון`]},
+{id:25,cat:'D',title:`פיזור גאוגרפי`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`כל הביצים בסל אחד? מספיק משבר במדינה אחת כדי לאבד הכל.`,
+ script:`כלל הזהב בהשקעות: לא לשים הכל במקום אחד.
+פיזור גאוגרפי זה לפזר את הכסף בין מדינות ואזורים שונים בעולם.
+למה? כי אם כלכלה אחת נכנסת למשבר — שאר העולם מאזן.
+מי שמשקיע רק בישראל, או רק בארה"ב, תלוי לגמרי בגורל של מקום אחד.
+מדד עולמי, או שילוב של כמה אזורים, פורש את הסיכון על פני כדור הארץ כולו.
+זה לא מבטל סיכון — אבל מרכך מכות מקומיות.
+פיזור הוא הארוחה החינמית היחידה בהשקעות.
+חכמה פשוטה ששווה הרבה.`,
+ cta:`רוצים מבנה פיזור עולמי פשוט? הגיבו "עולמי" ואשלח בוואטסאפ.`,
+ visual:`כדור הארץ עם נקודות השקעה בכמה יבשות. אנימציה: משבר באזור אחד, השאר מחזיק`,
+ gold:`שפיזור גאוגרפי לא מבטל סיכון אבל מרכך מכה במדינה בודדת — "הארוחה החינמית" היחידה בהשקעות`,
+ tags:[`#פיזור_גאוגרפי`,`#ניהול_סיכון`,`#מצמיחים_הון`]},
+{id:26,cat:'D',title:`תשואה ריאלית אחרי אינפלציה`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`הרווחת 5% והכסף שלך עדיין נשחק. איך זה יכול להיות?`,
+ script:`רואים בחשבון "הרווחתי 5%" ושמחים. אבל זה לא הסיפור המלא.
+אם האינפלציה באותה שנה היתה 4% — באמת הרווחתם רק 1%.
+זה נקרא תשואה ריאלית: מה שנשאר אחרי ששוחקים את עליית המחירים.
+ולכן כסף ש"שוכב בעו"ש" או בפיקדון בלי רבית — בעצם מפסיד ערך כל שנה בשקט.
+המחירים עולים, הכסף נשאר אותו דבר — ופחות קונים איתו.
+המטרה של השקעה היא לא רק "להרוויח", אלא להרוויח יותר מהאינפלציה.
+אחרת אתם רצים במקום.`,
+ cta:`רוצים לחשב את התשואה הריאלית שלכם? הגיבו "ריאלי" ואסביר בוואטסאפ.`,
+ visual:`עגלת קניות שמתרוקנת לאורך שנים באותו סכום. גרף: תשואה נומינלית 5% פחות אינפלציה 4%`,
+ gold:`שכסף "בטוח" בעו"ש מפסיד ערך בשקט בגלל אינפלציה — מה שקובע זו התשואה הריאלית, לא הנומינלית`,
+ tags:[`#אינפלציה`,`#תשואה_ריאלית`,`#מצמיחים_הון`]},
+{id:27,cat:'C',title:`כסף עובד בזמן שאתה לומד`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`אברך יושב ולומד — והכסף שלו עובד שעות נוספות. איך? משל קצר.`,
+ script:`רוצה לספר לכם משל ששינה לי את המבט.
+דמיינו שני אברכים. שניהם יושבים ולומדים מהבוקר עד הערב — וכך צריך להיות.
+אבל אחד מהם, לפני שנים, הניח סכום קטן בהשקעה כשרה והשאיר אותו לעבוד.
+בזמן שהוא שקוע בגמרא, הכסף ממשיך לצמוח בשקט, בלי שהוא נוגע.
+זו לא סתירה ללימוד — זו השתדלות חכמה שמלווה אותו.
+התורה לימדה השתדלות וביטחון יחד: עושים את המעט הנכון, והשאר בידי שמים.
+הכסף לא מחליף את הלימוד — הוא נותן לו גב.`,
+ cta:`רוצים לשמוע את המשל המלא ואיך מתחילים בקטן? הגיבו "משל" בוואטסאפ.`,
+ visual:`טוקינג-הד מספר משל, ספרי קודש על השולחן. אנימציה עדינה של מטבע שצומח ברקע בזמן שלומדים`,
+ gold:`שהשקעה כשרה היא השתדלות שמלווה את הלימוד ולא סותרת אותו — הכסף נותן גב, לא מחליף`,
+ tags:[`#השתדלות_וביטחון`,`#כסף_והלכה`,`#מצמיחים_הון`]},
+{id:28,cat:'D',title:`סבלנות מנצחת חוכמה`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`הכי חכם בשוק לא תמיד מנצח. הכי סבלני — כמעט תמיד.`,
+ script:`כולם חושבים שכדי להצליח בשוק צריך להיות גאון, לדעת מתי לקנות ולמכור.
+האמת ההפוכה: דווקא הסבלני, ה"משעמם", מנצח את החכם הפעלתן.
+תכירו את הדוגמה: שני משקיעים, אותו סכום. אחד קנה ומכר כל הזמן, רדף אחרי טרנדים. השני קנה מדד פשוט ולא נגע 20 שנה.
+הסבלני סיים עם הרבה יותר — בלי דמי ניהול, בלי מס מיותר, בלי טעויות רגש.
+הפעלתנות בשוק עולה כסף. הסבלנות חוסכת אותו.
+אני מראה לכם גם איפה אני התאפקתי וזה השתלם, וגם איפה לא.
+המשמעת מנצחת את הגאונות.`,
+ cta:`רוצים את ההשוואה המספרית בין השניים? הגיבו "סבלנות" ואשלח בוואטסאפ.`,
+ visual:`שני משקיעים: אחד קודח מול מסכים וקונה/מוכר, השני רגוע עם ספר. תוצאה סופית — הרגוע מנצח`,
+ gold:`שמשקיע "משעמם" שלא נוגע מנצח את הפעלתן החכם — כי כל פעולה עולה עמלות, מס וטעויות רגש`,
+ tags:[`#סבלנות`,`#פסיכולוגיה`,`#מצמיחים_הון`]},
+{id:29,cat:'D',title:`לקנות בשיא ולמכור בתחתית`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`למה רוב המשקיעים קונים ביוקר ומוכרים בזול? הרגש מסובב אותם.`,
+ script:`זו הטעות הרגשית הקלאסית, וכמעט כולם נופלים בה.
+השוק עולה, כולם מתלהבים, החברים מספרים כמה הרוויחו — אז קונים, בשיא, ביוקר.
+ואז השוק יורד, הפחד משתלט, "אני חייב לצאת לפני שאאבד הכל" — ומוכרים, בתחתית, בזול.
+קנו ביוקר, מכרו בזול — בדיוק הפוך ממה שצריך.
+מי מנהל את ההחלטות האלה? לא ההגיון, הרגש.
+פחד וחמדנות הם היועצים הכי גרועים שיש.
+הדרך לנצח את זה: תכנית קבועה מראש, שלא משתנה לפי מצב הרוח של השוק.`,
+ cta:`רוצים תכנית פעולה שמנטרלת את הרגש? הגיבו "רגש" ואשלח בוואטסאפ.`,
+ visual:`גרף עם חץ "קנו כאן" בשיא וחץ "מכרו כאן" בתחתית. פרצופי חמדנות ופחד ליד כל נקודה`,
+ gold:`שחמדנות גורמת לקנות בשיא ופחד גורם למכור בתחתית — בדיוק הפוך מהנכון, וזה מה שמרושש משקיעים`,
+ tags:[`#פסיכולוגיה`,`#טעויות_משקיעים`,`#מצמיחים_הון`]},
+{id:30,cat:'C',title:`מעשר כספים מרווחי השקעה`,plats:[`Reels`,`TikTok`,`וואטסאפ`],
+ hook:`הרווחת בבורסה — כמה מעשר מפרישים? התשובה לא מה שחשבת.`,
+ script:`שאלה שמגיעה אליי הרבה: איך מחשבים מעשר כספים מרווחי השקעה?
+אסביר את העיקרון, וההכרעה למעשה — אצל הרב שלכם.
+מעשר מפרישים מהרווח הנקי, לא מכל הסכום שיש בחשבון.
+כלומר: רק על מה שהרווחתם, ולרוב אחרי ניכוי המס ששילמתם למדינה.
+ויש דיון חשוב: האם מפרישים על רווח "על הנייר" שעדיין לא מימשתם, או רק כשמכרתם וקיבלתם ליד? בזה יש דעות שונות.
+לכן זה ממש נושא לרב — לא משהו שמחליטים לבד מסרטון.
+אני נותן את המסגרת, אתם שואלים פוסק.
+מעשר מהרווח זה זכות, לא רק חובה.`,
+ cta:`רוצים את רשימת השאלות לשאול את הרב? הגיבו "מעשר" ואשלח בוואטסאפ.`,
+ visual:`טוקינג-הד עם ספר הלכה. אנימציה: ערימת רווח, נחתך מס, ואז מופרש 10% מהנקי. כתובית "לשאול רב"`,
+ gold:`שמעשר מרווחי השקעה מחושב מהרווח הנקי בלבד — ושיש מחלוקת אם מפרישים על רווח שטרם מומש`,
+ tags:[`#מעשר_כספים`,`#כסף_והלכה`,`#מצמיחים_הון`]}
+];
+const M4=[
+{id:1,cat:'B',title:`צוואה וירושה מסודרת`,plats:[`Reels`,`וואטסאפ`],
+ hook:`אתה לא חולה חלילה — אז למה שלושה אברכים בכו אצלי השבוע?`,
+ script:`אתה לא חולה חלילה. ארוך ימים ושנים.
+אבל שלושה אברכים ישבו אצלי השבוע ובכו — לא על הנפטר, על הבלגן שהוא השאיר.
+בלי צוואה, מי שמחליט על הכסף שלך זה החוק — לא אתה ולא אשתך.
+דירה שנקנתה "חצי מכל צד" מתפצלת בין אחים, גיסים, ולפעמים נכדים שעוד לא נולדו.
+צוואה מסודרת זו לא הזמנה לבעיות — היא מנע בעיות. היא אומרת: אני אוהב אתכם מספיק כדי לסדר לכם.
+שעה אחת אצל עורך דין. פעם אחת בחיים. שקט נפשי לכל המשפחה.
+זו לא מחשבה על המוות — זו דאגה לחיים שאחריך.`,
+ cta:`שתף לאברך שדוחה את זה כבר שנתיים. הגב "צוואה" ואשלח בוואטסאפ צ'ק-ליסט מה חייב להיות בה.`,
+ visual:`טוקינג-הד רגוע, ישיבה. קאט לתקריב עיניים ב"בכו". כיתובים: "בלי צוואה — החוק מחליט". מוזיקה מינימלית.`,
+ gold:`רוב האנשים חושבים שצוואה מחלקת כסף — האמת שהיא בעיקר מונעת מלחמת אחים ומגנה על האלמנה.`,
+ tags:[`#צוואה`,`#ירושה`,`#כלכלת_משפחה`]},
+{id:2,cat:'A',title:`ביטוח חיים למפרנסת`,plats:[`Reels`,`וואטסאפ`],
+ hook:`אם חלילה לאישה יקרה משהו — מי יבשל, יכבס ויחנך חמישה ילדים?`,
+ script:`כולם מבטחים את האבא. נכון, צריך.
+אבל עצרו רגע ותחשבו: אם חלילה לאמא יקרה משהו — מי מנהל בית של שבע נפשות?
+בישול, כביסה, הסעות, שיעורי בית, רופא, קניות — כל זה היה עליה בחינם.
+החלף את זה בשוק — עוזרת, מטפלת, קייטרינג — ותגלה עשרות אלפי שקלים בשנה.
+ביטוח חיים למפרנסת-העל של הבית הוא לא חוסר ביטחון. הוא השתדלות בסיסית.
+דווקא כי אנחנו מאמינים בביטחון — אנחנו עושים את ההשתדלות במלואה.
+זה לא יקר כמו שחושבים. אישה צעירה ובריאה — פוליסה בכמה עשרות שקלים בחודש.`,
+ cta:`שתף לבעל שביטח רק את עצמו. הגב "מפרנסת" ואשלח בוואטסאפ הסבר פשוט מה לבדוק.`,
+ visual:`פתיחה על ידיים מקפלות כביסה. קאט לדובר. כיתוב מצטבר: "מי מחליף את אמא?". טון חם, לא מאיים.`,
+ gold:`הקהל לא יודע שהעבודה הבלתי-נראית של האם שווה עשרות אלפי שקלים בשנה — ולכן היא חייבת ביטוח.`,
+ tags:[`#ביטוח_חיים`,`#מפרנסת`,`#טעויות_כסף`]},
+{id:3,cat:'B',title:`פנסיה לאישה`,plats:[`Reels`,`וואטסאפ`],
+ hook:`האישה עובדת 30 שנה — ובגיל 67 מגלה שהפנסיה שלה כמעט אפס.`,
+ script:`היא קמה ראשונה, חוזרת אחרונה, ועובדת שלושים שנה במסירות.
+ואז מגיע גיל פרישה — והפנסיה שלה זעומה. למה?
+כי לקחו הפסקות ללידות, עבדו חלקי, או במקום בלי הפרשות מסודרות.
+הפנסיה של האישה היא הכי קריטית — כי נשים חיות בממוצע יותר שנים — ודווקא היא הכי מוזנחת.
+בדקו היום: האם המעסיק מפריש כמו שצריך? האם יש קרן פעילה? כמה צבור בה באמת?
+גם אם עובדים מהבית או בשכר נמוך — אפשר להפריש באופן עצמאי וליהנות מהטבת מס.
+שלושים שנה של עבודה מגיע להן עתיד בכבוד.`,
+ cta:`שתף לאישה עובדת שלא בדקה את הקרן שלה מעולם. הגב "פנסיה" ואשלח בוואטסאפ איך בודקים ב-5 דקות.`,
+ visual:`דובר רגוע, גרפיקה פשוטה של גרף עולה. כיתוב: "הכי קריטי, הכי מוזנח". להימנע מהצגת דמות אישה.`,
+ gold:`הקהל לא יודע שדווקא הפנסיה של האישה היא הקריטית ביותר — בגלל תוחלת חיים ארוכה יותר.`,
+ tags:[`#פנסיה`,`#נשים`,`#עתיד`]},
+{id:4,cat:'B',title:`קופה נפרדת לכל ילד`,plats:[`Reels`,`וואטסאפ`],
+ hook:`כשהילד הרביעי מגיע לגיל שידוך, אין כסף — ולחמישה הראשונים כן היה.`,
+ script:`המלכודת הקלאסית: חוסכים "קופה אחת לחתונות".
+מגיעות שלוש חתונות צפופות — והקופה מתרוקנת. הילדים הקטנים נשארים בלי.
+הפתרון פשוט: קופה נפרדת לכל ילד מהיום שהוא נולד.
+אפילו 100 שקל בחודש לכל ילד. למי שנולד עכשיו — יש עשרים שנה של ריבית דריבית עד החתונה.
+ככה אין "מי קודם" ואין קנאה. כל ילד מקבל את חלקו ההוגן, לפי הזמן שהיה לו.
+תנו לכל קופה שם של ילד. זה הופך את החיסכון לקונקרטי — ולעקבי.
+הזמן הוא בעל הברית הכי גדול שלכם — אם מתחילים מוקדם.`,
+ cta:`שתף לזוג צעיר עם תינוק חדש. הגב "קופה" ואשלח בוואטסאפ דוגמה מספרית פשוטה לכל ילד.`,
+ visual:`גרפיקה של חמישה כדים עם שמות. הדגשת הכד של ה"קטן" שיש לו הכי הרבה זמן. טון מעשי.`,
+ gold:`הקהל חושב שקופה אחת זה הוגן — האמת שהיא פוגעת דווקא בילדים הקטנים שאיבדו שנות צמיחה.`,
+ tags:[`#חיסכון`,`#ילדים`,`#חתונה`]},
+{id:5,cat:'B',title:`להוריש ערכים, לא רק כסף`,plats:[`Reels`,`וואטסאפ`],
+ hook:`נתת לילד דירה ירושה — ותוך שנתיים הוא בזבז את הכל. למה?`,
+ script:`שמעתי על משפחה שהורישה לילד דירה. תוך שנתיים — אין דירה ואין כסף.
+למה? כי הורישו לו כסף, אבל לא הורישו לו דעת.
+כסף שלא למדת להשיג — קל לאבד. ערך שלמדת — נשאר לדורות.
+הילד שיודע לחסוך, להבדיל בין רצון לצורך, ולתת מעשר — הוא עשיר אמיתי, גם בלי ירושה.
+דברו עם הילדים על כסף ליד שולחן השבת. ספרו על טעויות שלכם. תנו להם לנהל סכום קטן ולטעות בקטן.
+הירושה הכי גדולה שתשאירו זו לא הקופה — זה הראש.
+משפחה שיודעת כסף — לא מאבדת אותו.`,
+ cta:`שתף להורה שחושב רק על "כמה להשאיר". הגב "ערכים" ואשלח בוואטסאפ שלוש שיחות לעשות עם הילדים.`,
+ visual:`פתיחה על דובר. קאט לשולחן שבת ריק (סמלי). כיתוב: "הראש קודם לקופה". חם ומשפחתי.`,
+ gold:`הקהל מתמקד בכמה כסף להוריש — האמת שכסף בלי חינוך פיננסי נעלם, וערכים נשארים.`,
+ tags:[`#חינוך_פיננסי`,`#ירושה`,`#ערכים`]},
+{id:6,cat:'B',title:`דמי כיס בשלושה כדים`,plats:[`Reels`,`וואטסאפ`],
+ hook:`נותנים לילד דמי כיס — והוא בזבז הכל ביום. עשיתם טעות אחת.`,
+ script:`הילד מקבל דמי כיס וגומר אותם באותו יום. מתוסכלים? זו דווקא הזדמנות.
+תנו לו שלושה כדים: חיסכון, צדקה, הוצאה.
+מכל סכום — חלק לכל כד. הוא מחליט כמה, אתם מנחים.
+כד החיסכון מלמד סבלנות. כד הצדקה מלמד שלכסף יש תפקיד גבוה יותר. כד ההוצאה מלמד בחירה.
+ילד שמתאמן בקטן על שלושת הכדים — מנהל בגדול תקציב בית, ואחר כך נדוניה, ואחר כך עסק.
+זה לא על הסכום. זה על ההרגל. הרגל שנבנה בגיל שש — מלווה אותו כל החיים.
+המתנה הכי גדולה לדמי כיס: ללמד מה עושים איתם.`,
+ cta:`שתף לאמא שנלחמת על דמי כיס. הגב "כדים" ואשלח בוואטסאפ הסבר איך מתחילים השבוע.`,
+ visual:`שלושה כדים אמיתיים מסומנים: חיסכון/צדקה/הוצאה. הכנסת מטבע לכל אחד. כיתוב גדול לכל כד.`,
+ gold:`הקהל חושב שדמי כיס זה הוצאה — האמת שזה כלי החינוך הפיננסי הזול והחזק ביותר.`,
+ tags:[`#דמי_כיס`,`#חינוך_פיננסי`,`#ילדים`]},
+{id:7,cat:'B',title:`תקציב חגים שנתי`,plats:[`Reels`,`וואטסאפ`],
+ hook:`כל תשרי אותו סיפור: נכנסים למינוס — ופסח כבר בדרך.`,
+ script:`תשרי מגיע, וההוצאות קופצות: בגדים, אוכל, אירוח, מתנות.
+החשבון נכנס למינוס — ובדיוק כשמתאוששים, פסח כבר מציץ מעבר לפינה.
+הסוד: החגים לא מפתיעים. הם באים כל שנה באותו תאריך. אז למה לתכנן אותם כהפתעה?
+קחו את כל הוצאות החגים בשנה — חלקו ל-12. הפרישו את הסכום הזה כל חודש לקופה נפרדת.
+מגיע פסח? הכסף כבר שם. בלי מינוס, בלי לחץ, בלי לקחת הלוואה ביוקר.
+"מה שצפוי — אפשר לתכנן". וחגים זה הדבר הכי צפוי בלוח השנה.
+שמחת החג מתחילה כבר עכשיו — בשקט הכלכלי.`,
+ cta:`שתף לפני החג למי שתמיד נלחץ. הגב "חגים" ואשלח בוואטסאפ טבלת פריסה שנתית מוכנה.`,
+ visual:`לוח שנה עברי עם חגים מסומנים. גרפיקה של 12 הפרשות קטנות מצטברות. טון מרגיע.`,
+ gold:`הקהל חווה חגים כהוצאה מפתיעה — האמת שהם הדבר הכי צפוי, ולכן הכי קל לתכנן.`,
+ tags:[`#תקציב`,`#חגים`,`#תכנון`]},
+{id:8,cat:'B',title:`להבין משכנתא לפני שחותמים`,plats:[`Reels`,`וואטסאפ`],
+ hook:`חתמת על משכנתא ל-30 שנה — אבל הבנת רק את גובה ההחזר.`,
+ script:`רוב הזוגות בודקים דבר אחד במשכנתא: כמה ההחזר החודשי.
+אבל זה הפרט הכי פחות חשוב. השאלה האמיתית: כמה תחזיר בסך הכל?
+משכנתא מורכבת ממסלולים — קבועה, משתנה, צמודה. כל תמהיל = סכום סופי אחר לגמרי.
+אותו החזר חודשי יכול להסתכם בהפרש של מאות אלפי שקלים בין תמהיל לתמהיל.
+לפני שחותמים: בקשו לוח סילוקין מלא. תראו את הסכום הכולל. השוו שלוש הצעות לפחות.
+ואם נדרש היתר עסקא — לוודא שהוא מסודר כהלכה מול הבנק או הרב.
+שעת לימוד אחת לפני החתימה — שווה דירה שלמה לאורך השנים.`,
+ cta:`שתף לזוג שלפני משכנתא. הגב "משכנתא" ואשלח בוואטסאפ 5 שאלות לשאול את הבנקאי.`,
+ visual:`גרפיקה של שני תמהילים עם אותו החזר אבל סכום סופי שונה דרמטית. כיתוב: "אותו החזר, מחיר אחר".`,
+ gold:`הקהל מסתכל על ההחזר החודשי — האמת שהסכום הכולל הוא המספר היחיד שקובע.`,
+ tags:[`#משכנתא`,`#דירה`,`#כלכלת_משפחה`]},
+{id:9,cat:'B',title:`שכירות מול קנייה`,plats:[`Reels`,`וואטסאפ`],
+ hook:`"שכירות זה כסף שנזרק לפח" — המשפט הזה עלה לזוגות הון.`,
+ script:`כולם אומרים: "שכירות זה כסף לפח, חייבים לקנות". זה לא תמיד נכון.
+לפעמים שכירות היא דווקא ההחלטה החכמה — תלוי בשלב החיים.
+זוג צעיר שעוד לא יודע איפה ילמדו הילדים, או כמה יגדלו — קנייה מוקדמת עלולה לכבול אותם.
+מנגד, משפחה יציבה שיודעת לאן היא הולכת — קנייה בונה נכס לדורות.
+השאלה הנכונה היא לא "שכירות או קנייה" — אלא "מה מתאים למשפחה שלנו עכשיו".
+לפעמים שוכרים, חוסכים את ההפרש בצד, ובונים הון לקנייה חכמה יותר אחר כך.
+אין תשובה אחת. יש תשובה נכונה למשפחה שלכם.`,
+ cta:`שתף לזוג שמתלבט. הגב "שכירות" ואשלח בוואטסאפ 4 שאלות שמכריעות בין השתיים.`,
+ visual:`מאזניים גרפיים: שכירות מול קנייה, שתי הכפות מאוזנות. כיתוב: "תלוי בשלב, לא בסיסמה".`,
+ gold:`הקהל מאמין ש"שכירות נזרקת לפח" — האמת שלעיתים היא ההחלטה הפיננסית הנכונה לשלב מסוים.`,
+ tags:[`#שכירות`,`#דירה`,`#החלטות`]},
+{id:10,cat:'A',title:`ביטוח משכנתא`,plats:[`Reels`,`וואטסאפ`],
+ hook:`חתמת על משכנתא — ושכחת את הביטוח שמציל את המשפחה מאסון.`,
+ script:`לקחתם משכנתא. מזל טוב. אבל יש סעיף שאסור לדלג עליו: ביטוח המשכנתא.
+מה זה? אם חלילה קורה משהו למפרנס באמצע ה-30 שנה — הביטוח מסלק את יתרת ההלוואה.
+זאת אומרת: האלמנה והיתומים נשארים עם הדירה — בלי חוב.
+בלי הביטוח הזה? הבנק יכול לדרוש את הכסף, ובמקרים קשים — לקחת את הבית.
+זה לא מותרות. זה הקיר האחרון שמגן על המשפחה. וברוב המקרים הוא חובה מטעם הבנק.
+אבל זהירות: אל תקנו אותו אוטומטית מהבנק. השוו מחירים בחוץ — אפשר לחסוך אלפים על אותו כיסוי.`,
+ cta:`שתף לבעל משכנתא. הגב "ביטוחמ" ואשלח בוואטסאפ איך משווים ולא משלמים ביוקר לבנק.`,
+ visual:`גרפיקה: בית עם "חוב" שנמחק. כיתוב: "המשפחה נשארת עם הבית, בלי החוב". טון רציני.`,
+ gold:`הקהל לא יודע שאסור לקנות את ביטוח המשכנתא מהבנק אוטומטית — בחוץ זה זול בהרבה.`,
+ tags:[`#ביטוח_משכנתא`,`#טעויות_כסף`,`#דירה`]},
+{id:11,cat:'A',title:`חוב משותף הורים-ילדים`,plats:[`Reels`,`וואטסאפ`],
+ hook:`חתמת ערבות לחתן — ועכשיו הבנק רודף אחריך, לא אחריו.`,
+ script:`הסיפור חוזר על עצמו: ההורים חותמים ערבות להלוואה של הזוג הצעיר.
+הזוג מתקשה להחזיר — ופתאום הבנק פונה להורים. הערבים הם אלה שמשלמים.
+ועכשיו שני דורות שקועים בחוב אחד, והיחסים במשפחה מתוחים.
+לעזור לילדים זה מצווה. אבל לערוב בלי גבול זה לסכן את הפנסיה שלכם — ואת השקט.
+אם עוזרים — תנו מתנה בסכום שאתם יכולים, או הלוואה כתובה וברורה. לא ערבות פתוחה.
+אהבה אמיתית להורים זה לדאוג שגם אתם תישארו על הרגליים — כדי שתוכלו להמשיך לעזור.
+לעזור — כן. לטבוע יחד — לא.`,
+ cta:`שתף להורה שעומד לחתום ערבות. הגב "ערבות" ואשלח בוואטסאפ דרכים בטוחות יותר לעזור.`,
+ visual:`גרפיקה של שתי דמויות מופשטות מחוברות בשרשרת חוב. כיתוב: "לעזור בלי לטבוע יחד".`,
+ gold:`הקהל לא מבין שערבות הופכת אותם לחייבים — והבנק יפנה אליהם לפני שיפנה לילד.`,
+ tags:[`#ערבות`,`#חוב`,`#טעויות_כסף`]},
+{id:12,cat:'B',title:`ציפיות כספיות בשידוך`,plats:[`Reels`,`וואטסאפ`],
+ hook:`מה שאף אחד לא מספר לכם לפני החתונה — ועולה הכי הרבה אחריה.`,
+ script:`רוב המתחים בזוגות צעירים לא על אהבה — על כסף שלא דיברו עליו מראש.
+צד אחד חשב "תומכים חמש שנים", השני חשב "שנתיים". אף אחד לא אמר את זה בקול.
+מי משלם על מה? כמה תמיכה? לכמה זמן? מה מצופה מהאישה? מה מהבעל?
+זה לא חוסר רוחניות לדבר על כסף — להפך. דיבור גלוי וכן הוא יסוד לשלום בית.
+תדברו על הציפיות הכספיות עוד בשלב השידוך, בכבוד ובלי בושה — ושני הצדדים יידעו למה הם נכנסים.
+ציפיות שלא נאמרו — הופכות לאכזבות. ציפיות שנאמרו — הופכות להסכמות.
+שקיפות מוקדמת חוסכת שנים של מתח.`,
+ cta:`שתף להורים לפני שידוך. הגב "ציפיות" ואשלח בוואטסאפ רשימת שאלות לשיחה הכנה.`,
+ visual:`דובר רגוע, טון אינטימי. כיתוב מצטבר של שאלות: "מי משלם? לכמה זמן?". בלי הצגת זוג.`,
+ gold:`הקהל חושב שדיבור על כסף לפני חתונה זה לא צנוע — האמת שזה היסוד לשלום בית.`,
+ tags:[`#שידוך`,`#ציפיות`,`#שלום_בית`]},
+{id:13,cat:'B',title:`נדוניה מדורגת`,plats:[`Reels`,`וואטסאפ`],
+ hook:`הילד בן שנתיים — ואתם כבר בלחץ נדוניה. יש דרך אחרת.`,
+ script:`הלחץ של הנדוניה מתחיל מוקדם, ולפעמים משתק. אבל יש בשורה.
+לא צריך לגייס את כל הסכום בשנה האחרונה. אפשר לבנות אותו לאורך שנים — בנדוניה מדורגת.
+מהיום שהילד קטן: סכום קבוע וצנוע כל חודש, לקופה ייעודית עם השם שלו.
+הזמן עושה את העבודה. ריבית דריבית של 18 שנה הופכת סכום קטן לסכום משמעותי.
+ככה הנדוניה לא נוחתת עליכם כמכה אחת — היא נבנית בשקט, לבנה על לבנה.
+מי שמתחיל מוקדם — לא צריך הלוואות, לא צריך לחיצות, ולא צריך להתבייש.
+תכנון מוקדם הופך הר לשורה של מדרגות קטנות.`,
+ cta:`שתף להורה צעיר. הגב "נדוניה" ואשלח בוואטסאפ כמה צריך להפריש לפי גיל הילד.`,
+ visual:`גרפיקה של מדרגות עולות, כל מדרגה = שנה. כיתוב: "לבנה על לבנה". טון מעודד.`,
+ gold:`הקהל חווה נדוניה כמכה חד-פעמית — האמת שפריסה על שנים הופכת אותה לקלה ובלי הלוואות.`,
+ tags:[`#נדוניה`,`#חיסכון`,`#תכנון`]},
+{id:14,cat:'B',title:`לתמוך בכמה זוגות בלי לשקוע`,plats:[`Reels`,`וואטסאפ`],
+ hook:`שלושה זוגות נשואים, רביעי בדרך — ואתם בקריסה כלכלית שקטה.`,
+ script:`חיתנתם בס"ד כמה ילדים. כל אחד צריך תמיכה. ואתם — נשחקים בשקט.
+הבעיה: רוב ההורים תומכים "כמה שאפשר", בלי תקרה ובלי תכנית. וזה ממוטט.
+הכלל הראשון: קבעו תקציב תמיכה כולל שאתם יכולים — וחלקו אותו, לא תורמים מעבר לו.
+הכלל השני: תמיכה הוגנת לא חייבת להיות שווה לכל זוג — היא לפי הצורך והשלב.
+הכלל השלישי, והכי חשוב: אסור לתמוך מתוך הפנסיה שלכם. אתם תזדקקו לה.
+לעזור לכולם זה אצילי — אבל אם אתם תיפלו, מי יעזור להם בעוד עשור?
+תמיכה חכמה היא תמיכה שיכולה להחזיק שנים.`,
+ cta:`שתף ל"דור הסנדוויץ'" שמתמוטט בשקט. הגב "תמיכה" ואשלח בוואטסאפ איך בונים תקרת תמיכה.`,
+ visual:`גרפיקה של דמות שמחזיקה כמה מעגלים. כיתוב: "תקרה, לא בלי גבול". טון אמפתי.`,
+ gold:`הקהל חושב שתמיכה חייבת להיות שווה ובלי גבול — האמת שתקרה מוגדרת היא מה שמציל את ההורים.`,
+ tags:[`#תמיכה`,`#דור_הסנדוויץ`,`#כלכלת_משפחה`]},
+{id:15,cat:'B',title:`פרישה לאברך/בעל-בית`,plats:[`Reels`,`וואטסאפ`],
+ hook:`אברך בן 60 שאל אותי: "ממה אני אחיה?" — ולא הייתה לי תשובה קלה.`,
+ script:`אברך יושב בכולל עשרות שנים בהתמדה. מגיע גיל שישים, והשאלה צפה: ממה חיים הלאה?
+המלגה קטנה, הילדים כבר לא בבית, והכוחות לעבודה חדשה מוגבלים.
+האמת הכואבת: פרישה לא מתכננים בגיל 60 — מתכננים בגיל 30.
+גם אברך יכול: קרן פנסיה צנועה, הפרשה קטנה וקבועה, או חיסכון שצובר ריבית דריבית לאורך השנים.
+אפילו 200 שקל בחודש מגיל צעיר — הופכים לכרית ביטחון משמעותית בגיל הפרישה.
+זה לא סתירה ללימוד תורה — זו השתדלות שמאפשרת להמשיך ללמוד בשקט גם בזקנה.
+מי שמתכנן את הפרישה מוקדם — לא צריך לדאוג ממנה מאוחר.`,
+ cta:`שתף לאברך צעיר. הגב "פרישה" ואשלח בוואטסאפ תכנית חיסכון פשוטה לאברך מגיל 30.`,
+ visual:`דובר רגוע ומכבד. גרפיקה של חיסכון קטן שצומח לאורך 30 שנה. כיתוב: "מתכננים ב-30, לא ב-60".`,
+ gold:`הקהל חושב שפרישה לאברך אי אפשר לתכנן — האמת שהפרשה קטנה מגיל צעיר פותרת את הכל.`,
+ tags:[`#פרישה`,`#אברך`,`#פנסיה`]},
+{id:16,cat:'B',title:`הדור הסנדוויץ'`,plats:[`Reels`,`וואטסאפ`],
+ hook:`אתה תומך בהורים מבוגרים ובילדים נשואים — ונסחט משני הצדדים.`,
+ script:`אתה באמצע. למעלה — הורים מבוגרים שצריכים עזרה. למטה — ילדים נשואים שצריכים תמיכה.
+ואתה, "הדור הסנדוויץ'", משלם לשני הכיוונים — ושוכח מעצמך לגמרי.
+זו אחת התקופות הכלכליות הקשות בחיים, ואף אחד לא מכין אליה.
+מה עושים? קודם כל, מודעות: זו תקופה, היא תעבור. אל תשחקו את כל החסכונות.
+שנית: חלקו בכבוד עם אחים את העזרה להורים — אתם לא לבד בזה.
+שלישית, והכי חשוב: אל תוותרו על החיסכון שלכם. אם תיפלו — שני הדורות נופלים איתכם.
+לדאוג לכולם מתחיל בלדאוג שתישארו חזקים.`,
+ cta:`שתף למי שתקוע באמצע. הגב "סנדוויץ" ואשלח בוואטסאפ 3 צעדים לשרוד את התקופה הזו.`,
+ visual:`גרפיקה: דמות מרכזית בין שני מעגלים (הורים/ילדים). כיתוב: "אל תשכח את עצמך". טון אמפתי.`,
+ gold:`הקהל לא יודע שזו תקופה מוגדרת שעוברת — ושהסכנה האמיתית היא לרוקן את החיסכון העצמי.`,
+ tags:[`#דור_הסנדוויץ`,`#תמיכה`,`#כלכלת_משפחה`]},
+{id:17,cat:'C',title:`קופת מעשר מנוהלת`,plats:[`Reels`,`וואטסאפ`],
+ hook:`כמה מעשר הפרשת השנה? אם אינך יודע — אתה כנראה בחוב.`,
+ script:`שאלה פשוטה: כמה מעשר כספים הפרשת בשנה האחרונה? רובנו לא יודעים.
+ובלי לדעת — קל מאוד להישאר חייבים בלי לשים לב, או לתת בלי חשבון.
+הפתרון: קופת מעשר מנוהלת. פנקס פשוט, או טבלה, או חשבון נפרד.
+כל הכנסה — רושמים את העשירית. כל נתינה — מורידים מהיתרה.
+ככה תמיד יודעים: כמה חייבים, כמה נתנו, וכמה עוד נשאר לתת.
+זה לא הופך את הצדקה לקרה — להפך. זה מאפשר לתת בלב שלם, בידיעה שעמדנו בחובה.
+"מעשר תעשר" — והניהול המסודר הוא חלק מהמצווה, לא נגדה.
+ובכל ספק בהלכות מעשר — שאלת רב היא חלק מהדרך.`,
+ cta:`שתף למי שלא עוקב. הגב "מעשר" ואשלח בוואטסאפ טבלת מעשר פשוטה למילוי.`,
+ visual:`גרפיקה של פנקס/טבלה עם הכנסות ויציאות מעשר. כיתוב: "לדעת כמה נתת". טון מכובד.`,
+ gold:`הקהל נותן מעשר בלי מעקב — האמת שניהול מסודר הוא חלק מהמצווה ומונע חוב מתמשך.`,
+ tags:[`#מעשר`,`#הלכה`,`#צדקה`]},
+{id:18,cat:'C',title:`מעשר לתמיכה בילד לומד תורה`,plats:[`Reels`,`וואטסאפ`],
+ hook:`האם הכסף שאתה נותן לבן הלומד — נחשב מעשר? התשובה מפתיעה.`,
+ script:`שאלה שחוזרת אצל הורים רבים: אני תומך בבן שיושב ולומד. זה נחשב מעשר?
+התשובה אינה פשוטה, ויש בה דעות וחילוקים בין הפוסקים.
+יש מי שאומר שתמיכה בבן גדול שלומד תורה יכולה להיחשב, בתנאים מסוימים. ויש מי שמחמיר.
+זה תלוי בגיל הבן, האם הוא "סמוך על שולחנך", ופרטים הלכתיים נוספים.
+ולכן — וזה העיקר — זו בדיוק שאלה לרב. לא להחליט לבד, לא לפי שמועה.
+מה כן עשו פה: למדנו שיש שאלה. עכשיו הצעד הנכון הוא לשאול מורה הוראה על המקרה הפרטי שלכם.
+לדעת מה לשאול — זה כבר חצי מהתשובה.`,
+ cta:`שתף להורה תומך. הגב "מעשרבן" ואשלח בוואטסאפ את השאלות המדויקות להביא לרב.`,
+ visual:`דובר רגוע ומכבד. כיתוב ברור: "זו שאלה לרב". בלי לפסוק הלכה — רק להעלות מודעות.`,
+ gold:`הקהל לא יודע שיש בכלל מחלוקת בנושא — והעיקר שזו שאלה אישית לרב, לא כלל גורף.`,
+ tags:[`#מעשר`,`#הלכה`,`#תורה`]},
+{id:19,cat:'C',title:`צדקה מתוכננת`,plats:[`Reels`,`וואטסאפ`],
+ hook:`אתה נותן צדקה בכל פעם שדופקים בדלת — וזה דווקא פוגע בנתינה.`,
+ script:`גבאי דופק, מכתב מגיע, ילד עומד ברחוב — ואתה נותן. יפה. אבל יש בעיה.
+נתינה אקראית מובילה לשתי תקלות: או שנותנים יותר מהיכולת ונכנסים ללחץ, או שמרגישים נשחקים ונותנים פחות.
+הפתרון: צדקה מתוכננת. קובעים מראש סכום קבוע, נותנים אותו בקביעות, ומחלקים אותו בחוכמה.
+ככה הנתינה הופכת ליציבה, מכובדת, ובתוך היכולת — ולא תלויה במצב הרוח או בלחץ הרגע.
+תכנון לא מקרר את הלב — הוא מאפשר לתת לאורך זמן, בלב שלם, בלי להישחק.
+"איש כמתנת ידו" — והיד הקבועה נותנת הכי הרבה לאורך השנים.`,
+ cta:`שתף למי שנותן באקראי. הגב "צדקה" ואשלח בוואטסאפ איך בונים תכנית נתינה קבועה.`,
+ visual:`גרפיקה של נתינה קבועה לעומת נתינה מקפצת. כיתוב: "קבוע מנצח אקראי". טון חם.`,
+ gold:`הקהל חושב שנתינה ספונטנית היא הכי טובה — האמת שנתינה מתוכננת מאפשרת לתת יותר לאורך זמן.`,
+ tags:[`#צדקה`,`#תכנון`,`#הלכה`]},
+{id:20,cat:'C',title:`ביטחון והשתדלות`,plats:[`Reels`,`וואטסאפ`],
+ hook:`"אני בוטח בה' — אז למה לתכנן כסף?" התשובה שמשנה הכל.`,
+ script:`שאלה שאני שומע הרבה: "אם אני מאמין בביטחון — למה לתכנן? הקב"ה יביא פרנסה."
+התשובה: ביטחון והשתדלות הולכים יחד, לא זה במקום זה.
+חז"ל לימדו: עושים את ההשתדלות בידיים, ומאמינים בלב שהתוצאה מאת ה'.
+האיכר חורש וזורע — ומתפלל לגשם. הוא לא אומר "אם אני מאמין, לא צריך לחרוש".
+תכנון כספי, חיסכון, ביטוח — זו ההשתדלות שלנו. הברכה בתוכה — מאיתו יתברך.
+מי שמתכנן מתוך אמונה, לא מתוך פחד — עושה את שני הדברים בשלמות.
+ההשתדלות היא הכלי. הביטחון הוא הלב. שניהם יחד — זה הדרך.`,
+ cta:`שתף למי שמבלבל בין השניים. הגב "ביטחון" ואשלח בוואטסאפ מקורות קצרים על השתדלות בכבוד.`,
+ visual:`דובר רגוע ומכובד. כיתוב: "השתדלות בידיים, ביטחון בלב". טון אמוני, לא מטיף.`,
+ gold:`הקהל לפעמים רואה תכנון כחוסר ביטחון — האמת שהשתדלות היא חלק מהאמונה, לא נגדה.`,
+ tags:[`#ביטחון`,`#השתדלות`,`#אמונה`]},
+{id:21,cat:'B',title:`כסף ושלום בית`,plats:[`Reels`,`וואטסאפ`],
+ hook:`רוב המריבות בבית הן על כסף — אבל לא באמת על הכסף.`,
+ script:`מחקרים, וגם הניסיון, מראים: כסף הוא אחד הנושאים הכי שכיחים במתחים בין בני זוג.
+אבל הנה הסוד: כמעט אף פעם המריבה היא לא באמת על הסכום. היא על משהו עמוק יותר.
+אחד מרגיש לא נשמע, השני מרגיש לא בטוח, שלישי מרגיש שלא סומכים עליו.
+הכסף הוא רק הבמה — הרגש הוא המחזה.
+מה עוזר? לקבוע "פגישת כספים" קבועה, רגועה, פעם בחודש. לא בלהט הויכוח — אלא בשולחן שקט.
+לדבר על מספרים, על מטרות, על חששות. בלי האשמות. כשני שותפים לאותה ספינה.
+זוג שמדבר על כסף בשקט — לא רב עליו בצעקות.`,
+ cta:`שתף לזוג שמתוח סביב כסף. הגב "שלוםבית" ואשלח בוואטסאפ מבנה ל"פגישת כספים" זוגית.`,
+ visual:`דובר רגוע, טון אינטימי. כיתוב: "הכסף הבמה, הרגש המחזה". בלי הצגת מריבה.`,
+ gold:`הקהל חושב שמריבות כסף הן על הסכום — האמת שהן על רגש: ביטחון, אמון, להישמע.`,
+ tags:[`#שלום_בית`,`#כסף`,`#זוגיות`]},
+{id:22,cat:'A',title:`להתחיל לחסוך בגיל 45`,plats:[`Reels`,`וואטסאפ`],
+ hook:`בן 45 ולא חסכת שקל? אל תוותר — הטעות תהיה לוותר עכשיו.`,
+ script:`הרבה אנשים בגיל 45 אומרים לי: "מאוחר מדי. פספסתי את הרכבת. אין טעם."
+זו הטעות הכי יקרה שתעשו. כי יש עדיין הרבה זמן — ובעיקר, יש עכשיו.
+נכון, מי שהתחיל ב-25 נמצא במקום טוב יותר. אבל "מאוחר" עדיין מנצח "אף פעם" בענק.
+בגיל 45 יש לכם בערך 20 שנה עד הפנסיה. עשרים שנה של ריבית דריבית זה לא מעט בכלל.
+התחילו בקטן — מה שאפשר. תגדילו עם הזמן. העיקר להתחיל היום, לא "כשיהיה".
+הטעות אינה שלא חסכתם עד היום. הטעות תהיה אם תיתנו לזה למנוע מכם להתחיל עכשיו.
+היום הוא הזמן הכי מוקדם שנשאר לכם.`,
+ cta:`שתף למי שמרגיש שפספס. הגב "45" ואשלח בוואטסאפ דוגמה כמה צומח חיסכון מגיל 45.`,
+ visual:`גרפיקה: גרף שמתחיל בגיל 45 ועדיין צומח יפה. כיתוב: "מאוחר מנצח אף פעם". טון מעודד.`,
+ gold:`הקהל מאמין ש"בגיל 45 מאוחר מדי" — האמת ש-20 שנות ריבית דריבית עדיין משנות הכל.`,
+ tags:[`#חיסכון`,`#ריבית_דריבית`,`#טעויות_כסף`]},
+{id:23,cat:'A',title:`פנסיה לעצמאי ולעבודה מהבית`,plats:[`Reels`,`וואטסאפ`],
+ hook:`עובד מהבית או עצמאי? אין לך מעסיק שמפריש — ואין לך פנסיה.`,
+ script:`שכיר יש לו מעסיק שמפריש לפנסיה אוטומטית. עצמאי, או מי שעובד מהבית — אין לו את זה.
+התוצאה: רבים שעובדים שנים מהבית מגיעים לגיל פרישה בלי שקל פנסיה. וזו טעות שאפשר למנוע.
+ראשית, חשוב לדעת: עצמאי מחויב בחוק להפריש לפנסיה — וזו לא רק חובה, זו טובה.
+שנית, יש בזה הטבת מס משמעותית — המדינה למעשה מחזירה לכם חלק מהכסף שאתם חוסכים לעצמכם.
+פתחו קרן או ביטוח, קבעו הפרשה חודשית קבועה, והתייחסו אליה כמו לכל הוצאה קבועה.
+אתם המעסיק של עצמכם — אז תפרישו לעצמכם כמו מעסיק טוב.`,
+ cta:`שתף לעצמאי שלא מפריש. הגב "עצמאי" ואשלח בוואטסאפ איך פותחים פנסיה וכמה מס מחזירים.`,
+ visual:`גרפיקה: עצמאי "מעסיק את עצמו". כיתוב: "אין מעסיק? אתה המעסיק". טון מעשי.`,
+ gold:`הקהל לא יודע שעצמאי חייב פנסיה בחוק — ושיש בה הטבת מס שמחזירה כסף ממש.`,
+ tags:[`#פנסיה`,`#עצמאי`,`#טעויות_כסף`]},
+{id:24,cat:'B',title:`הכנסה משנית צנועה מהבית`,plats:[`Reels`,`וואטסאפ`],
+ hook:`איך מוסיפים כמה מאות שקלים בחודש — בלי לפגוע בסדר היום ובלימוד?`,
+ script:`לא כל אחד יכול או רוצה לצאת לעבודה מלאה. ובצדק — לסדר היום, ללימוד, למשפחה יש ערך עליון.
+אבל לפעמים תוספת צנועה של כמה מאות שקלים בחודש משנה את כל התמונה במשפחה.
+המפתח: הכנסה משנית קטנה שמשתלבת בחיים — לא במקומם.
+משהו שאפשר לעשות מהבית, בשעות גמישות, אחרי הסדר או בין הזמנים. כל אחד והכישרון שלו.
+חשוב: לא להפוך את זה למרוץ שגוזל מהעיקר. המטרה היא תוספת, לא תחליף.
+ולפני הכל — לתאם עם בן/בת הזוג ועם ראש הכולל, שזה משתלב נכון.
+תוספת קטנה וקבועה — לאורך שנים הופכת לכרית ביטחון אמיתית.`,
+ cta:`שתף למי שמחפש תוספת בלי לפגוע בעיקר. הגב "תוספת" ואשלח בוואטסאפ רעיונות שמשתלבים בסדר היום.`,
+ visual:`דובר רגוע ומכבד את עולם הלימוד. כיתוב: "תוספת, לא תחליף". טון עדין, לא דוחף.`,
+ gold:`הקהל חושב שהכנסה נוספת מחייבת לוותר על הלימוד — האמת שתוספת צנועה ומשולבת לא פוגעת בעיקר.`,
+ tags:[`#הכנסה`,`#פרנסה`,`#כלכלת_משפחה`]},
+{id:25,cat:'B',title:`האישה כשר האוצר`,plats:[`Reels`,`וואטסאפ`],
+ hook:`נתת לאשתך לנהל את כל כספי הבית — אבל לא נתת לה את הכלים.`,
+ script:`בהרבה בתים האישה היא שר האוצר — היא מנהלת את כל כספי המשפחה. וזה נכון ויפה.
+אבל יש פער: נתנו לה את כל האחריות — ולא תמיד נתנו לה את הכלים.
+היא מנהלת תקציב ענק של משפחה גדולה, לרוב בלי שלמדה את זה מעולם, ולבד.
+שר אוצר טוב צריך כלים: ידע בסיסי בהשקעות, הבנה בפנסיה, ידיעה מה זה ריבית דריבית.
+תנו לה גישה למידע, שתפו אותה בהחלטות הגדולות, ועודדו אותה ללמוד.
+אישה שמחזיקה את כספי הבית בכבוד — מגיע לה לעשות את זה עם ביטחון ולא רק בלחץ.
+אחריות בלי כלים זה עול. אחריות עם כלים זה כוח.`,
+ cta:`שתף לבעל שנתן אחריות בלי כלים. הגב "אוצר" ואשלח בוואטסאפ 3 כלים בסיסיים לשר האוצר של הבית.`,
+ visual:`דובר מכבד, טון מעצים. כיתוב: "אחריות עם כלים = כוח". בלי הצגת דמות אישה.`,
+ gold:`הקהל נותן לאישה אחריות תקציב — האמת שבלי כלים וידע זה עול, ועם כלים זה כוח.`,
+ tags:[`#נשים`,`#תקציב`,`#העצמה`]},
+{id:26,cat:'B',title:`כלה לנהל תקציב מהיום הראשון`,plats:[`Reels`,`וואטסאפ`],
+ hook:`הזוג חזר משבע ברכות — ואין להם מושג איך מנהלים בית.`,
+ script:`חתונה מפוארת, שבע ברכות מרגשות, ואז — הזוג הצעיר לבד מול חשבון הבנק. ואין להם מושג.
+אף אחד לא לימד אותם איך מנהלים תקציב בית. למדו גמרא, למדו הלכה — וכסף? בעצמם.
+זו הזדמנות הזהב: ללמד את הזוג הצעיר לנהל תקציב מהיום הראשון, לפני שנוצרים הרגלים גרועים.
+פשוט מאוד: רושמים את כל ההכנסות, את כל ההוצאות הקבועות, ורואים מה נשאר. שקיפות מלאה בין השניים.
+מתחילים בקטן — מעקב חודש אחד. זה משנה את כל היחס לכסף.
+הורים — אל תתנו רק נדוניה. תנו גם את הכלי לשמור עליה.
+תקציב מסודר מהיום הראשון — חוסך שנים של מתח.`,
+ cta:`שתף להורה לפני חתונה. הגב "כלה" ואשלח בוואטסאפ תבנית תקציב בית פשוטה לזוג צעיר.`,
+ visual:`גרפיקה של טבלת תקציב פשוטה: הכנסות/הוצאות/יתרה. כיתוב: "מהיום הראשון". טון חם.`,
+ gold:`הקהל חושב שניהול בית "מסתדר לבד" — האמת שתקציב מהיום הראשון מונע שנות מתח והרגלים גרועים.`,
+ tags:[`#זוג_צעיר`,`#תקציב`,`#חתונה`]},
+{id:27,cat:'B',title:`מתנות חתונה חכמות`,plats:[`Reels`,`וואטסאפ`],
+ hook:`נתת לחתן מתנה יקרה — שתוך שנה לא נשאר ממנה כלום.`,
+ script:`מגיעה חתונה, ואנחנו רוצים לתת מתנה יפה ומכובדת. השאלה: מתנה שנעלמת או מתנה שמצמיחה?
+הרבה מתנות — כסף שנכנס ויוצא, או חפץ שתוך שנה כבר לא זוכרים. נתינה יפה, אבל מתאדה.
+לעומת זאת, יש מתנות שממשיכות לעבוד בשביל הזוג שנים אחרי החתונה.
+למשל: פתיחת קרן חיסכון על שם הזוג, הפקדה ראשונית לקופה שתצבור ריבית דריבית, או מימון קורס פיננסי לזוג.
+מתנה כזו אומרת לזוג הצעיר: לא רק שמחתי איתכם ביום אחד — דאגתי לעתיד שלכם.
+אותו סכום בדיוק — אבל במקום שייעלם, הוא צומח.
+המתנה הכי יפה היא זו שעוד נותנת בעוד עשרים שנה.`,
+ cta:`שתף לפני החתונה הבאה. הגב "מתנה" ואשלח בוואטסאפ 5 מתנות חתונה שמצמיחות.`,
+ visual:`גרפיקה: מתנה שמתאדה מול מתנה שצומחת לגרף. כיתוב: "אותו סכום, עתיד אחר". טון חם.`,
+ gold:`הקהל נותן מתנות שנעלמות — האמת שאותו סכום בקרן צומחת ממשיך לתת לזוג שנים קדימה.`,
+ tags:[`#מתנות`,`#חתונה`,`#חיסכון`]},
+{id:28,cat:'C',title:`ריבית דריבית לטובת המשפחה`,plats:[`Reels`,`וואטסאפ`],
+ hook:`100 שקל בלידה — והילד מקבל סכום מפתיע בחתונה. בלי איסור ריבית.`,
+ script:`רבים שואלים: ריבית דריבית — זה לא קשור לאיסור ריבית בהלכה? בואו נסדר את זה.
+איסור ריבית בהלכה הוא בין יהודי ליהודי בהלוואה. השקעה בשוק, או חיסכון בנקאי מסודר עם היתר עסקא — זה עניין אחר לגמרי.
+וכאן הקסם של ריבית דריבית: הרווח מייצר רווח, שמייצר רווח. כדור שלג שגדל מעצמו.
+100 שקל בחודש מלידת הילד, לאורך 20 שנה עד החתונה — צומחים לסכום שמפתיע כל הורה.
+המפתח הוא לא הסכום — אלא הזמן. דור שמתחיל מוקדם, נהנה מעשרים שנות צמיחה.
+ובכל שאלה הלכתית על היתר עסקא וההשקעה — שואלים רב. זה חלק מהעשייה הנכונה.
+הזמן הוא המתנה הכי גדולה שאפשר לתת לילד.`,
+ cta:`שתף להורה צעיר. הגב "דריבית" ואשלח בוואטסאפ טבלה כמה צומח 100 שקל בחודש מהלידה.`,
+ visual:`גרפיקה של כדור שלג שגדל = ריבית דריבית. כיתוב: "הזמן עושה את העבודה". אזכור היתר עסקא בכיתוב.`,
+ gold:`הקהל מבלבל בין איסור ריבית בהלכה לבין ריבית דריבית בהשקעה — והעיקר שעם היתר עסקא זה מותר ומצמיח.`,
+ tags:[`#ריבית_דריבית`,`#הלכה`,`#חיסכון`]},
+{id:29,cat:'B',title:`מה שצפוי אפשר לתכנן`,plats:[`Reels`,`וואטסאפ`],
+ hook:`כל "הוצאה מפתיעה" שלך — ידעת עליה מראש שנה. אז למה הופתעת?`,
+ script:`"שוב הוצאה לא צפויה הפילה לנו את החודש." מוכר? בואו נודה באמת.
+רוב ה"הפתעות" הכלכליות — בכלל לא היו הפתעות. ידענו עליהן מראש.
+בר מצווה? ידעתם 13 שנה. חתונה? שנים. ביטוח רכב מתחדש? בדיוק באותו תאריך כל שנה. חגים? לוח שנה קבוע.
+"מה שצפוי — אפשר לתכנן". זה אולי המשפט הכי חשוב בכלכלת משפחה.
+שבו פעם בשנה, רשמו את כל האירועים הגדולים הצפויים ב-12 החודשים הקרובים, ופרסו אותם.
+פתאום אין הפתעות. יש רק תכנון.
+ההפתעה היחידה תהיה כמה שקט נפשי זה נותן.`,
+ cta:`שתף למי שתמיד "מופתע". הגב "צפוי" ואשלח בוואטסאפ טבלת אירועים צפויים שנתית.`,
+ visual:`גרפיקה: לוח שנה עם אירועים מסומנים מראש. כיתוב: "אין הפתעות, יש תכנון". טון מרגיע.`,
+ gold:`הקהל חווה הוצאות כ"הפתעות" — האמת שכמעט כולן ידועות מראש וניתנות לפריסה.`,
+ tags:[`#תכנון`,`#תקציב`,`#כלכלת_משפחה`]},
+{id:30,cat:'B',title:`מורשת כלכלית`,plats:[`Reels`,`וואטסאפ`],
+ hook:`מה תשאיר לנכדים שלך — קופה שתיגמר, או משפחה שיודעת כסף?`,
+ script:`חשבו רגע קדימה, לעוד שני דורות. מה תשאירו אחריכם?
+אפשר להשאיר קופה — וקופה, ככל שתהיה גדולה, יכולה להיגמר.
+או שאפשר להשאיר מורשת כלכלית — משפחה שלמה שיודעת לנהל כסף, לחסוך, לתת מעשר, ולתכנן.
+זה מתחיל בכם: כשאתם מנהלים תקציב, הילדים רואים. כשאתם נותנים צדקה בחשבון, הם לומדים. כשאתם מתכננים — הם סופגים.
+משפחה שיודעת כסף לא נופלת בכל דור מחדש. היא בונה, דור על גבי דור.
+זו המורשת האמיתית — לא מה שיש בקופה, אלא מה שיש בראש של הדורות הבאים.
+התחילו היום. הנכדים שלכם כבר מודים לכם.`,
+ cta:`שתף למי שבונה לדורות. הגב "מורשת" ואשלח בוואטסאפ 5 הרגלים שמעבירים מורשת כלכלית.`,
+ visual:`גרפיקה של שלושה דורות / שרשרת. כיתוב: "לא הקופה — הראש". טון חם וסיכומי לחודש.`,
+ gold:`הקהל מתמקד בכמה כסף להשאיר — האמת שמורשת של ידע פיננסי מחזיקה דורות, וקופה נגמרת.`,
+ tags:[`#מורשת`,`#חינוך_פיננסי`,`#דורות`]}
+];
+
+const LIBRARY=[
+  {name:'מאגר 1 · יסודות, טעויות וכלכלת משפחה', ideas:M1},
+  {name:'מאגר 2 · הכסף שנעלם בקטן', ideas:M2},
+  {name:'מאגר 3 · להשקיע נכון ובכשרות', ideas:M3},
+  {name:'מאגר 4 · המשפחה לטווח ארוך', ideas:M4}
+];
+/* רק מאגרים שיש בהם תוכן נכנסים לרוטציה */
+const LIB=LIBRARY.filter(b=>b.ideas && b.ideas.length);
+const HEB_MONTHS=['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
+
+function currentBatchIndex(){ const d=new Date(); return (d.getFullYear()*12+d.getMonth())%LIB.length; }
+function monthLabel(){ const d=new Date(); return HEB_MONTHS[d.getMonth()]+' '+d.getFullYear(); }
+
+/* ===== State ===== */
+let store=JSON.parse(localStorage.getItem(LSK)||'{}');
+let activeFilter='all', q='';
+let viewBatch=currentBatchIndex();   // המאגר שמוצג כרגע
+let DATA=LIB[viewBatch].ideas;
+
+function save(){localStorage.setItem(LSK,JSON.stringify(store))}
+function skey(id){return 'b'+viewBatch+'_'+id}              // סטטוס נשמר בנפרד לכל מאגר
+function statusOf(id){return store[skey(id)]||''}
+function setStatus(id,s){ const k=skey(id); if(store[k]===s){delete store[k]} else {store[k]=s} save(); render(); }
+
+const grid=document.getElementById('grid');
+const empty=document.getElementById('empty');
+
+function matches(item){
+  if(activeFilter==='todo') return statusOf(item.id)==='todo';
+  if(activeFilter==='done') return statusOf(item.id)==='done';
+  if(activeFilter==='pub') return statusOf(item.id)==='pub';
+  if(activeFilter!=='all' && item.cat!==activeFilter) return false;
+  if(q){
+    const blob=(item.title+' '+item.hook+' '+item.script+' '+item.tags.join(' ')+' '+item.id+' '+CATS[item.cat]).toLowerCase();
+    if(!blob.includes(q)) return false;
+  }
+  return true;
+}
+
+function statusBadge(s){
+  if(s==='done') return '<span class="badge-status done">✅ צולם</span>';
+  if(s==='pub') return '<span class="badge-status pub">🚀 פורסם</span>';
+  if(s==='todo') return '<span class="badge-status" style="background:rgba(201,160,78,.15);color:var(--gold-soft);border:1px solid var(--line)">⭐ לצלם</span>';
+  return '';
+}
+
+function render(){
+  const list=DATA.filter(matches);
+  grid.innerHTML='';
+  list.forEach(item=>{
+    const s=statusOf(item.id);
+    const card=document.createElement('div');
+    card.className='card'+(s==='done'?' s-done':'')+(s==='pub'?' s-pub':'');
+    card.innerHTML=`
+      <div class="top">
+        <div class="meta">
+          <span class="num">${item.id}</span>
+          <span style="display:flex;gap:6px;align-items:center">
+            ${statusBadge(s)}
+            <span class="cat ${item.cat}">${CATS[item.cat]}</span>
+          </span>
+        </div>
+        <h3>${item.title}</h3>
+        <div class="hook"><span class="lbl">🪝 וו פתיחה (0-3 שנ')</span>${item.hook}</div>
+        <div class="plats">${item.plats.map(p=>`<span class="plat">▸ ${p}</span>`).join('')}</div>
+      </div>
+      <div class="expand">▼ פתח תסריט מלא והנחיות צילום</div>
+      <div class="detail">
+        <div class="sec"><div class="h"><span class="ico">🎬</span> תסריט מלא (דיבור למצלמה)</div><div class="script">${item.script}</div></div>
+        <div class="sec"><div class="h"><span class="ico">📣</span> קריאה לפעולה</div><div class="cta-box">${item.cta}</div></div>
+        <div class="sec"><div class="h"><span class="ico">🎥</span> הנחיות צילום ועריכה</div><div class="visual">${item.visual}</div></div>
+        <div class="sec"><div class="h"><span class="ico">🏆</span> מבחן הזהב — למה זה עובד</div><div class="gold-box">${item.gold}</div></div>
+        <div class="sec"><div class="h"><span class="ico">#️⃣</span> האשטגים</div><div class="tags">${item.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div>
+        <div class="sec"><div class="h"><span class="ico">📋</span> העתקה מהירה</div>
+          <div class="copy-row">
+            <button class="cbtn" data-copy="script" data-id="${item.id}">העתק תסריט</button>
+            <button class="cbtn" data-copy="hook" data-id="${item.id}">העתק וו</button>
+            <button class="cbtn cbtn-wa" data-copy="all" data-id="${item.id}">📲 העתק הכל לוואטסאפ</button>
+          </div>
+        </div>
+        <div class="sec"><div class="h"><span class="ico">🎬</span> סטטוס הצילום</div>
+          <div class="status-row">
+            <button class="sbtn ${s==='todo'?'on-todo':''}" data-act="todo" data-id="${item.id}">⭐ לצלם</button>
+            <button class="sbtn ${s==='done'?'on-done':''}" data-act="done" data-id="${item.id}">✅ צולם</button>
+            <button class="sbtn ${s==='pub'?'on-pub':''}" data-act="pub" data-id="${item.id}">🚀 פורסם</button>
+          </div>
+        </div>
+        <div class="disc">⚖️ זכור: בכל סרטון עם אמירה כספית — להוסיף "המידע לימודי בלבד ואינו ייעוץ השקעות; להיוועץ ברב ובאיש מקצוע". בנושאי הלכה — תמיד להפנות לרב.</div>
+      </div>`;
+    // expand toggle
+    card.querySelector('.expand').addEventListener('click',()=>{
+      card.classList.toggle('open');
+      card.querySelector('.expand').textContent=card.classList.contains('open')?'▲ סגור':'▼ פתח תסריט מלא והנחיות צילום';
+    });
+    // status buttons
+    card.querySelectorAll('.sbtn').forEach(b=>{
+      b.addEventListener('click',e=>{e.stopPropagation();setStatus(+b.dataset.id,b.dataset.act)});
+    });
+    // copy buttons
+    card.querySelectorAll('.cbtn').forEach(b=>{
+      b.addEventListener('click',e=>{e.stopPropagation();copyContent(item,b.dataset.copy,b)});
+    });
+    grid.appendChild(card);
+  });
+  empty.style.display=list.length?'none':'block';
+  updateStats();
+  updateChipCounts();
+}
+
+function updateStats(){
+  // נספור רק את הסטטוסים של המאגר המוצג כרגע
+  const vals=DATA.map(d=>statusOf(d.id));
+  document.getElementById('st-total').textContent=DATA.length;
+  document.getElementById('st-todo').textContent=vals.filter(v=>v==='todo').length;
+  document.querySelector('#st-done .n').textContent=vals.filter(v=>v==='done').length;
+  document.querySelector('#st-pub .n').textContent=vals.filter(v=>v==='pub').length;
+}
+
+/* ===== העתקת תוכן ===== */
+function copyContent(item,kind,btn){
+  let txt='';
+  if(kind==='script') txt=item.script;
+  else if(kind==='hook') txt=item.hook;
+  else txt='🎬 '+item.title+'\n\n🪝 וו פתיחה:\n'+item.hook+'\n\n📝 תסריט:\n'+item.script+'\n\n📣 קריאה לפעולה:\n'+item.cta+'\n\n'+item.tags.join(' ')+'\n\n(מצמיחים הון · המידע לימודי בלבד ואינו ייעוץ השקעות)';
+  const done=()=>{const o=btn.textContent;btn.textContent='✓ הועתק!';btn.classList.add('copied');setTimeout(()=>{btn.textContent=o;btn.classList.remove('copied')},1500);};
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));
+  } else { fallbackCopy(txt,done); }
+}
+function fallbackCopy(txt,done){
+  const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.focus();ta.select();
+  try{document.execCommand('copy');done();}catch(e){alert('לא ניתן להעתיק אוטומטית. סמן והעתק ידנית.');}
+  document.body.removeChild(ta);
+}
+
+/* ===== סרגל החודש / החלפת מאגר ===== */
+function buildMonthBar(){
+  const bar=document.getElementById('monthbar');
+  const cur=currentBatchIndex();
+  const isCur=viewBatch===cur;
+  let opts='';
+  LIB.forEach((b,i)=>{ opts+=`<option value="${i}" ${i===viewBatch?'selected':''}>${b.name}${i===cur?'  ★ החודש':''}</option>`; });
+  bar.innerHTML=`
+    <div class="mb-left">
+      <span class="mb-cal">🗓️ ${monthLabel()}</span>
+      <span class="mb-name">${LIB[viewBatch].name}</span>
+      ${isCur?'<span class="mb-tag now">מאגר החודש</span>':'<span class="mb-tag prev">תצוגה מקדימה · לא מאגר החודש</span>'}
+    </div>
+    <div class="mb-right">
+      <label>החלף מאגר:</label>
+      <select id="batchSel">${opts}</select>
+      ${isCur?'':'<button class="mb-back" id="mbBack">חזור למאגר החודש</button>'}
+    </div>`;
+  document.getElementById('batchSel').addEventListener('change',e=>switchBatch(+e.target.value));
+  const back=document.getElementById('mbBack'); if(back) back.addEventListener('click',()=>switchBatch(cur));
+}
+function switchBatch(i){
+  viewBatch=i; DATA=LIB[viewBatch].ideas;
+  resetAll();            // נקה סינון/חיפוש כדי שכל רעיונות המאגר החדש יוצגו
+  buildMonthBar(); render();
+  const bar=document.getElementById('monthbar');
+  if(bar){
+    bar.scrollIntoView({behavior:'smooth',block:'start'});   // קח את המשתמש למאגר החדש
+    bar.classList.remove('flash'); void bar.offsetWidth; bar.classList.add('flash');  // הבהוב משוב
+  }
+}
+function updateChipCounts(){
+  const counts={all:DATA.length,A:0,B:0,C:0,D:0};
+  DATA.forEach(d=>counts[d.cat]++);
+  document.querySelectorAll('.chip').forEach(c=>{
+    const f=c.dataset.f, cnt=c.querySelector('.cnt');
+    if(cnt && counts[f]!==undefined) cnt.textContent='('+counts[f]+')';
+  });
+}
+
+/* filters */
+document.querySelectorAll('.chip').forEach(c=>{
+  c.addEventListener('click',()=>{
+    document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+    c.classList.add('active');
+    activeFilter=c.dataset.f;
+    render();
+  });
+});
+document.getElementById('search').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();render()});
+function resetAll(){activeFilter='all';q='';document.getElementById('search').value='';document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));document.querySelector('.chip[data-f="all"]').classList.add('active');render()}
+
+buildMonthBar();
+render();
+</script>
+</body>
+</html>
