@@ -156,6 +156,26 @@ footer b{color:var(--gold)}
 .reset{cursor:pointer;color:var(--ink-dim);font-size:12px;text-decoration:underline;background:none;border:none;font-family:'Heebo';margin-top:10px}
 @media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
 </style>
+<!-- ===== Firebase (סנכרון סטטוס לכל הצוות בזמן אמת) ===== -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCcl63Tq0bVTvTds8QUd7cECv0RV23NCrA",
+    authDomain: "matzmichim-dashboard.firebaseapp.com",
+    databaseURL: "https://matzmichim-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "matzmichim-dashboard",
+    storageBucket: "matzmichim-dashboard.firebasestorage.app",
+    messagingSenderId: "613551076247",
+    appId: "1:613551076247:web:c960b0851aeea7b4a50ad2"
+  };
+  let FB_DB=null, FB_STATUS=null;
+  try{
+    firebase.initializeApp(firebaseConfig);
+    FB_DB=firebase.database();
+    FB_STATUS=FB_DB.ref('status');   // כל הסטטוסים נשמרים כאן, משותף לכולם
+  }catch(e){ console.warn('Firebase init failed, working offline only:', e); }
+</script>
 </head>
 <body>
 <div class="wrap">
@@ -259,7 +279,7 @@ footer b{color:var(--gold)}
 
   <footer>
     מצמיחים הון · לצאת מהגלות הפיננסית &nbsp;·&nbsp; <b>התוכן מתחלף אוטומטית בכל 1 לחודש</b> (כל מאגר חוזר במחזור). הסטטוסים וההעתקות נשמרים במכשיר.<br>
-    המידע לימודי בלבד ואינו מהווה ייעוץ השקעות. <button class="reset" onclick="if(confirm('לאפס את כל הסימונים?')){localStorage.removeItem(LSK);location.reload()}">איפוס כל הסימונים</button>
+    המידע לימודי בלבד ואינו מהווה ייעוץ השקעות. <button class="reset" onclick="resetTeamStatuses()">איפוס כל הסימונים</button>
   </footer>
 
 </div>
@@ -1795,10 +1815,28 @@ let activeFilter='all', q='';
 let viewBatch=currentBatchIndex();   // המאגר שמוצג כרגע
 let DATA=LIB[viewBatch].ideas;
 
-function save(){localStorage.setItem(LSK,JSON.stringify(store))}
+function save(){localStorage.setItem(LSK,JSON.stringify(store))}   // מטמון מקומי (גם לעבודה לא מקוונת)
 function skey(id){return 'b'+viewBatch+'_'+id}              // סטטוס נשמר בנפרד לכל מאגר
 function statusOf(id){return store[skey(id)]||''}
-function setStatus(id,s){ const k=skey(id); if(store[k]===s){delete store[k]} else {store[k]=s} save(); render(); }
+function setStatus(id,s){
+  const k=skey(id);
+  const cleared = store[k]===s;                 // לחיצה חוזרת על אותו כפתור = ביטול הסימון
+  if(cleared){delete store[k]} else {store[k]=s}
+  save(); render();                             // משוב מיידי על המסך
+  if(FB_STATUS){                                // שידור לכל הצוות בזמן אמת
+    try{ if(cleared){FB_STATUS.child(k).remove()} else {FB_STATUS.child(k).set(s)} }
+    catch(e){ console.warn('sync write failed', e); }
+  }
+}
+/* ===== סנכרון חי: כל שינוי של מישהו בצוות מתעדכן אצל כולם ===== */
+function initSync(){
+  if(!FB_STATUS) return;                         // אם Firebase לא נטען – נשארים על מטמון מקומי בלבד
+  FB_STATUS.on('value', snap=>{
+    store = snap.val() || {};                    // מקור האמת המשותף
+    save();                                      // שמירה למטמון המקומי
+    render();                                    // ציור מחדש עם הנתונים העדכניים
+  }, err=>{ console.warn('sync read failed', err); });
+}
 
 const grid=document.getElementById('grid');
 const empty=document.getElementById('empty');
@@ -1963,9 +2001,15 @@ document.querySelectorAll('.chip').forEach(c=>{
 });
 document.getElementById('search').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();render()});
 function resetAll(){activeFilter='all';q='';document.getElementById('search').value='';document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));document.querySelector('.chip[data-f="all"]').classList.add('active');render()}
+function resetTeamStatuses(){
+  if(!confirm('שים לב: פעולה זו מאפסת את כל הסימונים לכל הצוות (בכל המכשירים). להמשיך?')) return;
+  store={}; save(); render();
+  if(FB_STATUS){ try{ FB_STATUS.remove() }catch(e){ console.warn('reset sync failed', e) } }
+}
 
 buildMonthBar();
 render();
+initSync();   // מחבר לסנכרון החי של כל הצוות
 </script>
 </body>
 </html>
